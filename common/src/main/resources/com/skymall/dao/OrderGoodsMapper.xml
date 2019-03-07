@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.OrderGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.OrderGoods">
+        <id column="id" property="id" />
+        <result column="order_id" property="orderId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_sn" property="goodsSn" />
+        <result column="product_id" property="productId" />
+        <result column="number" property="number" />
+        <result column="market_price" property="marketPrice" />
+        <result column="retail_price" property="retailPrice" />
+        <result column="goods_specifition_name_value" property="goodsSpecifitionNameValue" />
+        <result column="is_real" property="isReal" />
+        <result column="goods_specifition_ids" property="goodsSpecifitionIds" />
+        <result column="list_pic_url" property="listPicUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_id, goods_id, goods_name, goods_sn, product_id, number, market_price, retail_price, goods_specifition_name_value, is_real, goods_specifition_ids, list_pic_url
+    </sql>
+
+</mapper>

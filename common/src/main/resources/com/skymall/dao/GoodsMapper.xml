@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.Goods">
+        <id column="id" property="id" />
+        <result column="category_id" property="categoryId" />
+        <result column="goods_sn" property="goodsSn" />
+        <result column="name" property="name" />
+        <result column="brand_id" property="brandId" />
+        <result column="goods_number" property="goodsNumber" />
+        <result column="keywords" property="keywords" />
+        <result column="goods_brief" property="goodsBrief" />
+        <result column="goods_desc" property="goodsDesc" />
+        <result column="is_on_sale" property="isOnSale" />
+        <result column="add_time" property="addTime" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="is_delete" property="isDelete" />
+        <result column="attribute_category" property="attributeCategory" />
+        <result column="counter_price" property="counterPrice" />
+        <result column="extra_price" property="extraPrice" />
+        <result column="is_new" property="isNew" />
+        <result column="goods_unit" property="goodsUnit" />
+        <result column="primary_pic_url" property="primaryPicUrl" />
+        <result column="list_pic_url" property="listPicUrl" />
+        <result column="retail_price" property="retailPrice" />
+        <result column="sell_volume" property="sellVolume" />
+        <result column="primary_product_id" property="primaryProductId" />
+        <result column="unit_price" property="unitPrice" />
+        <result column="promotion_desc" property="promotionDesc" />
+        <result column="promotion_tag" property="promotionTag" />
+        <result column="app_exclusive_price" property="appExclusivePrice" />
+        <result column="is_app_exclusive" property="isAppExclusive" />
+        <result column="is_limited" property="isLimited" />
+        <result column="is_hot" property="isHot" />
+        <result column="market_price" property="marketPrice" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_user_dept_id" property="createUserDeptId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, category_id, goods_sn, name, brand_id, goods_number, keywords, goods_brief, goods_desc, is_on_sale, add_time, sort_order, is_delete, attribute_category, counter_price, extra_price, is_new, goods_unit, primary_pic_url, list_pic_url, retail_price, sell_volume, primary_product_id, unit_price, promotion_desc, promotion_tag, app_exclusive_price, is_app_exclusive, is_limited, is_hot, market_price, create_user_id, update_user_id, update_time, create_user_dept_id
+    </sql>
+
+    <!--<select id="selectList" parameterType="com.baomidou.mybatisplus.core.conditions.query.QueryWrapper">-->
+      <!--select * from nideshop_goods;-->
+    <!--</select>-->
+
+</mapper>

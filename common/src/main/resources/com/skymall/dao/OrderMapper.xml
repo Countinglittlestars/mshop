@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.Order">
+        <id column="id" property="id" />
+        <result column="order_sn" property="orderSn" />
+        <result column="user_id" property="userId" />
+        <result column="order_status" property="orderStatus" />
+        <result column="shipping_status" property="shippingStatus" />
+        <result column="pay_status" property="payStatus" />
+        <result column="consignee" property="consignee" />
+        <result column="country" property="country" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="address" property="address" />
+        <result column="mobile" property="mobile" />
+        <result column="postscript" property="postscript" />
+        <result column="shipping_id" property="shippingId" />
+        <result column="shipping_name" property="shippingName" />
+        <result column="pay_id" property="payId" />
+        <result column="pay_name" property="payName" />
+        <result column="shipping_fee" property="shippingFee" />
+        <result column="actual_price" property="actualPrice" />
+        <result column="integral" property="integral" />
+        <result column="integral_money" property="integralMoney" />
+        <result column="order_price" property="orderPrice" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="add_time" property="addTime" />
+        <result column="confirm_time" property="confirmTime" />
+        <result column="pay_time" property="payTime" />
+        <result column="freight_price" property="freightPrice" />
+        <result column="coupon_id" property="couponId" />
+        <result column="parent_id" property="parentId" />
+        <result column="coupon_price" property="couponPrice" />
+        <result column="callback_status" property="callbackStatus" />
+        <result column="shipping_no" property="shippingNo" />
+        <result column="full_cut_price" property="fullCutPrice" />
+        <result column="order_type" property="orderType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_sn, user_id, order_status, shipping_status, pay_status, consignee, country, province, city, district, address, mobile, postscript, shipping_id, shipping_name, pay_id, pay_name, shipping_fee, actual_price, integral, integral_money, order_price, goods_price, add_time, confirm_time, pay_time, freight_price, coupon_id, parent_id, coupon_price, callback_status, shipping_no, full_cut_price, order_type
+    </sql>
+
+</mapper>

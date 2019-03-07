@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.AddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.Address">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="tel_number" property="telNumber" />
+        <result column="postal_Code" property="postalCode" />
+        <result column="national_Code" property="nationalCode" />
+        <result column="province_Name" property="provinceName" />
+        <result column="city_Name" property="cityName" />
+        <result column="county_Name" property="countyName" />
+        <result column="detail_Info" property="detailInfo" />
+        <result column="is_default" property="isDefault" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, user_name, tel_number, postal_Code, national_Code, province_Name, city_Name, county_Name, detail_Info, is_default
+    </sql>
+
+</mapper>
