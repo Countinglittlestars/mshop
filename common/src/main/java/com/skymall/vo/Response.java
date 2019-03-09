@@ -46,6 +46,13 @@ public class Response <T> {
         response.setData(data);
         return response;
     }
+    public static Response error(Integer code, String msg){
+        Response response = new Response();
+        response.setMsg(msg);
+        response.setErrno(code);
+        return response;
+    }
+
 
     public static Response error(){
         Response response = new Response();

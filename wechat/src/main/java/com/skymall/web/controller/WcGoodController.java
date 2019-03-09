@@ -1,5 +1,6 @@
 package com.skymall.web.controller;
 
+import com.skymall.annotation.IgnoreAuth;
 import com.skymall.domain.Goods;
 import com.skymall.domain.GoodsGallery;
 import com.skymall.service.IWcGoodService;
@@ -26,18 +27,21 @@ public class WcGoodController {
     @Resource
     IWcGoodService goodService;
 
+    @IgnoreAuth
     @RequestMapping(value = "queryNew", method = RequestMethod.POST)
     public Response queryNew(){
         List<Goods> newGoodsList = goodService.selectNewGoods();
         return Response.success(newGoodsList);
     }
 
+    @IgnoreAuth
     @RequestMapping(value = "queryHot", method = RequestMethod.POST)
     public Response queryHot(){
         List<Goods> hotGoodsList = goodService.selectHotGoods();
         return Response.success(hotGoodsList);
     }
 
+    @IgnoreAuth
     @RequestMapping(value = "queryByCatagory", method = RequestMethod.POST)
     public Response queryByCatagory(@RequestBody GoodQueryReqDto goodQueryReqDto){
         //判断是否有指定排序的对象，如果没指定的话，用默认的字段来指定

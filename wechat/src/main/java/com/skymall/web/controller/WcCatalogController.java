@@ -1,5 +1,6 @@
 package com.skymall.web.controller;
 
+import com.skymall.annotation.IgnoreAuth;
 import com.skymall.domain.Category;
 import com.skymall.service.IWcCatagoryService;
 import com.skymall.utils.BeanUtils;
@@ -9,6 +10,8 @@ import com.skymall.web.dto.responseDto.CategroyRspDto;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ public class WcCatalogController {
     @Resource
     IWcCatagoryService wcCatagoryService;
 
+    @IgnoreAuth
     @RequestMapping(value = "index", method = RequestMethod.POST)
     public Response index(@RequestParam(value = "id", required = false) Integer id,
                           @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -53,9 +57,9 @@ public class WcCatalogController {
         return Response.success(map);
     }
 
+    @IgnoreAuth
     @RequestMapping(value = "/current", method = RequestMethod.POST)
     public Response current(@RequestParam(value = "id", required = true) Integer id) {
-
         Category category = wcCatagoryService.selectById(id);
         if(null == category) {
             return Response.success(category);
