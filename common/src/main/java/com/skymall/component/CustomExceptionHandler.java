@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 全局的异常处理器，主要是返回ErrorResult到客户端
  */
 @ControllerAdvice
-public class ExceptionHandle {
-    private static  final Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
+public class CustomExceptionHandler {
+    private static  final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
