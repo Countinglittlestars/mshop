@@ -17,8 +17,18 @@ public class AuthConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        /**
+         * 拦截小程序端
+         */
         registry.addInterceptor(getUserInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/mshop/**")
+                .excludePathPatterns("/", "/admin/**");
+
+        /**
+         * 拦截后台管理员端
+         */
+
+
 //                .excludePathPatterns("/","user/login","/index.html")
 //                .excludePathPatterns("/public/**","/resources/**");
 
