@@ -21,9 +21,10 @@
         <result column="front_name" property="frontName" />
     </resultMap>
 
+
     <resultMap id="listWithChildrenMap" type="com.skymall.domain.CategoryWithChildrenItem"
-        extends="com.skymall.domain.Category">
-        <collection property="childen" resultMap="com.skymall.domain.Category"
+        extends="BaseResultMap">
+        <collection property="children" resultMap="BaseResultMap"
                     columnPrefix="child_"></collection>
     </resultMap>
     <select id="listWithChildren" resultMap="listWithChildrenMap">

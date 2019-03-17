@@ -82,7 +82,10 @@ public class CategoryController {
     }
 
 
-
+    /**
+     * 查找分类列表，格式为：一级分类下有list二级分类
+     * @return
+     */
     @RequestMapping(value = "/queryWithChildren",method = RequestMethod.GET)
     public Object listWhitChildren(){
 

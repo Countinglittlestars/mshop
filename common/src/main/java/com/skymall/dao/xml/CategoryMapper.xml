@@ -21,4 +21,12 @@
         <result column="front_name" property="frontName" />
     </resultMap>
 
+    <resultMap id="listWithChildrenMap" type="com.skymall.domain.CategoryWithChildrenItem"
+        extends="com.skymall.domain.Category">
+        <collection property="childen" resultMap="com.skymall.domain.Category"
+                    columnPrefix="child_"></collection>
+    </resultMap>
+    <select id="listWithChildren" resultMap="listWithChildrenMap">
+            select c1.id, c1.name, c2.id child_id, c2.name child_name from nideshop_category c1 LEFT JOIN nideshop_category c2 on c1.id = c2.parent_id where c1.parent_id = 0
+    </select>
 </mapper>

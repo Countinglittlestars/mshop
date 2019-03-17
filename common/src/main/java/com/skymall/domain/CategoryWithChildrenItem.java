@@ -6,6 +6,8 @@ public class CategoryWithChildrenItem extends Category {
 
     private List<Category> children;
 
+
+
     public List<Category> getChildren() {
         return children;
     }
