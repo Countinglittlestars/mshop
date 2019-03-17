@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.BrandMapper;
 import com.skymall.domain.Brand;
+import com.skymall.service.IBrandService;
 import com.skymall.service.impl.BrandServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ import java.util.List;
 @RestController
 public class BrandController {
     @Resource
-    private BrandServiceImpl brandServiceImpl;
+    private IBrandService brandService;
     @Resource
     private BrandMapper brandMapper;
 
@@ -40,7 +42,7 @@ public class BrandController {
      */
     @RequestMapping(value = "/addBrand",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public Response addBrand(@RequestBody Brand brand){
-        brandServiceImpl.save(brand);
+        brandService.save(brand);
         return Response.success(brand.getId());
     }
 
@@ -61,6 +63,20 @@ public class BrandController {
     }
 
     /**
+     * 查询所有品牌
+     * @return
+     */
+    @RequestMapping(value = "/queryBrand", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public Object queryBrand(){
+        List<Brand> list = brandService.list(null);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("Brand",list);
+        CommonResult common = new CommonResult().success(map);
+        return common;
+
+    }
+
+    /**
      * 根据Id查询品牌信息
      * @param id
      * @return
@@ -68,7 +84,7 @@ public class BrandController {
     @RequestMapping(value = "/queryBrandById", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public Response queryBrandById(@RequestParam Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
-        List<Brand> list = brandServiceImpl.list(queryWrapper.eq("id",id));
+        List<Brand> list = brandService.list(queryWrapper.eq("id",id));
         HashMap<String,Object> map = new HashMap<>();
         map.put("brand",list);
         return Response.success(map);
@@ -84,7 +100,7 @@ public class BrandController {
     public Response updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
         UpdateWrapper<Brand> updateWrapper = new UpdateWrapper<>();
-        brandServiceImpl.update(brand,updateWrapper.eq("id",id));
+        brandService.update(brand,updateWrapper.eq("id",id));
         return Response.success();
     }
 
@@ -96,7 +112,7 @@ public class BrandController {
     @RequestMapping(value = "/removeBrand", method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
     public Response removeBrandById(@RequestParam Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
-        brandServiceImpl.remove(queryWrapper.eq("id",id));
+        brandService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 
