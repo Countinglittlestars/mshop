@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.CategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.Category">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="keywords" property="keywords" />
+        <result column="front_desc" property="frontDesc" />
+        <result column="parent_id" property="parentId" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="show_index" property="showIndex" />
+        <result column="is_show" property="isShow" />
+        <result column="banner_url" property="bannerUrl" />
+        <result column="icon_url" property="iconUrl" />
+        <result column="img_url" property="imgUrl" />
+        <result column="wap_banner_url" property="wapBannerUrl" />
+        <result column="level" property="level" />
+        <result column="type" property="type" />
+        <result column="front_name" property="frontName" />
+    </resultMap>
+
+    <resultMap id="listWithChildrenMap" type="com.skymall.domain.CategoryWithChildrenItem"
+        extends="com.skymall.domain.Category">
+        <collection property="childen" resultMap="com.skymall.domain.Category"
+                    columnPrefix="child_"></collection>
+    </resultMap>
+    <select id="listWithChildren" resultMap="listWithChildrenMap">
+            select c1.id, c1.name, c2.id child_id, c2.name child_name from nideshop_category c1 LEFT JOIN nideshop_category c2 on c1.id = c2.parent_id where c1.parent_id = 0
+    </select>
+</mapper>

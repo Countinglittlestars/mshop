@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Category;
+import com.skymall.domain.CategoryWithChildrenItem;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +19,5 @@ import com.skymall.domain.Category;
 public interface ICategoryService extends IService<Category> {
      IPage<Category> queryByPage(Page<Category> page);
 
+     public List<CategoryWithChildrenItem> listWhitChildren();
 }

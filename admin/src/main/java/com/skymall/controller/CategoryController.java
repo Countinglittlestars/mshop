@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CategoryMapper;
 import com.skymall.domain.Category;
+import com.skymall.domain.CategoryWithChildrenItem;
+import com.skymall.service.ICategoryService;
 import com.skymall.service.impl.CategoryServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +28,11 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping(value="/admin/category")
 public class CategoryController {
 
     @Resource
-    private CategoryServiceImpl categoryServiceImpl;
+    private ICategoryService categoryService;
 
     @Resource
     private CategoryMapper categoryMapper;
@@ -40,7 +44,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/addCategory",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
     public Response addCategory(@RequestBody Category category){
-        categoryServiceImpl.save(category);
+        categoryService.save(category);
         return Response.success(category.getId());
     }
 
@@ -64,18 +68,49 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
-    public Response queryAllCategory(){
+    public Object queryAllCategory(){
 //                Category root = new Category();
 //        root.setId(0);
 //        root.setName("一级分类");
 //        root.setParentId(-1);
 //        root.setIsShow(true);
-        List<Category> list = categoryServiceImpl.list(null);
+        List<Category> list = categoryService.list(null);
 //        list.add(0,root);
         HashMap<String,Object> map = new HashMap<>();
         map.put("allCategory",list);
-        return Response.success(map);
+        return new CommonResult().success(map);
     }
+
+
+
+    @RequestMapping(value = "/queryWithChildren",method = RequestMethod.GET)
+    public Object listWhitChildren(){
+
+        List<CategoryWithChildrenItem> categoryWithChildrenItem  =  categoryService.listWhitChildren();
+        return new CommonResult().success(categoryWithChildrenItem);
+    }
+
+
+
+
+    /**
+     * 根据父分类查到所有的子分类
+     */
+    @RequestMapping(value="/queryByParentId/{parentId}", method = RequestMethod.GET)
+    public Object queryByParentId(@PathVariable Integer parentId){
+
+        QueryWrapper<Category> queryWrapper = new QueryWrapper();
+        queryWrapper.lambda().eq(Category::getParentId, parentId);
+        List<Category> list = categoryService.list(queryWrapper);
+        return new CommonResult().success(list);
+    }
+
+
+
+
+
+
+
 
     /**
      * 根据Id查询类目信息
@@ -116,7 +151,7 @@ public class CategoryController {
                                    @PathVariable Integer id){
         UpdateWrapper<Category> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id",id);
-        categoryServiceImpl.update(newCategory,updateWrapper);
+        categoryService.update(newCategory,updateWrapper);
         return Response.success();
     }
 
@@ -127,7 +162,7 @@ public class CategoryController {
      */
     @RequestMapping(value = "/deleteCategory" ,method = RequestMethod.DELETE,produces="application/json;charset=UTF-8")
     public Response deleteById(@RequestParam int id){
-        categoryServiceImpl.removeById(id);
+        categoryService.removeById(id);
         return Response.success();
     }
 
