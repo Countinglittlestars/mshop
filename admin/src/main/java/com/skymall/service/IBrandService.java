@@ -16,8 +16,5 @@ import java.util.List;
  * @since 2019-03-04
  */
 public interface IBrandService extends IService<Brand> {
-
-//    public List<Brand> selectAll(Brand brand);
-//
-//    public IPage<Brand> queryByPage(Page<Brand> page);
+    public IPage<Brand> queryByPage(Page<Brand> page);
 }

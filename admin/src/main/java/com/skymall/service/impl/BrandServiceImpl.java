@@ -23,8 +23,8 @@ import java.util.List;
  */
 @Service
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements IBrandService {
-//    @Resource
-//    private BrandMapper brandMapper;
+    @Resource
+    private BrandMapper brandMapper;
 //
 //    @Override
 //    public List<Brand> selectAll(Brand brand) {
@@ -34,8 +34,8 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 //        return list;
 //    }
 //
-//    @Override
-//    public IPage<Brand> queryByPage(Page<Brand> page) {
-//        return brandMapper.selectPage(page,null);
-//    }
+    @Override
+    public IPage<Brand> queryByPage(Page<Brand> page) {
+        return brandMapper.selectPage(page,null);
+    }
 }
