@@ -22,19 +22,18 @@ import java.util.List;
 
 @RestController
 public class AddressController {
+
     @Resource
-    private AddressMapper addressMapper;
-    @Resource
-    private AddressServiceImpl addressServiceImpl;
+    private AddressServiceImpl addressService;
 
     /**
      * 新增收货地址
      * @param address
      * @return
      */
-    @RequestMapping(value = "/addAddress",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
     public Response addAddress(@RequestBody Address address){
-        addressServiceImpl.save(address);
+        addressService.save(address);
         return Response.success(address.getId());
     }
 
@@ -44,11 +43,11 @@ public class AddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
     public Response updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
         UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
-        addressServiceImpl.update(address,addressUpdateWrapper.eq("id",id));
+        addressService.update(address,addressUpdateWrapper.eq("id",id));
         return Response.success();
     }
 
@@ -57,10 +56,10 @@ public class AddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/queryAddById",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAddById",method = RequestMethod.GET )
     public Response queryAddInfo(@RequestParam Integer id){
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
-        List<Address> list = addressMapper.selectList(queryWrapper.eq("id",id));
+        List<Address> list = addressService.list(queryWrapper.eq("id",id));
         HashMap<String,Object> map = new HashMap<>();
         map.put("address",list);
         return Response.success(list);
@@ -73,13 +72,13 @@ public class AddressController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/queryAdd",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAdd",method = RequestMethod.GET )
     public Response queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      @RequestParam Integer userId){
         Page<Address> addressPage = new Page<>(page,size);
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
-        IPage<Address> data = addressMapper.selectPage(addressPage,queryWrapper.eq("user_id",userId));
+        IPage<Address> data = addressService.pageByCondition(addressPage,queryWrapper.eq("user_id",userId));
         return Response.success(data);
     }
 
@@ -89,11 +88,11 @@ public class AddressController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/queryAllAdd",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAllAdd",method = RequestMethod.GET )
     public Response queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size){
         Page<Address> addressPage = new Page<>(page,size);
-        IPage<Address> data = addressMapper.selectPage(addressPage,null);
+        IPage<Address> data = addressService.queryByPage(addressPage);
         return Response.success(data);
     }
 
@@ -102,10 +101,10 @@ public class AddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/removeAdd",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeAdd",method = RequestMethod.DELETE )
     public Response removeAdd(@RequestParam Integer id){
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
-        addressServiceImpl.remove(queryWrapper.eq("id",id));
+        addressService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 }

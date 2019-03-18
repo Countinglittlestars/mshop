@@ -23,7 +23,7 @@ import java.util.List;
 
 
 
-@Service("Category")
+@Service("ICategoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {
     @Resource
     private CategoryMapper categoryMapper;

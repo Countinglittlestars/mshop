@@ -20,20 +20,18 @@ import java.util.List;
  */
 
 @RestController
-public class AttributeContorller {
+public class AttributeController {
     @Resource
-    private AttributeServiceImpl attributeServiceImpl;
-    @Resource
-    private AttributeMapper attributeMapper;
+    private AttributeServiceImpl attributeService;
 
     /**
      * 新增商品参数
      * @param attribute
      * @return
      */
-    @RequestMapping(value = "/addAttribute",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addAttribute",method = RequestMethod.POST )
     public Response addAttribute(@RequestBody Attribute attribute){
-        attributeServiceImpl.save(attribute);
+        attributeService.save(attribute);
         return Response.success(attribute.getId());
     }
 
@@ -41,9 +39,9 @@ public class AttributeContorller {
      * 查询所有商品参数
      * @return
      */
-    @RequestMapping(value = "/queryAttribute",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAttribute",method = RequestMethod.GET )
     public Response queryAttribute(){
-        List<Attribute> list = attributeServiceImpl.list(null);
+        List<Attribute> list = attributeService.list(null);
         HashMap<String,Object> map = new HashMap<>();
         map.put("AllAttribute",list);
         return Response.success(map);
@@ -55,11 +53,11 @@ public class AttributeContorller {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/updateAttribute",method = RequestMethod.PUT,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/updateAttribute",method = RequestMethod.PUT )
     public Response updateAttribute(@RequestBody Attribute attribute,
                                     @RequestParam Integer id){
         UpdateWrapper<Attribute> updateWrapper = new UpdateWrapper<>();
-        attributeServiceImpl.update(attribute,updateWrapper.eq("id",id));
+        attributeService.update(attribute,updateWrapper.eq("id",id));
         return Response.success();
     }
 
@@ -67,10 +65,10 @@ public class AttributeContorller {
      * 根据id删除商品参数
      * @param id
      */
-    @RequestMapping(value = "/deleteAttribute",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/deleteAttribute",method = RequestMethod.DELETE )
     public Response removeAttribute(@RequestParam Integer id){
         QueryWrapper<Attribute> queryWrapper = new QueryWrapper<>();
-        attributeServiceImpl.remove(queryWrapper.eq("id",id));
+        attributeService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 }

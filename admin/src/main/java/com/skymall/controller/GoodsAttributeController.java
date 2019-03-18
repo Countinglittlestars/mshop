@@ -7,6 +7,7 @@ import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -15,20 +16,19 @@ import javax.annotation.Resource;
  *
  * 商品参数值管理
  */
+@RestController
 public class GoodsAttributeController {
     @Resource
-    private GoodsAttributeMapper goodsAttributeMapper;
-    @Resource
-    private GoodsAttributeServiceImpl goodsAttributeServiceImpl;
+    private GoodsAttributeServiceImpl goodsAttributeService;
 
     /**
      * 添加商品参数值
      * @param goodsAttribute
      * @return
      */
-    @RequestMapping(value = "/addGoodsAttr",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addGoodsAttr",method = RequestMethod.POST )
     public Response addGoodsAttribute(@RequestBody GoodsAttribute goodsAttribute){
-        goodsAttributeServiceImpl.save(goodsAttribute);
+        goodsAttributeService.save(goodsAttribute);
         return Response.success(goodsAttribute.getId());
     }
 

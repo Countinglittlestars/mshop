@@ -1,5 +1,8 @@
 package com.skymall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
@@ -22,8 +25,13 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     private CartMapper cartMapper;
 
 
-//    @Override
-//    public int selectUnableGoods() {
-//        return cartMapper.selectUnableGoods();
-//    }
+    @Override
+    public IPage<Cart> queryByPage(Page<Cart> page) {
+        return cartMapper.selectPage(page,null);
+    }
+
+    @Override
+    public IPage<Cart> pageByCondition(Page<Cart> page, QueryWrapper<Cart> queryWrapper) {
+        return cartMapper.selectPage(page,queryWrapper);
+    }
 }

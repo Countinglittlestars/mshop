@@ -27,20 +27,13 @@ import java.util.List;
 public class BrandController {
     @Resource
     private IBrandService brandService;
-    @Resource
-    private BrandMapper brandMapper;
-
-
-
-
-
 
     /**
      * 新增品牌
      * @param brand
      * @return
      */
-    @RequestMapping(value = "/addBrand",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addBrand",method = RequestMethod.POST )
     public Response addBrand(@RequestBody Brand brand){
         brandService.save(brand);
         return Response.success(brand.getId());
@@ -52,13 +45,13 @@ public class BrandController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET )
     public Response queryAllBrandByPage(@RequestParam (value = "page", defaultValue = "1") Integer page,
                                         @RequestParam (value = "size", defaultValue = "10") Integer size){
 //        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
 //        此处的Page来自com.baomidou.mybatisplus.extension.plugins.pagination.Page，若导错包会报错
         Page<Brand> brandPage = new Page<>(page,size);
-        IPage<Brand> data = brandMapper.selectPage(brandPage,null);
+        IPage<Brand> data = brandService.queryByPage(brandPage);
         return Response.success(data);
     }
 
@@ -66,7 +59,7 @@ public class BrandController {
      * 查询所有品牌
      * @return
      */
-    @RequestMapping(value = "/queryBrand", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryBrand", method = RequestMethod.GET )
     public Object queryBrand(){
         List<Brand> list = brandService.list(null);
         HashMap<String,Object> map = new HashMap<>();
@@ -81,7 +74,7 @@ public class BrandController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/queryBrandById", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryBrandById", method = RequestMethod.GET )
     public Response queryBrandById(@RequestParam Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
         List<Brand> list = brandService.list(queryWrapper.eq("id",id));
@@ -96,7 +89,7 @@ public class BrandController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT )
     public Response updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
         UpdateWrapper<Brand> updateWrapper = new UpdateWrapper<>();
@@ -109,7 +102,7 @@ public class BrandController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/removeBrand", method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeBrand", method = RequestMethod.DELETE )
     public Response removeBrandById(@RequestParam Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
         brandService.remove(queryWrapper.eq("id",id));

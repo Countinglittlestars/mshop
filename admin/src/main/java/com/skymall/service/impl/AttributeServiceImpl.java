@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @author zhaogengren123
  * @since 2019-03-04
  */
-@Service
+@Service("IAttributeService")
 public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute> implements IAttributeService {
 
 }

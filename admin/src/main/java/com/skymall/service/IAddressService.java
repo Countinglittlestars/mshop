@@ -1,5 +1,6 @@
 package com.skymall.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -15,4 +16,6 @@ import com.skymall.domain.Address;
  */
 public interface IAddressService extends IService<Address> {
     IPage<Address> queryByPage(Page<Address> page);
+
+    IPage<Address> pageByCondition(Page<Address> page, QueryWrapper<Address> queryWrapper);
 }
