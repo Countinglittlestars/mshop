@@ -1,5 +1,6 @@
 package com.skymall.dto;
 
+import com.skymall.domain.Attribute;
 import com.skymall.domain.GoodsAttribute;
 import com.skymall.domain.GoodsGallery;
 import lombok.Data;
@@ -45,9 +46,8 @@ public class GoodAddDto {
      */
     private String keywords;
     /**
-     *  参数的Map, attributeId -> value
      */
-    private Map<Integer, String> attributeMap;
+    private List<Attribute> attributeList;
     /**
      * 简要介绍
      */

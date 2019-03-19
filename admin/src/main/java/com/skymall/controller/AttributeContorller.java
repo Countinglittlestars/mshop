@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.skymall.dao.AttributeMapper;
 import com.skymall.domain.Attribute;
+import com.skymall.service.IAttributeService;
 import com.skymall.service.impl.AttributeServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +22,24 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping(value = "/admin/attribute")
 public class AttributeContorller {
     @Resource
-    private AttributeServiceImpl attributeServiceImpl;
-    @Resource
-    private AttributeMapper attributeMapper;
+    private IAttributeService attributeService;
+
+
+
+    /**
+     * 根据属性类型id找到所有的属性
+     */
+    @RequestMapping(value = "/queryByCateId/{id}", method = RequestMethod.GET)
+    public Object queryByCateId(@PathVariable Integer id){
+        QueryWrapper<Attribute> queryWrapper = new QueryWrapper();
+        queryWrapper.lambda().eq(Attribute::getAttributeCategoryId, id);
+        List list = attributeService.list(queryWrapper);
+        return new CommonResult().success(list);
+    }
+
 
     /**
      * 新增商品参数
@@ -32,9 +47,9 @@ public class AttributeContorller {
      * @return
      */
     @RequestMapping(value = "/addAttribute",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public Response addAttribute(@RequestBody Attribute attribute){
-        attributeServiceImpl.save(attribute);
-        return Response.success(attribute.getId());
+    public Object addAttribute(@RequestBody Attribute attribute){
+        attributeService.save(attribute);
+        return new CommonResult().success(attribute.getId());
     }
 
     /**
@@ -42,11 +57,11 @@ public class AttributeContorller {
      * @return
      */
     @RequestMapping(value = "/queryAttribute",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public Response queryAttribute(){
-        List<Attribute> list = attributeServiceImpl.list(null);
+    public Object queryAttribute(){
+        List<Attribute> list = attributeService.list(null);
         HashMap<String,Object> map = new HashMap<>();
         map.put("AllAttribute",list);
-        return Response.success(map);
+        return new CommonResult().success(map);
     }
 
     /**
@@ -56,10 +71,10 @@ public class AttributeContorller {
      * @return
      */
     @RequestMapping(value = "/updateAttribute",method = RequestMethod.PUT,produces = "application/json;charset=UTF-8")
-    public Response updateAttribute(@RequestBody Attribute attribute,
+    public Object updateAttribute(@RequestBody Attribute attribute,
                                     @RequestParam Integer id){
         UpdateWrapper<Attribute> updateWrapper = new UpdateWrapper<>();
-        attributeServiceImpl.update(attribute,updateWrapper.eq("id",id));
+        attributeService.update(attribute,updateWrapper.eq("id",id));
         return Response.success();
     }
 
@@ -70,7 +85,7 @@ public class AttributeContorller {
     @RequestMapping(value = "/deleteAttribute",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
     public Response removeAttribute(@RequestParam Integer id){
         QueryWrapper<Attribute> queryWrapper = new QueryWrapper<>();
-        attributeServiceImpl.remove(queryWrapper.eq("id",id));
+        attributeService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 }

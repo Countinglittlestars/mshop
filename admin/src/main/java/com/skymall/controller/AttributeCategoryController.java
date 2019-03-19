@@ -3,8 +3,11 @@ package com.skymall.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.skymall.dao.AttributeCategoryMapper;
+import com.skymall.domain.Attribute;
 import com.skymall.domain.AttributeCategory;
+import com.skymall.domain.Category;
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,7 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping(value = "/admin/attributeCategory")
 public class AttributeCategoryController {
     @Resource
     private AttributeCategoryMapper attributeCategoryMapper;
@@ -54,13 +58,14 @@ public class AttributeCategoryController {
      * 查询所有商品参数类型
      * @return
      */
-    @RequestMapping(value = "/queryAttrCate",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public Response queryAttributeCategory(){
+    @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public Object queryAttributeCategory(){
         List<AttributeCategory> list = attributeCategoryServiceImpl.list(null);
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("allAttributeCategory",list);
-        return Response.success(map);
+        return new CommonResult().success(list);
     }
+
+
+
 
     /**
      * 根据id删除商品参数类型

@@ -24,6 +24,7 @@ import java.util.List;
  * 品牌管理
  */
 @RestController
+@RequestMapping(value="/admin/brand")
 public class BrandController {
     @Resource
     private IBrandService brandService;

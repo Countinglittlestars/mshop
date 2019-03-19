@@ -58,31 +58,6 @@
 
 
 
-    <!--&lt;!&ndash; 阿里云maven仓库 &ndash;&gt;-->
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>public</id>-->
-            <!--<name>aliyun nexus</name>-->
-            <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-    <!--<pluginRepositories>-->
-        <!--<pluginRepository>-->
-            <!--<id>public</id>-->
-            <!--<name>aliyun nexus</name>-->
-            <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
-            <!--<releases>-->
-                <!--<enabled>true</enabled>-->
-            <!--</releases>-->
-            <!--<snapshots>-->
-                <!--<enabled>false</enabled>-->
-            <!--</snapshots>-->
-        <!--</pluginRepository>-->
-    <!--</pluginRepositories>-->
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,18 +93,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.mybatis.spring.boot</groupId>-->
-            <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-            <!--<version>2.0.0</version>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash;通用mapper&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>tk.mybatis</groupId>-->
-            <!--<artifactId>mapper-spring-boot-starter</artifactId>-->
-            <!--<version>1.2.4</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -196,29 +159,6 @@
             <version>${commons-configuration-version}</version>
         </dependency>
 
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.apache.shiro</groupId>-->
-            <!--<artifactId>shiro-core</artifactId>-->
-            <!--<version>${shiro-version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.shiro</groupId>-->
-            <!--<artifactId>shiro-spring</artifactId>-->
-            <!--<version>${shiro-version}</version>-->
-        <!--</dependency>-->
-        <!-- Velocity视图所需jar -->
-        <!-- 模板引擎 -->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.velocity</groupId>-->
-            <!--<artifactId>velocity-engine-core</artifactId>-->
-            <!--<version>${velocity-version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>jcl-over-slf4j</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <artifactId>velocity</artifactId>
             <groupId>org.apache.velocity</groupId>
@@ -277,12 +217,6 @@
             <artifactId>jstl</artifactId>
             <version>${jstl-version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>taglibs</groupId>-->
-            <!--<artifactId>standard</artifactId>-->
-            <!--<version>${taglibs-version}</version>-->
-        <!--</dependency>-->
-         <!--Freemarker视图所需jar-->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -326,13 +260,38 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.baomidou</groupId>-->
-            <!--<artifactId>mybatis-plus</artifactId>-->
-            <!--<version>3.0.7.1</version>-->
-        <!--</dependency>-->
-        <!-- springboot整合mybatis（核心就这一个） -->
-        <!-- 注意顺序，这个一定要放在最下面 -->
+        <!--//七牛云上传相关的-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.11</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.3.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>happy-dns-java</artifactId>
+            <version>0.1.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!--&lt;!&ndash;七牛云上传相关结束&ndash;&gt;-->
 
     </dependencies>
 
