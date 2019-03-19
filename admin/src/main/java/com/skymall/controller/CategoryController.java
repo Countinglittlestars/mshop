@@ -37,9 +37,9 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/addCategory",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
-    public Response addCategory(@RequestBody Category category){
+    public Object addCategory(@RequestBody Category category){
         categoryService.save(category);
-        return Response.success(category.getId());
+        return new CommonResult().success(category.getId());
     }
 
 
@@ -49,11 +49,11 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/queryCategoryByPage",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
-    public Response queryAllCategoryByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    public Object queryAllCategoryByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size){
         Page<Category> categoryPage = new Page<>(page,size);
         IPage<Category> data = categoryService.queryByPage(categoryPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -95,7 +95,7 @@ public class CategoryController {
     @RequestMapping(value="/queryByParentId/{parentId}", method = RequestMethod.GET)
     public Object queryByParentId(@PathVariable Integer parentId){
 
-        QueryWrapper<Category> queryWrapper = new QueryWrapper();
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Category::getParentId, parentId);
         List<Category> list = categoryService.list(queryWrapper);
         return new CommonResult().success(list);
@@ -114,12 +114,10 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/queryCategoryById/{id}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
-    public Response queryCategoryById(@PathVariable Integer id){
+    public Object queryCategoryById(@PathVariable Integer id){
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         List<Category> list = categoryService.list(queryWrapper.eq("id",id));
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("category",list);
-        return Response.success(map);
+        return new CommonResult().success(list);
     }
 
     /**
@@ -128,12 +126,10 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/queryCategoryByName",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
-    public Response queryCategoryByName(@RequestParam String name){
+    public Object queryCategoryByName(@RequestParam String name){
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
         List<Category> list = categoryService.list(queryWrapper.eq("name",name));
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("category",list);
-        return Response.success(map);
+        return new CommonResult().success(list);
     }
 
     /**
@@ -143,12 +139,12 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/updateCategoryById/{id}",method = RequestMethod.PUT,produces="application/json;charset=UTF-8")
-    public Response updateCategory(@RequestBody Category newCategory,
+    public Object updateCategory(@RequestBody Category newCategory,
                                    @PathVariable Integer id){
         UpdateWrapper<Category> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id",id);
         categoryService.update(newCategory,updateWrapper);
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 
     /**
@@ -157,9 +153,9 @@ public class CategoryController {
      * @return
      */
     @RequestMapping(value = "/deleteCategory" ,method = RequestMethod.DELETE,produces="application/json;charset=UTF-8")
-    public Response deleteById(@RequestParam int id){
+    public Object deleteById(@RequestParam int id){
         categoryService.removeById(id);
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 
 }

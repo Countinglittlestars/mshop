@@ -2,17 +2,15 @@ package com.skymall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.skymall.dao.AttributeCategoryMapper;
-import com.skymall.domain.Attribute;
+
 import com.skymall.domain.AttributeCategory;
-import com.skymall.domain.Category;
+
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
 import com.skymall.vo.CommonResult;
-import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
+
 import java.util.List;
 
 /**
@@ -34,9 +32,9 @@ public class AttributeCategoryController {
      * @return
      */
     @RequestMapping(value = "/addAttrCate",method = RequestMethod.POST )
-    public Response addAttributeCategory(@RequestBody AttributeCategory attributeCategory){
+    public Object addAttributeCategory(@RequestBody AttributeCategory attributeCategory){
         attributeCategoryService.save(attributeCategory);
-        return Response.success(attributeCategory.getId());
+        return new CommonResult().success(attributeCategory.getId());
     }
 
     /**
@@ -46,11 +44,11 @@ public class AttributeCategoryController {
      * @return
      */
     @RequestMapping(value = "/updateAttrCate/{id}",method = RequestMethod.PUT )
-    public Response updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
+    public Object updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
         UpdateWrapper<AttributeCategory> updateWrapper = new UpdateWrapper<>();
         attributeCategoryService.update(attributeCategory,updateWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("修改成功");
     }
 
     /**
@@ -74,9 +72,9 @@ public class AttributeCategoryController {
      * @return
      */
     @RequestMapping(value = "/deleteAttrCate",method = RequestMethod.DELETE )
-    public Response removeAttributeCategory(@RequestParam Integer id){
+    public Object removeAttributeCategory(@RequestParam Integer id){
         QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();
         attributeCategoryService.remove(queryWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("删除成功");
     }
 }

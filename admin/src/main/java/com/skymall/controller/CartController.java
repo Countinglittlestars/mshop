@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
 import com.skymall.service.impl.CartServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +29,9 @@ public class CartController {
      * @return
      */
     @RequestMapping(value = "/addCart",method = RequestMethod.POST )
-    public Response addCart(@RequestBody Cart cart){
+    public Object addCart(@RequestBody Cart cart){
         cartService.save(cart);
-        return Response.success(cart.getId());
+        return new CommonResult().success(cart.getId());
     }
 
     /**
@@ -40,11 +41,11 @@ public class CartController {
      * @return
      */
     @RequestMapping(value = "/queryCart",method = RequestMethod.GET )
-    public Response queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Cart> cartPage = new Page<>(page,size);
         IPage<Cart> data = cartService.queryByPage(cartPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
 
@@ -56,14 +57,14 @@ public class CartController {
      * @return
      */
     @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET )
-    public Response queryByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                   @RequestParam (name = "size",defaultValue = "10") Integer size,
                                   @PathVariable String userId){
         Page<Cart> cartPage = new Page<>(page,size);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         IPage<Cart> data;
         data = cartService.pageByCondition(cartPage,queryWrapper.eq("user_id",userId));
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -72,10 +73,10 @@ public class CartController {
      * @return
      */
     @RequestMapping(value = "/removeByGoodsSn",method = RequestMethod.DELETE )
-    public Response removeByGoodsId(@RequestParam String goodsSn){
+    public Object removeByGoodsId(@RequestParam String goodsSn){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         cartService.remove(queryWrapper.eq("goods_sn",goodsSn));
-        return Response.success();
+        return new CommonResult().success("删除成功");
     }
 
 //    /**
@@ -85,11 +86,11 @@ public class CartController {
 //     * NoSuchMethodError
 //     */
 //    @RequestMapping(value = "/removeUnableGoods",method = RequestMethod.DELETE )
-//    public Response removeUnableGoods(){
+//    public Object removeUnableGoods(){
 //        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
 ////        int unableId = cartMapper.selectUnableGoods();
 ////        cartServiceImpl.remove(queryWrapper.eq("goods_id",unableId));
-//        return Response.success();
+//        return new CommonResult().success("操作成功");
 //    }
 
     /**
@@ -98,9 +99,9 @@ public class CartController {
      * @return
      */
     @RequestMapping(value = "/removeCart",method = RequestMethod.DELETE )
-    public Response removeCart(@RequestParam Integer userId){
+    public Object removeCart(@RequestParam Integer userId){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         cartService.remove(queryWrapper.eq("user_id",userId));
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 }

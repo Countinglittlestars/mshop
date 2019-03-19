@@ -49,7 +49,7 @@ public class AddressController {
                               @PathVariable Integer id){
         UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
         addressService.update(address,addressUpdateWrapper.eq("id",id));
-        return new CommonResult().success();
+        return new CommonResult().success("操作成功");
     }
 
     /**
@@ -57,8 +57,8 @@ public class AddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/queryAddById",method = RequestMethod.GET )
-    public Object queryAddInfo(@RequestParam Integer id){
+    @RequestMapping(value = "/queryAddById/{id}",method = RequestMethod.GET )
+    public Object queryAddInfo(@PathVariable Integer id){
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
         List<Address> list = addressService.list(queryWrapper.eq("id",id));
         return new CommonResult().success(list);
@@ -71,10 +71,10 @@ public class AddressController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/queryAdd",method = RequestMethod.GET )
+    @RequestMapping(value = "/queryAdd/{userId}",method = RequestMethod.GET )
     public Object queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
-                                     @RequestParam Integer userId){
+                                     @PathVariable Integer userId){
         Page<Address> addressPage = new Page<>(page,size);
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
         IPage<Address> data = addressService.pageByCondition(addressPage,queryWrapper.eq("user_id",userId));
@@ -88,11 +88,11 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/queryAllAdd",method = RequestMethod.GET )
-    public Response queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size){
         Page<Address> addressPage = new Page<>(page,size);
         IPage<Address> data = addressService.queryByPage(addressPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -101,9 +101,9 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/removeAdd",method = RequestMethod.DELETE )
-    public Response removeAdd(@RequestParam Integer id){
+    public Object removeAdd(@RequestParam Integer id){
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
         addressService.remove(queryWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("删除成功");
     }
 }

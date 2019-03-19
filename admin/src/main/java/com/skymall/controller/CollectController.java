@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CollectMapper;
 import com.skymall.domain.Collect;
 import com.skymall.service.impl.CollectServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,9 @@ public class CollectController {
      * @return
      */
     @RequestMapping(value = "/addCollect",method = RequestMethod.POST )
-    public Response addCollect(@RequestBody Collect collect){
+    public Object addCollect(@RequestBody Collect collect){
         collectService.save(collect);
-        return Response.success(collect.getId());
+        return new CommonResult().success(collect.getId());
     }
 
     /**
@@ -43,13 +44,13 @@ public class CollectController {
      * @return
      */
     @RequestMapping(value = "/queryCollect/{userId}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
-    public Response queryCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size,
                                        @PathVariable Integer userId){
         Page<Collect> collectPage = new Page<>(page,size);
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
         IPage<Collect> data = collectService.pageByCondition(collectPage,queryWrapper.eq("user_id",userId));
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -59,11 +60,11 @@ public class CollectController {
      * @return
      */
     @RequestMapping(value = "/queryCollect",method = RequestMethod.GET )
-    public Response queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                           @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Collect> cartPage = new Page<>(page,size);
         IPage<Collect> data = collectService.queryByPage(cartPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -72,9 +73,9 @@ public class CollectController {
      * @return
      */
     @RequestMapping(value = "/removeCollect",method = RequestMethod.DELETE )
-    public Response removeCollect(@RequestParam Integer id){
+    public Object removeCollect(@RequestParam Integer id){
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
         collectService.remove(queryWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 }

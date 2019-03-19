@@ -18,6 +18,6 @@ import javax.annotation.Resource;
  */
 @Service("IAttributeCategoryService")
 public class AttributeCategoryServiceImpl extends ServiceImpl<AttributeCategoryMapper, AttributeCategory> implements IAttributeCategoryService {
-    @Resource
-    private AttributeCategoryMapper attributeCategoryMapper;
+//    @Resource
+//    private AttributeCategoryMapper attributeCategoryMapper;
 }

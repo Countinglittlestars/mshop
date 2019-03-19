@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.FootprintMapper;
 import com.skymall.domain.Footprint;
 import com.skymall.service.impl.FootprintServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +29,9 @@ public class FootprintController {
      * @return
      */
     @RequestMapping(value = "/addFootprint",method = RequestMethod.POST )
-    public Response addFootprint(@RequestBody Footprint footprint){
+    public Object addFootprint(@RequestBody Footprint footprint){
         footprintService.save(footprint);
-        return Response.success(footprint.getId());
+        return new CommonResult().success(footprint.getId());
     }
 
 
@@ -41,11 +42,11 @@ public class FootprintController {
      * @return
      */
     @RequestMapping(value = "/queryFootpring",method = RequestMethod.GET )
-    public Response queryFootprintByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryFootprintByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                            @RequestParam (name = "size" ,defaultValue = "10") Integer size){
         Page<Footprint> footprintPage = new Page<>(page,size);
         IPage<Footprint> data = footprintService.queryByPage(footprintPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -55,10 +56,10 @@ public class FootprintController {
      * @return
      */
     @RequestMapping(value = "/removeFootprint",method = RequestMethod.DELETE )
-    public Response removeFootprint(@RequestParam Integer id){
+    public Object removeFootprint(@RequestParam Integer id){
         QueryWrapper<Footprint> queryWrapper = new QueryWrapper<>();
         footprintService.remove(queryWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 
 }

@@ -46,14 +46,14 @@ public class BrandController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET )
-    public Response queryAllBrandByPage(@RequestParam (value = "page", defaultValue = "1") Integer page,
+    @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET)
+    public Object queryAllBrandByPage(@RequestParam (value = "page", defaultValue = "1") Integer page,
                                         @RequestParam (value = "size", defaultValue = "10") Integer size){
 //        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
 //        此处的Page来自com.baomidou.mybatisplus.extension.plugins.pagination.Page，若导错包会报错
         Page<Brand> brandPage = new Page<>(page,size);
         IPage<Brand> data = brandService.queryByPage(brandPage);
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
@@ -63,11 +63,7 @@ public class BrandController {
     @RequestMapping(value = "/queryBrand", method = RequestMethod.GET )
     public Object queryBrand(){
         List<Brand> list = brandService.list(null);
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("Brand",list);
-        CommonResult common = new CommonResult().success(map);
-        return common;
-
+        return new CommonResult().success(list);
     }
 
     /**
@@ -75,13 +71,11 @@ public class BrandController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/queryBrandById", method = RequestMethod.GET )
-    public Response queryBrandById(@RequestParam Integer id){
+    @RequestMapping(value = "/queryBrandById/{id}", method = RequestMethod.GET )
+    public Object queryBrandById(@PathVariable Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
         List<Brand> list = brandService.list(queryWrapper.eq("id",id));
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("brand",list);
-        return Response.success(map);
+        return new CommonResult().success(list);
     }
 
     /**
@@ -91,11 +85,11 @@ public class BrandController {
      * @return
      */
     @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT )
-    public Response updateBrandById(@RequestBody Brand brand,
+    public Object updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
         UpdateWrapper<Brand> updateWrapper = new UpdateWrapper<>();
         brandService.update(brand,updateWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("操作成功");
     }
 
     /**
@@ -104,10 +98,10 @@ public class BrandController {
      * @return
      */
     @RequestMapping(value = "/removeBrand", method = RequestMethod.DELETE )
-    public Response removeBrandById(@RequestParam Integer id){
+    public Object removeBrandById(@RequestParam Integer id){
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
         brandService.remove(queryWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success("删除成功");
     }
 
 }
