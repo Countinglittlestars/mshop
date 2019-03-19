@@ -1,14 +1,11 @@
 package com.skymall.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skymall.dao.CategoryMapper;
 import com.skymall.domain.Category;
 import com.skymall.domain.CategoryWithChildrenItem;
-import com.skymall.service.ICategoryService;
 import com.skymall.service.impl.CategoryServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
@@ -32,10 +29,7 @@ import java.util.List;
 public class CategoryController {
 
     @Resource
-    private ICategoryService categoryService;
-
-    @Resource
-    private CategoryMapper categoryMapper;
+    private CategoryServiceImpl categoryService;
 
     /**
      * 新增类目
@@ -58,8 +52,7 @@ public class CategoryController {
     public Response queryAllCategoryByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size){
         Page<Category> categoryPage = new Page<>(page,size);
-//        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
-        IPage<Category> data = categoryMapper.selectPage(categoryPage,null);
+        IPage<Category> data = categoryService.queryByPage(categoryPage);
         return Response.success(data);
     }
 
@@ -123,7 +116,7 @@ public class CategoryController {
     @RequestMapping(value = "/queryCategoryById/{id}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Response queryCategoryById(@PathVariable Integer id){
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
-        List<Category> list = categoryMapper.selectList(queryWrapper.eq("id",id));
+        List<Category> list = categoryService.list(queryWrapper.eq("id",id));
         HashMap<String,Object> map = new HashMap<>();
         map.put("category",list);
         return Response.success(map);
@@ -137,7 +130,7 @@ public class CategoryController {
     @RequestMapping(value = "/queryCategoryByName",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Response queryCategoryByName(@RequestParam String name){
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
-        List<Category> list = categoryMapper.selectList(queryWrapper.eq("name",name));
+        List<Category> list = categoryService.list(queryWrapper.eq("name",name));
         HashMap<String,Object> map = new HashMap<>();
         map.put("category",list);
         return Response.success(map);

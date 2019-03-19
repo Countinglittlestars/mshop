@@ -1,5 +1,8 @@
 package com.skymall.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Cart;
 
@@ -13,5 +16,6 @@ import com.skymall.domain.Cart;
  */
 
 public interface ICartService extends IService<Cart> {
-//    public int selectUnableGoods();
+    public IPage<Cart> queryByPage(Page<Cart> page);
+    public IPage<Cart> pageByCondition(Page<Cart> page, QueryWrapper<Cart> queryWrapper);
 }

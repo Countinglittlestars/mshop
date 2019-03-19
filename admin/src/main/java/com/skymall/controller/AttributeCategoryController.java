@@ -24,19 +24,18 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/admin/attributeCategory")
 public class AttributeCategoryController {
+
     @Resource
-    private AttributeCategoryMapper attributeCategoryMapper;
-    @Resource
-    private AttributeCategoryServiceImpl attributeCategoryServiceImpl;
+    private AttributeCategoryServiceImpl attributeCategoryService;
 
     /**
      * 新增商品参数类型
      * @param attributeCategory
      * @return
      */
-    @RequestMapping(value = "/addAttrCate",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addAttrCate",method = RequestMethod.POST )
     public Response addAttributeCategory(@RequestBody AttributeCategory attributeCategory){
-        attributeCategoryServiceImpl.save(attributeCategory);
+        attributeCategoryService.save(attributeCategory);
         return Response.success(attributeCategory.getId());
     }
 
@@ -46,11 +45,11 @@ public class AttributeCategoryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/updateAttrCate/{id}",method = RequestMethod.PUT,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/updateAttrCate/{id}",method = RequestMethod.PUT )
     public Response updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
         UpdateWrapper<AttributeCategory> updateWrapper = new UpdateWrapper<>();
-        attributeCategoryMapper.update(attributeCategory,updateWrapper.eq("id",id));
+        attributeCategoryService.update(attributeCategory,updateWrapper.eq("id",id));
         return Response.success();
     }
 
@@ -58,10 +57,12 @@ public class AttributeCategoryController {
      * 查询所有商品参数类型
      * @return
      */
+
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public Object queryAttributeCategory(){
-        List<AttributeCategory> list = attributeCategoryServiceImpl.list(null);
+        List<AttributeCategory> list = attributeCategoryService.list(null);
         return new CommonResult().success(list);
+
     }
 
 
@@ -72,10 +73,10 @@ public class AttributeCategoryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteAttrCate",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/deleteAttrCate",method = RequestMethod.DELETE )
     public Response removeAttributeCategory(@RequestParam Integer id){
         QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();
-        attributeCategoryServiceImpl.remove(queryWrapper.eq("id",id));
+        attributeCategoryService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 }

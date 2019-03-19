@@ -7,10 +7,7 @@ import com.skymall.dao.FootprintMapper;
 import com.skymall.domain.Footprint;
 import com.skymall.service.impl.FootprintServiceImpl;
 import com.skymall.vo.Response;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,38 +16,35 @@ import javax.annotation.Resource;
  * @date 2019/3/15
  * 足迹管理
  */
+@RestController
 public class FootprintController {
+
     @Resource
-    private FootprintMapper footprintMapper;
-    @Resource
-    private FootprintServiceImpl footprintServiceImp;
+    private FootprintServiceImpl footprintService;
 
     /**
      * 新增足迹
      * @param footprint
      * @return
      */
-    @RequestMapping(value = "/addFootprint",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addFootprint",method = RequestMethod.POST )
     public Response addFootprint(@RequestBody Footprint footprint){
-        footprintServiceImp.save(footprint);
+        footprintService.save(footprint);
         return Response.success(footprint.getId());
     }
 
 
     /**
-     * 根据用户Id分页查询足迹
+     * 分页查询足迹
      * @param page
      * @param size
-     * @param userId
      * @return
      */
-    @RequestMapping(value = "/queryFootpring",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryFootpring",method = RequestMethod.GET )
     public Response queryFootprintByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
-                                           @RequestParam (name = "size" ,defaultValue = "10") Integer size,
-                                           @RequestParam Integer userId){
+                                           @RequestParam (name = "size" ,defaultValue = "10") Integer size){
         Page<Footprint> footprintPage = new Page<>(page,size);
-        QueryWrapper<Footprint> queryWrapper = new QueryWrapper<>();
-        IPage<Footprint> data = footprintMapper.selectPage(footprintPage,queryWrapper.eq("user_id",userId));
+        IPage<Footprint> data = footprintService.queryByPage(footprintPage);
         return Response.success(data);
     }
 
@@ -60,10 +54,10 @@ public class FootprintController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/removeFootprint",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeFootprint",method = RequestMethod.DELETE )
     public Response removeFootprint(@RequestParam Integer id){
         QueryWrapper<Footprint> queryWrapper = new QueryWrapper<>();
-        footprintServiceImp.remove(queryWrapper.eq("id",id));
+        footprintService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 

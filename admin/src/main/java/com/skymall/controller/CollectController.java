@@ -19,19 +19,18 @@ import javax.annotation.Resource;
  */
 @RestController
 public class CollectController {
+
     @Resource
-    private CollectMapper collectMapper;
-    @Resource
-    private CollectServiceImpl collectServiceImpl;
+    private CollectServiceImpl collectService;
 
     /**
      * 添加收藏
      * @param collect
      * @return
      */
-    @RequestMapping(value = "/addCollect",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addCollect",method = RequestMethod.POST )
     public Response addCollect(@RequestBody Collect collect){
-        collectServiceImpl.save(collect);
+        collectService.save(collect);
         return Response.success(collect.getId());
     }
 
@@ -49,7 +48,7 @@ public class CollectController {
                                        @PathVariable Integer userId){
         Page<Collect> collectPage = new Page<>(page,size);
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
-        IPage<Collect> data = collectMapper.selectPage(collectPage,queryWrapper.eq("user_id",userId));
+        IPage<Collect> data = collectService.pageByCondition(collectPage,queryWrapper.eq("user_id",userId));
         return Response.success(data);
     }
 
@@ -59,11 +58,11 @@ public class CollectController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/queryCollect",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryCollect",method = RequestMethod.GET )
     public Response queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                           @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Collect> cartPage = new Page<>(page,size);
-        IPage<Collect> data = collectMapper.selectPage(cartPage,null);
+        IPage<Collect> data = collectService.queryByPage(cartPage);
         return Response.success(data);
     }
 
@@ -72,10 +71,10 @@ public class CollectController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/removeCollect",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeCollect",method = RequestMethod.DELETE )
     public Response removeCollect(@RequestParam Integer id){
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
-        collectServiceImpl.remove(queryWrapper.eq("id",id));
+        collectService.remove(queryWrapper.eq("id",id));
         return Response.success();
     }
 }

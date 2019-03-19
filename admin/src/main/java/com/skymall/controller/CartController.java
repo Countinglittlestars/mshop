@@ -18,19 +18,18 @@ import javax.annotation.Resource;
  */
 @RestController
 public class CartController {
+
     @Resource
-    private CartMapper cartMapper;
-    @Resource
-    private CartServiceImpl cartServiceImpl;
+    private CartServiceImpl cartService;
 
     /**
      * 新增购物车
      * @param cart
      * @return
      */
-    @RequestMapping(value = "/addCart",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/addCart",method = RequestMethod.POST )
     public Response addCart(@RequestBody Cart cart){
-        cartServiceImpl.save(cart);
+        cartService.save(cart);
         return Response.success(cart.getId());
     }
 
@@ -40,11 +39,11 @@ public class CartController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/queryCart",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryCart",method = RequestMethod.GET )
     public Response queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Cart> cartPage = new Page<>(page,size);
-        IPage<Cart> data = cartMapper.selectPage(cartPage,null);
+        IPage<Cart> data = cartService.queryByPage(cartPage);
         return Response.success(data);
     }
 
@@ -56,14 +55,14 @@ public class CartController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET )
     public Response queryByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                   @RequestParam (name = "size",defaultValue = "10") Integer size,
                                   @PathVariable String userId){
         Page<Cart> cartPage = new Page<>(page,size);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         IPage<Cart> data;
-        data = cartMapper.selectPage(cartPage,queryWrapper.eq("user_id",userId));
+        data = cartService.pageByCondition(cartPage,queryWrapper.eq("user_id",userId));
         return Response.success(data);
     }
 
@@ -72,36 +71,36 @@ public class CartController {
      * @param goodsSn
      * @return
      */
-    @RequestMapping(value = "/removeByGoodsSn",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeByGoodsSn",method = RequestMethod.DELETE )
     public Response removeByGoodsId(@RequestParam String goodsSn){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        cartServiceImpl.remove(queryWrapper.eq("goods_sn",goodsSn));
+        cartService.remove(queryWrapper.eq("goods_sn",goodsSn));
         return Response.success();
     }
 
-    /**
-     * 清空无效商品
-     * @return
-     *
-     * NoSuchMethodError
-     */
-    @RequestMapping(value = "/removeUnableGoods",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
-    public Response removeUnableGoods(){
-        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-//        int unableId = cartMapper.selectUnableGoods();
-//        cartServiceImpl.remove(queryWrapper.eq("goods_id",unableId));
-        return Response.success();
-    }
+//    /**
+//     * 清空无效商品
+//     * @return
+//     *
+//     * NoSuchMethodError
+//     */
+//    @RequestMapping(value = "/removeUnableGoods",method = RequestMethod.DELETE )
+//    public Response removeUnableGoods(){
+//        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
+////        int unableId = cartMapper.selectUnableGoods();
+////        cartServiceImpl.remove(queryWrapper.eq("goods_id",unableId));
+//        return Response.success();
+//    }
 
     /**
      * 清空购物车
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/removeCart",method = RequestMethod.DELETE,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/removeCart",method = RequestMethod.DELETE )
     public Response removeCart(@RequestParam Integer userId){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        cartServiceImpl.remove(queryWrapper.eq("user_id",userId));
+        cartService.remove(queryWrapper.eq("user_id",userId));
         return Response.success();
     }
 }
