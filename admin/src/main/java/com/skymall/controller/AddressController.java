@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.AddressMapper;
 import com.skymall.domain.Address;
 import com.skymall.service.impl.AddressServiceImpl;
+import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +33,9 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
-    public Response addAddress(@RequestBody Address address){
+    public Object addAddress(@RequestBody Address address){
         addressService.save(address);
-        return Response.success(address.getId());
+        return new CommonResult().success(address.getId());
     }
 
     /**
@@ -44,11 +45,11 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
-    public Response updateAdd(@RequestBody Address address,
+    public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
         UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
         addressService.update(address,addressUpdateWrapper.eq("id",id));
-        return Response.success();
+        return new CommonResult().success();
     }
 
     /**
@@ -57,12 +58,10 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/queryAddById",method = RequestMethod.GET )
-    public Response queryAddInfo(@RequestParam Integer id){
+    public Object queryAddInfo(@RequestParam Integer id){
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
         List<Address> list = addressService.list(queryWrapper.eq("id",id));
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("address",list);
-        return Response.success(list);
+        return new CommonResult().success(list);
     }
 
     /**
@@ -73,13 +72,13 @@ public class AddressController {
      * @return
      */
     @RequestMapping(value = "/queryAdd",method = RequestMethod.GET )
-    public Response queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
+    public Object queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      @RequestParam Integer userId){
         Page<Address> addressPage = new Page<>(page,size);
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
         IPage<Address> data = addressService.pageByCondition(addressPage,queryWrapper.eq("user_id",userId));
-        return Response.success(data);
+        return new CommonResult().success(data);
     }
 
     /**
