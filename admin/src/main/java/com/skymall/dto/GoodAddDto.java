@@ -45,14 +45,20 @@ public class GoodAddDto {
      * 关键字
      */
     private String keywords;
-    /**
-     */
-    private List<Attribute> attributeList;
+
     /**
      * 简要介绍
      */
     private String goodsBrief;
 
+    /**
+     */
+    private List<Attribute> attributeList;
+
+    /**
+     * 参数类型id
+     */
+    private Integer attributeCategoryId;
     /**
      * 商品详情，里面主要存放照片
      */
@@ -71,10 +77,7 @@ public class GoodAddDto {
      * 排序
      */
     private Integer sortOrder;
-    /**
-     * 是否删除， 1：可用,  0：不可用
-     */
-    private Boolean isDelete;
+
     /**
      * 是否是新品
      */
@@ -116,10 +119,7 @@ public class GoodAddDto {
 
     private Boolean isHot;
 
-    List<GoodsAttribute> attributeEntityList = new ArrayList<>();
-
-    List<GoodsGallery> goodsImgList = new ArrayList<>();
-
+    private List<String> pics;
 
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping("/admin/attribute")
 public class AttributeController {
     @Resource
     private AttributeServiceImpl attributeService;
@@ -69,5 +70,13 @@ public class AttributeController {
         QueryWrapper<Attribute> queryWrapper = new QueryWrapper<>();
         attributeService.remove(queryWrapper.eq("id",id));
         return new CommonResult().success("删除成功");
+    }
+
+    @RequestMapping(value = "/queryByCateId/{cateId}", method = RequestMethod.GET)
+    public Object queryByCateId(@PathVariable(value = "cateId") Integer cateId){
+        QueryWrapper<Attribute> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Attribute::getAttributeCategoryId, cateId);
+        List<Attribute> attributes = attributeService.list(queryWrapper);
+        return new CommonResult().success(attributes);
     }
 }

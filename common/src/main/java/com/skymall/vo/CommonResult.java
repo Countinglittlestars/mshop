@@ -39,6 +39,12 @@ public class CommonResult {
         return this;
     }
 
+    public CommonResult success(){
+        this.code = SUCCESS;
+        this.message = "操作成功";
+        this.data = null;
+        return this;
+    }
     /**
      * 返回分页成功数据
      */
