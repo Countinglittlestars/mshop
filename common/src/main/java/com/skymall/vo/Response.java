@@ -1,11 +1,12 @@
 package com.skymall.vo;
 
+import com.skymall.component.AbstractResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 
-public class Response <T> {
+public class Response <T> extends AbstractResponse {
     static Logger logger = LoggerFactory.getLogger(Response.class);
     private static String SUCCESS = "请求成功";
     private static String ERROR = "请求失败";
