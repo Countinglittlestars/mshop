@@ -7,6 +7,8 @@ import com.skymall.domain.Attribute;
 import com.skymall.service.impl.AttributeServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,6 +34,7 @@ public class AttributeController {
      * @return
      */
     @RequestMapping(value = "/addAttribute",method = RequestMethod.POST )
+    @ApiImplicitParam(name = "id", value = "参数详细实体attribute", paramType = "Attribute" )
     public Object addAttribute(@RequestBody Attribute attribute){
         attributeService.save(attribute);
         return new CommonResult().success(attribute.getId());
@@ -79,4 +82,7 @@ public class AttributeController {
         List<Attribute> attributes = attributeService.list(queryWrapper);
         return new CommonResult().success(attributes);
     }
+
+
+
 }

@@ -9,6 +9,8 @@ import com.skymall.domain.Address;
 import com.skymall.service.impl.AddressServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 
 @RestController
+@Api(tags = "AddressController",description = "地址管理")
 public class AddressController {
 
     @Resource
@@ -32,6 +35,7 @@ public class AddressController {
      * @param address
      * @return
      */
+    @ApiOperation(value = "添加地址")
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
     public Object addAddress(@RequestBody Address address){
         addressService.save(address);
@@ -44,6 +48,7 @@ public class AddressController {
      * @param id
      * @return
      */
+
     @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
     public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){

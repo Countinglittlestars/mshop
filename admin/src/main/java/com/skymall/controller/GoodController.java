@@ -3,6 +3,7 @@ package com.skymall.controller;
 import com.skymall.domain.Goods;
 import com.skymall.dto.GoodAddDto;
 import com.skymall.dto.GoodQueryDto;
+import com.skymall.dto.GoodUpdateInfoDto;
 import com.skymall.service.IGoodService;
 import com.skymall.vo.CommonResult;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -26,8 +27,13 @@ public class GoodController {
     public Object addGood(@RequestBody GoodAddDto goodDto){
 
         goodService.addGood(goodDto);
-
         return new CommonResult().success();
+    }
+
+        @RequestMapping(value = "/updateInfo/{id}", method = RequestMethod.GET)
+    public Object updateInfo(@PathVariable(value = "id") Integer id){
+        GoodUpdateInfoDto goodsUpdateInfoDto =  goodService.querySelect(id);
+        return new CommonResult().success(goodsUpdateInfoDto);
     }
 
 

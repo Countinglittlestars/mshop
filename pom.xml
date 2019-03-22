@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--<packaging>pom</packaging>-->
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
@@ -42,6 +43,8 @@
         <jgroups.version>3.6.13.Final</jgroups.version>
         <!--<mybatis.paginator.version>1.2.10</mybatis.paginator.version>-->
         <weixin-java-mp.version>3.2.0</weixin-java-mp.version>
+        <swagger2.version>2.7.0</swagger2.version>
+        <swagger-ui.version>2.7.0</swagger-ui.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -293,8 +296,20 @@
         </dependency>
         <!--&lt;!&ndash;七牛云上传相关结束&ndash;&gt;-->
 
-    </dependencies>
+        <!-- swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
 
+        <!-- swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <!--<plugin>-->

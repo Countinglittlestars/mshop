@@ -8,6 +8,7 @@ import com.skymall.dao.GoodsMapper;
 import com.skymall.domain.*;
 import com.skymall.dto.GoodAddDto;
 import com.skymall.dto.GoodQueryDto;
+import com.skymall.dto.GoodUpdateInfoDto;
 import com.skymall.service.*;
 import com.skymall.utils.BeanUtils;
 import com.skymall.vo.CommonResult;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements IGoodService {
@@ -87,7 +89,25 @@ public class GoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements 
             goodsGallery.setGoodsId(newGood.getId()).setImgUrl(e.toString());
             goodsGalleryService.save(goodsGallery);
         });
-
         return newGood.getId();
+    }
+
+    @Override
+    public GoodUpdateInfoDto querySelect(Integer id) {
+        //1. 找到现有的good，
+        Goods good = goodsMapper.selectById(id);
+        GoodUpdateInfoDto goodUpdateInfoDto = new GoodUpdateInfoDto();
+        BeanUtils.mapping(good, goodUpdateInfoDto);
+        //2. 包装数据
+        //2.1 找到所有的参数
+        List<Attribute> attributes = attributeService.queryByGoodId(id);
+        goodUpdateInfoDto.setAttributeList(attributes);
+        //2.2 找到找到所有的照片地址
+        List<String> urlList = goodsGalleryService.list(new QueryWrapper<GoodsGallery>().lambda().eq(GoodsGallery::getGoodsId, id))
+                .stream().map(GoodsGallery::getImgUrl).collect(Collectors.toList());
+        goodUpdateInfoDto.setPics(urlList);
+
+        return goodUpdateInfoDto;
+
     }
 }
