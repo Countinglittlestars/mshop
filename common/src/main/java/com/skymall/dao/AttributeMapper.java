@@ -3,6 +3,8 @@ package com.skymall.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.domain.Attribute;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.skymall.domain.Attribute;
  */
 public interface AttributeMapper extends BaseMapper<Attribute> {
 
+     List<Attribute> queryByGoodId(Integer goodId);
 }

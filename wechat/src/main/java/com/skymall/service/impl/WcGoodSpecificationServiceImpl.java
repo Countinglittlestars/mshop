@@ -16,6 +16,11 @@ public class WcGoodSpecificationServiceImpl extends ServiceImpl<GoodsSpecificati
     @Resource
     GoodsSpecificationMapper goodsSpecificationMapper;
 
+    /**
+     * 获取得到有带name的 Good_Specification信息
+     * @param goodId
+     * @return
+     */
     @Override
     public List<GoodsSpecificationWithName> getSpecificationWithName(Integer goodId) {
         return goodsSpecificationMapper.getSpecificationWithName(goodId);

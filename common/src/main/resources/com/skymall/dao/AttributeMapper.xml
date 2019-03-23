@@ -12,4 +12,8 @@
         <result column="sort_order" property="sortOrder" />
     </resultMap>
 
+    
+    <select id="queryByGoodId" parameterType="Integer">
+      select a.* from nideshop_attribute a , nideshop_goods_attribute ga where a.id  = ga.attribute_id and goods_id = #{goodId}
+    </select>
 </mapper>

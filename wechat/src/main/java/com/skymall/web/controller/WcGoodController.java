@@ -58,9 +58,7 @@ public class WcGoodController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Response detail(@RequestParam(value = "id")Integer id){
-
         Map map = goodService.detail(id);
-
         return Response.success(map);
     }
 

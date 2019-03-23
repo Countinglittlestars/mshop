@@ -6,17 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.skymall.dao.GoodsMapper;
-import com.skymall.domain.Category;
-import com.skymall.domain.Goods;
-import com.skymall.domain.GoodsGallery;
-import com.skymall.domain.GoodsSpecification;
-import com.skymall.service.IWcCatagoryService;
-import com.skymall.service.IWcGoodService;
-import com.skymall.service.IWcGoodSpecificationService;
-import com.skymall.service.IWcGoodsGalleryService;
+import com.skymall.domain.*;
+import com.skymall.service.*;
 import com.skymall.utils.ApiPageUtils;
 import com.skymall.utils.WrapperUtil;
 import com.skymall.vo.GoodsSpecificationWithName;
+import com.skymall.vo.wechat.ProductVo;
 import com.skymall.web.dto.requestDto.GoodQueryReqDto;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +32,13 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
     private IWcGoodsGalleryService goodsGalleryService;
     @Resource
     private IWcCatagoryService wcCatagoryService;
+
+    @Resource
+    private IWcProductService productService;
+
+    @Resource
+    private IWcAttributeService attributeService;
+
 
     @Resource
     private IWcGoodSpecificationService goodSpecificationService;
@@ -102,7 +104,6 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
         //3. 获取"商品-规格"信息
         List<GoodsSpecificationWithName> goodsSpecifications = goodSpecificationService.getSpecificationWithName(id);
 
-
         //4. 按照规格名称分组的规格信息
         List<Map> specificationList = new ArrayList();
         //按规格名称分组
@@ -136,21 +137,20 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
             }
         }
         //4.1 查看对应的Product信息
-
-
+        List<ProductVo> productVos =  productService.queryList(id);
 
         //5. 获取参数信息
-
-
-
+        List<Attribute> attributes = attributeService.queryByGoodId(id);
         //6. 是否加入收藏
 
         //7. 评论信息
 
-
         result.put("info", goods);
         result.put("gallery", goodsGallery);
-        return null;
+        result.put("productList", productVos);
+        result.put("specificationList", specificationList);
+        result.put("attribute", attributes);
+        return result;
     }
 
 
