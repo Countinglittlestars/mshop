@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.AddressMapper;
 import com.skymall.domain.Address;
 import com.skymall.domain.User;
+import com.skymall.dto.AddressAddDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.impl.AddressServiceImpl;
@@ -33,13 +34,12 @@ public class AddressController {
 
     /**
      * 新增收货地址
-     * @param address
-     * @return
+     * @param addressAddDto
      */
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
-    public Object addAddress(@RequestBody Address address){
-        addressService.save(address);
-        return new CommonResult().success(address.getId());
+    public Object addAddress(@RequestBody AddressAddDto addressAddDto){
+        addressService.addAddress(addressAddDto);
+        return new CommonResult().success();
     }
 
     /**
@@ -52,7 +52,7 @@ public class AddressController {
     public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
         boolean b = addressService.update
-                (address,new UpdateWrapper<Address>().eq("id",id));
+                (address,new UpdateWrapper<Address>().lambda().eq(Address::getId,id));
         if (!b){
             throw new ApiRRException(ExceptionEnums.UPDATEFAILED);
         }

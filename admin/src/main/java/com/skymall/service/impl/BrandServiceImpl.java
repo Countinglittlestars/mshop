@@ -42,6 +42,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     public Object addBrand(BrandAddDto brandAddDto) {
         Brand brand = new Brand();
         BeanUtils.mapping(brandAddDto, brand);
-        return brandMapper.insert(brand);
+        brandMapper.insert(brand);
+        return new CommonResult().success(brand.getId());
     }
 }

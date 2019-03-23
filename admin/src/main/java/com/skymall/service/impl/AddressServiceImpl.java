@@ -1,13 +1,15 @@
 package com.skymall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.AddressMapper;
 import com.skymall.domain.Address;
+import com.skymall.dto.AddressAddDto;
 import com.skymall.service.IAddressService;
+import com.skymall.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,4 +38,12 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     public IPage<Address> pageByExample(Page<Address> page, LambdaQueryWrapper<Address> queryWrapper) {
         return addressMapper.selectPage(page,queryWrapper);
     }
+
+    @Override
+    public Object addAddress(AddressAddDto addressAddDto) {
+        Address address = new Address();
+        BeanUtils.mapping(addressAddDto,address);
+        return addressMapper.insert(address);
+    }
+
 }

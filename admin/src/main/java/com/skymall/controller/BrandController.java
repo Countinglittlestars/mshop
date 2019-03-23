@@ -40,8 +40,9 @@ public class BrandController {
             throw new ApiRRException(ExceptionEnums.NOTUNIQUE);
         }
         brandService.addBrand(brandAddDto);
-
-        return new CommonResult().success();
+        Brand newBrand = brandService.getOne
+                (new QueryWrapper<Brand>().lambda().eq(Brand::getName,brandAddDto.getName()));
+        return new CommonResult().success(newBrand.getId());
     }
 
     /**
