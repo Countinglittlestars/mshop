@@ -93,6 +93,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //设置userId到request里
         //并获取用户 user信息
+
         request.setAttribute(LOGIN_USER_KEY, tokenEntity.getUserId());
         Integer id = tokenEntity.getUserId().intValue();
         User user = wcUserService.getById(id);

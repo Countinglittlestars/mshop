@@ -15,4 +15,8 @@ import java.util.List;
  */
 public interface ProductMapper extends BaseMapper<Product> {
     List<ProductVo> queryList(Integer goodsId);
+
+    ProductVo queryObject(Integer goodsId);
+
+
 }

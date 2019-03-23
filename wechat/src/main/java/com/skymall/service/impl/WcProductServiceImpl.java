@@ -20,9 +20,14 @@ public class WcProductServiceImpl extends ServiceImpl<ProductMapper, Product> im
      * 根据商品id查看产品信息，不包括图片信息
      * @return
      */
-    public List<ProductVo> queryList(Integer goodsId){
-        List<ProductVo> productVos = productMapper.queryList(goodsId);
+    public List<ProductVo> queryList(Integer productId){
+        List<ProductVo> productVos = productMapper.queryList(productId);
         return productVos;
+    }
+
+    @Override
+    public ProductVo queryObject(Integer productId) {
+        return null;
     }
 
 }

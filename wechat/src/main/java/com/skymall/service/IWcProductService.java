@@ -9,4 +9,6 @@ import java.util.List;
 public interface IWcProductService extends IService<Product> {
 
     public List<ProductVo> queryList(Integer goodsId);
+
+    ProductVo queryObject(Integer productId);
 }

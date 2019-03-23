@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.FootprintMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.Footprint">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="add_time" property="addTime" />
+        <result column="referrer" property="referrer" />
+    </resultMap>
+
+    <select id="queryByPage" resultType="com.skymall.vo.wechat.FootprintVo" >
+          SELECT
+				MAX(f.id) id,
+				f.user_id,
+				f.goods_id,
+				f.add_time add_time,
+				f.referrer,
+				g. NAME AS NAME,
+				g.list_pic_url AS list_pic_url,
+				g.goods_brief AS goods_brief,
+				g.retail_price AS retail_price
+			FROM
+				nideshop_footprint f
+			  LEFT JOIN nideshop_goods g ON f.goods_id = g.id
+			WHERE
+				f.user_id = #{userId} GROUP BY goods_id
+			 ORDER BY
+				 id DESC
+    </select>
+</mapper>

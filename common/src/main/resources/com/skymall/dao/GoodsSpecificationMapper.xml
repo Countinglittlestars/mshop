@@ -28,4 +28,43 @@
     <select id="getSpecificationWithName" parameterType="Integer" resultType="com.skymall.vo.GoodsSpecificationWithName">
         select gs.*, s.`name` name from nideshop_goods_specification `gs`, nideshop_specification s where gs.specification_id=s.id and gs.goods_id = 1181001;
     </select>
+
+
+    <select id="queryList" resultMap="goodsSpecificationMap">
+        select
+        <if test="fields != null and fields != ''">
+            ${fields}
+        </if>
+        <if test="fields == null or fields == ''">
+            gs.*
+        </if>
+        from nideshop_goods_specification gs
+        <if test="specification == true">
+            inner join nideshop_specification s on gs.specification_id= s.id
+        </if>
+        <where>
+            <if test="goods_id != null">
+                and gs.goods_id = #{goods_id}
+            </if>
+            <if test="ids != null">
+                and  gs.id in
+                <foreach item="id" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by gs.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
 </mapper>

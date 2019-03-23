@@ -5,10 +5,13 @@ import com.skymall.dao.GoodsSpecificationMapper;
 import com.skymall.domain.GoodsSpecification;
 import com.skymall.service.IWcGoodSpecificationService;
 import com.skymall.vo.GoodsSpecificationWithName;
+import com.skymall.vo.wechat.GoodsSpecificationVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class WcGoodSpecificationServiceImpl extends ServiceImpl<GoodsSpecificationMapper, GoodsSpecification> implements IWcGoodSpecificationService {
 
@@ -24,5 +27,10 @@ public class WcGoodSpecificationServiceImpl extends ServiceImpl<GoodsSpecificati
     @Override
     public List<GoodsSpecificationWithName> getSpecificationWithName(Integer goodId) {
         return goodsSpecificationMapper.getSpecificationWithName(goodId);
+    }
+
+    @Override
+    public List<GoodsSpecificationVo> queryList(Map map) {
+        return goodsSpecificationMapper.queryList(map);
     }
 }

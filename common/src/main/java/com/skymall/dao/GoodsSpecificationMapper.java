@@ -3,8 +3,10 @@ package com.skymall.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.domain.GoodsSpecification;
 import com.skymall.vo.GoodsSpecificationWithName;
+import com.skymall.vo.wechat.GoodsSpecificationVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,4 +19,6 @@ import java.util.List;
 public interface GoodsSpecificationMapper extends BaseMapper<GoodsSpecification> {
 
     List<GoodsSpecificationWithName> getSpecificationWithName(Integer goodsId);
+
+    List<GoodsSpecificationVo> queryList(Map map);
 }
