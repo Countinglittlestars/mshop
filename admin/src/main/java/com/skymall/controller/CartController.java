@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
+import com.skymall.domain.Goods;
 import com.skymall.service.impl.CartServiceImpl;
+import com.skymall.service.impl.GoodServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author linchusen
@@ -18,10 +22,13 @@ import javax.annotation.Resource;
  * 购物车管理
  */
 @RestController
+@RequestMapping("/admin/cart")
 public class CartController {
 
     @Resource
     private CartServiceImpl cartService;
+    @Resource
+    private GoodServiceImpl goodService;
 
     /**
      * 新增购物车
@@ -63,7 +70,7 @@ public class CartController {
         Page<Cart> cartPage = new Page<>(page,size);
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         IPage<Cart> data;
-        data = cartService.pageByCondition(cartPage,queryWrapper.eq("user_id",userId));
+        data = cartService.pageByExample(cartPage,queryWrapper.eq("user_id",userId));
         return new CommonResult().success(data);
     }
 
@@ -85,11 +92,16 @@ public class CartController {
 //     *
 //     * NoSuchMethodError
 //     */
-//    @RequestMapping(value = "/removeUnableGoods",method = RequestMethod.DELETE )
-//    public Object removeUnableGoods(){
-//        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-////        int unableId = cartMapper.selectUnableGoods();
-////        cartServiceImpl.remove(queryWrapper.eq("goods_id",unableId));
+//    @RequestMapping(value = "/removeUnSaleGoods",method = RequestMethod.DELETE )
+//    public Object removeUnSaleGoods(){
+//        QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
+//        QueryWrapper<Goods> goodsQueryWrapper = new QueryWrapper<>();
+//        List<Cart> unableIds = cartService.list
+//                (cartQueryWrapper.eq("goods_id",goodService.list
+//                        (goodsQueryWrapper.eq("is_on_sale",0))));
+//        HashMap<String,Object> map = new HashMap<>();
+//        map.put("unableId",unableIds);
+//        cartService.removeByMap(map);
 //        return new CommonResult().success("操作成功");
 //    }
 

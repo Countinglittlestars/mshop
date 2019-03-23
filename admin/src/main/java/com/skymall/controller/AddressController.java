@@ -1,11 +1,13 @@
 package com.skymall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.AddressMapper;
 import com.skymall.domain.Address;
+import com.skymall.domain.User;
 import com.skymall.service.impl.AddressServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping("/admin/address")
 public class AddressController {
 
     @Resource
@@ -34,7 +37,9 @@ public class AddressController {
      */
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
     public Object addAddress(@RequestBody Address address){
+
         addressService.save(address);
+
         return new CommonResult().success(address.getId());
     }
 
@@ -47,9 +52,8 @@ public class AddressController {
     @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
     public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
-        UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
-        addressService.update(address,addressUpdateWrapper.eq("id",id));
-        return new CommonResult().success("操作成功");
+        addressService.update(address,new UpdateWrapper<Address>().lambda().eq(Address::getId,id));
+        return new CommonResult().success();
     }
 
     /**
@@ -59,8 +63,8 @@ public class AddressController {
      */
     @RequestMapping(value = "/queryAddById/{id}",method = RequestMethod.GET )
     public Object queryAddInfo(@PathVariable Integer id){
-        QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
-        List<Address> list = addressService.list(queryWrapper.eq("id",id));
+            List<Address> list = addressService.list
+                    (new QueryWrapper<Address>().lambda().eq(Address::getId, id));
         return new CommonResult().success(list);
     }
 
@@ -76,8 +80,9 @@ public class AddressController {
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      @PathVariable Integer userId){
         Page<Address> addressPage = new Page<>(page,size);
-        QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
-        IPage<Address> data = addressService.pageByCondition(addressPage,queryWrapper.eq("user_id",userId));
+        LambdaQueryWrapper<Address> addressWrapper = new QueryWrapper<Address>().lambda().eq(Address::getUserId,userId);
+        IPage<Address> data = addressService.pageByExample
+                (addressPage,addressWrapper);
         return new CommonResult().success(data);
     }
 

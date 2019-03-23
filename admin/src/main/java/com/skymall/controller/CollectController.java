@@ -49,7 +49,7 @@ public class CollectController {
                                        @PathVariable Integer userId){
         Page<Collect> collectPage = new Page<>(page,size);
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
-        IPage<Collect> data = collectService.pageByCondition(collectPage,queryWrapper.eq("user_id",userId));
+        IPage<Collect> data = collectService.pageByExample(collectPage,queryWrapper.eq("user_id",userId));
         return new CommonResult().success(data);
     }
 

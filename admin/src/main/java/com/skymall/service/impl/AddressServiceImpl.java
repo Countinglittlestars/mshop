@@ -1,5 +1,6 @@
 package com.skymall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,8 +31,9 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
         return addressMapper.selectPage(page,null);
     }
 
+
     @Override
-    public IPage<Address> pageByCondition(Page<Address> page, QueryWrapper<Address> queryWrapper) {
+    public IPage<Address> pageByExample(Page<Address> page, LambdaQueryWrapper<Address> queryWrapper) {
         return addressMapper.selectPage(page,queryWrapper);
     }
 }
