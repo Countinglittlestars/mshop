@@ -1,23 +1,18 @@
 package com.skymall.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skymall.dao.BrandMapper;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
-import com.skymall.service.impl.BrandServiceImpl;
 import com.skymall.vo.CommonResult;
-import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -109,7 +104,7 @@ public class BrandController {
 
         Brand brand = brandService.getById(id);
         if (brand == null) {
-            throw  new ApiRRException(ExceptionEnums.UNFINDBRAND_BY_ID);
+            throw  new ApiRRException(ExceptionEnums.NOTFOUND);
         }else{
         brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
         return new CommonResult().success();
