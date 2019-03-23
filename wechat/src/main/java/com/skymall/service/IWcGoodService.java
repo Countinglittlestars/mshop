@@ -6,14 +6,18 @@ import com.skymall.utils.ApiPageUtils;
 import com.skymall.web.dto.requestDto.GoodQueryReqDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IWcGoodService extends IService<Goods> {
 
-    public List<Goods> selectNewGoods();
+    List<Goods> selectNewGoods();
 
-    public List<Goods> selectHotGoods();
+    List<Goods> selectHotGoods();
 
-    public ApiPageUtils queryAll(GoodQueryReqDto goodQueryReqDto);
+    ApiPageUtils queryAll(GoodQueryReqDto goodQueryReqDto);
 
-    public Goods queryById(Integer id);
+    Goods queryById(Integer id);
+
+    Map detail(Integer id);
+
 }

@@ -1,6 +1,7 @@
 package com.skymall.vo;
 
 import com.github.pagehelper.PageInfo;
+import com.skymall.component.AbstractResponse;
 import com.skymall.utils.JsonUtil;
 import org.springframework.validation.BindingResult;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * 管理后台的返回数据
  * 跟微信端的区分开来
  */
-public class CommonResult {
+public class CommonResult extends AbstractResponse {
     //操作成功
     public static final int SUCCESS = 200;
     //操作失败
@@ -70,6 +71,13 @@ public class CommonResult {
         this.message = "操作失败";
         return this;
     }
+
+    public CommonResult failed(Integer code, String message){
+        this.code = code;
+        this.message = message;
+        return this;
+    }
+
 
     /**
      * 参数验证失败使用

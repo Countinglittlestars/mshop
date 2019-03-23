@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,29 +29,35 @@ public class Attribute implements Serializable {
         /**
      * 主键
      */
-         @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty(value="id" ,required=false)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
         /**
      * 商品类型
      */
-         private Integer attributeCategoryId;
+    @ApiModelProperty(value="参数类型id" ,required=false)
+    private Integer attributeCategoryId;
 
         /**
      * 属性名称
      */
-         private String name;
+     @ApiModelProperty(value="名称" ,required=false)
+     private String name;
 
         /**
      * 当添加商品时,该属性的添加类别; 0为手功输入;1为选择输入;2为多行文本输入
      */
-         private Boolean inputType;
+     @ApiModelProperty(value ="毕设项目暂时置空，当添加商品时,该属性的添加类别; 0为手功输入;1为选择输入;2为多行文本输入", required = false)
+     private Boolean inputType;
 
         /**
-     * 即选择输入,则attr_name对应的值的取值就是该这字段值 
+     * 即选择输入,则attr_name对应的值的取值就是该这字段值
      */
-         private String value;
+     @ApiModelProperty(value ="毕设项目暂时置空，他主要是关联goods_attribute的value的，用来方便传值", required = false)
+     private String value;
 
+    @ApiModelProperty(value ="毕设项目暂时置空，他主要是关联goods_attribute的value的，用来方便传值", required = false)
     private Integer sortOrder;
 
 

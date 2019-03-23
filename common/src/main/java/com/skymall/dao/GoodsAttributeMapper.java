@@ -1,7 +1,10 @@
 package com.skymall.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.skymall.domain.Attribute;
 import com.skymall.domain.GoodsAttribute;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.skymall.domain.GoodsAttribute;
  * @since 2019-03-04
  */
 public interface GoodsAttributeMapper extends BaseMapper<GoodsAttribute> {
-
+    List<Attribute> selectGoodsToAttribute(Integer goodId);
 }

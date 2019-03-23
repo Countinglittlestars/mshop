@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skymall.dao.GoodsSpecificationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.skymall.domain.GoodsSpecification">
+        <id column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="specification_id" property="specificationId" />
+        <result column="value" property="value" />
+        <result column="pic_url" property="picUrl" />
+    </resultMap>
+
+    <!--<resultMap id="WithSpecificationName" type="com.skymall.vo.GoodsSpecificationWithName">-->
+        <!--<id column="id" property="id" />-->
+        <!--<result column="goods_id" property="goodsId" />-->
+        <!--<result column="value" property="value" />-->
+        <!--<result column="pic_url" property="picUrl" />-->
+
+        <!--<association property="specification" javaType="com.skymall.domain.Specification">-->
+            <!--<id column="id" property="id" />-->
+            <!--<result column="name" property="name" />-->
+            <!--<result column="sort_order" property="sortOrder" />-->
+        <!--</association>-->
+    <!--</resultMap>-->
+
+
+    <select id="getSpecificationWithName" parameterType="Integer" resultType="com.skymall.vo.GoodsSpecificationWithName">
+        select gs.*, s.`name` name from nideshop_goods_specification `gs`, nideshop_specification s where gs.specification_id=s.id and gs.goods_id = 1181001;
+    </select>
+</mapper>

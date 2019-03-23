@@ -1,6 +1,5 @@
 package com.skymall.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,9 +36,7 @@ public class AddressController {
      */
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
     public Object addAddress(@RequestBody Address address){
-
         addressService.save(address);
-
         return new CommonResult().success(address.getId());
     }
 
@@ -52,8 +49,9 @@ public class AddressController {
     @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
     public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
-        addressService.update(address,new UpdateWrapper<Address>().lambda().eq(Address::getId,id));
-        return new CommonResult().success();
+        UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
+        addressService.update(address,new UpdateWrapper<Address>().eq("id",id));
+        return new CommonResult().success("操作成功");
     }
 
     /**
@@ -63,8 +61,7 @@ public class AddressController {
      */
     @RequestMapping(value = "/queryAddById/{id}",method = RequestMethod.GET )
     public Object queryAddInfo(@PathVariable Integer id){
-            List<Address> list = addressService.list
-                    (new QueryWrapper<Address>().lambda().eq(Address::getId, id));
+        List<Address> list = addressService.list(new QueryWrapper<Address>().lambda().eq(Address::getId,id));
         return new CommonResult().success(list);
     }
 
@@ -80,9 +77,8 @@ public class AddressController {
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      @PathVariable Integer userId){
         Page<Address> addressPage = new Page<>(page,size);
-        LambdaQueryWrapper<Address> addressWrapper = new QueryWrapper<Address>().lambda().eq(Address::getUserId,userId);
         IPage<Address> data = addressService.pageByExample
-                (addressPage,addressWrapper);
+                (addressPage,new QueryWrapper<Address>().lambda().eq(Address::getUserId,userId));
         return new CommonResult().success(data);
     }
 
