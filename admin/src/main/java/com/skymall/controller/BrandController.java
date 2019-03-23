@@ -4,16 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skymall.dao.BrandMapper;
 import com.skymall.domain.Brand;
+import com.skymall.dto.BrandAddDto;
+import com.skymall.enums.ExceptionEnums;
+import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
-import com.skymall.service.impl.BrandServiceImpl;
 import com.skymall.vo.CommonResult;
-import com.skymall.vo.Response;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -31,13 +30,19 @@ public class BrandController {
 
     /**
      * 新增品牌
-     * @param brand
-     * @return
      */
     @RequestMapping(value = "/addBrand",method = RequestMethod.POST )
-    public Response addBrand(@RequestBody Brand brand){
-        brandService.save(brand);
-        return Response.success(brand.getId());
+    public Object addBrand(@RequestBody BrandAddDto brandAddDto){
+
+        Brand brand = brandService.getOne
+                (new QueryWrapper<Brand>().lambda().eq(Brand::getName,brandAddDto.getName()));
+        if (brand != null){
+            throw new ApiRRException(ExceptionEnums.NOTUNIQUE);
+        }
+        brandService.addBrand(brandAddDto);
+        Brand newBrand = brandService.getOne
+                (new QueryWrapper<Brand>().lambda().eq(Brand::getName,brandAddDto.getName()));
+        return new CommonResult().success(newBrand.getId());
     }
 
     /**
@@ -73,8 +78,7 @@ public class BrandController {
      */
     @RequestMapping(value = "/queryBrandById/{id}", method = RequestMethod.GET )
     public Object queryBrandById(@PathVariable Integer id){
-        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
-        List<Brand> list = brandService.list(queryWrapper.eq("id",id));
+        List<Brand> list = brandService.list(new QueryWrapper<Brand>().lambda().eq(Brand::getId,id));
         return new CommonResult().success(list);
     }
 
@@ -87,8 +91,7 @@ public class BrandController {
     @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT )
     public Object updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
-        UpdateWrapper<Brand> updateWrapper = new UpdateWrapper<>();
-        brandService.update(brand,updateWrapper.eq("id",id));
+        brandService.update(brand,new UpdateWrapper<Brand>().lambda().eq(Brand::getId,id));
         return new CommonResult().success("操作成功");
     }
 
@@ -97,11 +100,17 @@ public class BrandController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/removeBrand", method = RequestMethod.DELETE )
-    public Object removeBrandById(@RequestParam Integer id){
-        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
-        brandService.remove(queryWrapper.eq("id",id));
-        return new CommonResult().success("删除成功");
-    }
+    @RequestMapping(value = "/removeBrand/{id}", method = RequestMethod.DELETE )
+    public Object removeBrandById(@PathVariable Integer id){
+
+        Brand brand = brandService.getById(id);
+        if (brand == null) {
+            throw  new ApiRRException(ExceptionEnums.NOTFOUND);
+        }else{
+        brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
+        return new CommonResult().success();
+            }
+        }
+
 
 }
