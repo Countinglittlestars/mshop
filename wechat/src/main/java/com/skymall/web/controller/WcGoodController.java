@@ -58,12 +58,10 @@ public class WcGoodController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Response detail(@RequestParam(value = "id")Integer id){
-        Map<String, Object> result = new HashMap<>();
-        Goods goods = goodService.queryById(id);
-        GoodsGallery goodsGallery = goodsGalleryService.queryByGoodsId(id);
-        result.put("info", goods);
-        result.put("gallery", goodsGallery);
-        return Response.success(result);
+
+        Map map = goodService.detail(id);
+
+        return Response.success(map);
     }
 
 }
