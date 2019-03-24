@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Collections2;
 import com.skymall.domain.Category;
 import com.skymall.domain.CategoryWithChildrenItem;
+import com.skymall.exception.AdminException;
 import com.skymall.service.impl.CategoryServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +44,11 @@ public class CategoryController {
     @ApiOperation(value = "新增类目")
     @RequestMapping(value = "/addCategory",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
     public Object addCategory(@RequestBody Category category){
+        if(category.getParentId() == 0){
+            category.setLevel("L1");
+        }else category.setLevel("L2");
         categoryService.save(category);
-        return new CommonResult().success(category.getId());
+        return new CommonResult().success();
     }
 
 
@@ -100,12 +106,15 @@ public class CategoryController {
      */
     @ApiOperation(value = "根据父分类查到所有的子分类")
     @RequestMapping(value="/queryByParentId/{parentId}", method = RequestMethod.GET)
-    public Object queryByParentId(@PathVariable Integer parentId){
-
+    public Object queryByParentId(@PathVariable Integer parentId,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize
+                                  ){
+        Page page = new Page(pageNum, pageSize);
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Category::getParentId, parentId);
-        List<Category> list = categoryService.list(queryWrapper);
-        return new CommonResult().success(list);
+        queryWrapper.lambda().eq(Category::getParentId, parentId).orderByAsc(Category::getSortOrder);
+        IPage page1 = categoryService.page(page, queryWrapper);
+        return new CommonResult().success(page1);
     }
 
 
@@ -122,9 +131,8 @@ public class CategoryController {
      */
     @RequestMapping(value = "/queryCategoryById/{id}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Object queryCategoryById(@PathVariable Integer id){
-        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
-        List<Category> list = categoryService.list(queryWrapper.eq("id",id));
-        return new CommonResult().success(list);
+        Category category = categoryService.getById(id);
+        return new CommonResult().success(category);
     }
 
     /**
@@ -145,13 +153,17 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/updateCategoryById/{id}",method = RequestMethod.PUT,produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/updateCategoryById/{id}",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
     public Object updateCategory(@RequestBody Category newCategory,
                                    @PathVariable Integer id){
         UpdateWrapper<Category> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id",id);
-        categoryService.update(newCategory,updateWrapper);
-        return new CommonResult().success("操作成功");
+        if(newCategory.getParentId() == 0){
+            newCategory.setLevel("L1");
+        }else newCategory.setLevel("L2");
+        Boolean flag = categoryService.update(newCategory,updateWrapper);
+        if(flag == true) {return new CommonResult().success("操作成功");}
+        else return new CommonResult().failed();
     }
 
     /**
@@ -159,8 +171,13 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteCategory" ,method = RequestMethod.DELETE,produces="application/json;charset=UTF-8")
-    public Object deleteById(@RequestParam int id){
+    @RequestMapping(value = "/deleteCategory/{id}" ,method = RequestMethod.GET,produces="application/json;charset=UTF-8")
+    public Object deleteById(@PathVariable int id){
+        //如果下面有子分类，则删除失败
+        if(!Collections.isEmpty(categoryService.list(new QueryWrapper<Category>().lambda().eq(Category::getParentId, id)))){
+            throw new AdminException("还存在子分类，删除失败", 500);
+        }
+
         categoryService.removeById(id);
         return new CommonResult().success("操作成功");
     }

@@ -38,9 +38,9 @@ public class Category implements Serializable {
      */
          private Integer parentId;
 
-    private Boolean sortOrder;
+    private Integer sortOrder;
 
-    private Boolean showIndex;
+    private Integer showIndex;
 
     private Boolean isShow;
 
