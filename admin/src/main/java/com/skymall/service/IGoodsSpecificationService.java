@@ -2,6 +2,10 @@ package com.skymall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.GoodsSpecification;
+import com.skymall.dto.GoodSpecificationQueryDto;
+import com.skymall.vo.admin.GoodsSpecificationEntity;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,8 @@ import com.skymall.domain.GoodsSpecification;
  * @since 2019-03-04
  */
 public interface IGoodsSpecificationService extends IService<GoodsSpecification> {
+
+    List<GoodsSpecificationEntity> queryList(GoodSpecificationQueryDto goodSpecificationQueryDto);
+
 
 }

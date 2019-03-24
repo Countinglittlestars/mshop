@@ -2,7 +2,9 @@ package com.skymall.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.domain.GoodsSpecification;
+import com.skymall.dto.GoodSpecificationQueryDto;
 import com.skymall.vo.GoodsSpecificationWithName;
+import com.skymall.vo.admin.GoodsSpecificationEntity;
 import com.skymall.vo.wechat.GoodsSpecificationVo;
 
 import java.util.List;
@@ -21,4 +23,6 @@ public interface GoodsSpecificationMapper extends BaseMapper<GoodsSpecification>
     List<GoodsSpecificationWithName> getSpecificationWithName(Integer goodsId);
 
     List<GoodsSpecificationVo> queryList(Map map);
+
+    List<GoodsSpecificationEntity> queryEntityList(GoodSpecificationQueryDto goodSpecificationQueryDto );
 }
