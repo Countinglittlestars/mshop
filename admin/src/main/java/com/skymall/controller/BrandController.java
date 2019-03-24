@@ -2,8 +2,6 @@ package com.skymall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
 import com.skymall.dto.BrandQueryDto;
@@ -12,6 +10,8 @@ import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
 import com.skymall.vo.CommonResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,28 +36,29 @@ public class BrandController {
      * 新增品牌
      */
     @ApiOperation(value = "新增收货地址",notes = "品牌名称不能重复")
-    @RequestMapping(value = "/addBrand",method = RequestMethod.POST )
+    @RequestMapping(value = "/add",method = RequestMethod.POST )
     public Object addBrand(@RequestBody BrandAddDto brandAddDto){
 
         Brand brand = brandService.getOne
-                (new QueryWrapper<Brand>().lambda().eq(Brand::getName,brandAddDto.getName()));
+                (new QueryWrapper<Brand>().lambda().eq(Brand::getName, brandAddDto.getName()));
         if (brand != null){
             throw new ApiRRException(ExceptionEnums.NOTUNIQUE);
         }
         brandService.addBrand(brandAddDto);
         Brand newBrand = brandService.getOne
-                (new QueryWrapper<Brand>().lambda().eq(Brand::getName,brandAddDto.getName()));
+                (new QueryWrapper<Brand>().lambda().eq(Brand::getName, brandAddDto.getName()));
         return new CommonResult().success(newBrand.getId());
     }
 
     /**
      * 分页查询所有品牌
-     * @param page
-     * @param size
-     * @return
      */
     @ApiOperation(value = "分页查询所有品牌",notes = "默认每页10条数据")
-    @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET)
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer")
+    })
+    @RequestMapping(value = "/queryByPage", method = RequestMethod.GET)
     public Object queryAllBrandByPage(BrandQueryDto brandQueryDto,
             @RequestParam (value = "page", defaultValue = "1") Integer page,
             @RequestParam (value = "size", defaultValue = "10") Integer size){
@@ -70,10 +71,9 @@ public class BrandController {
 
     /**
      * 查询所有品牌
-     * @return
      */
     @ApiOperation(value = "查询所有品牌")
-    @RequestMapping(value = "/queryBrand", method = RequestMethod.GET )
+    @RequestMapping(value = "/queryAll", method = RequestMethod.GET )
     public Object queryBrand(){
         List<Brand> list = brandService.list(null);
         return new CommonResult().success(list);
@@ -81,11 +81,9 @@ public class BrandController {
 
     /**
      * 根据Id查询品牌信息
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据Id查询品牌信息",notes = "根据品牌Id查询")
-    @RequestMapping(value = "/queryBrandById/{id}", method = RequestMethod.GET )
+    @RequestMapping(value = "/queryById/{id}", method = RequestMethod.GET )
     public Object queryBrandById(@PathVariable Integer id){
         BrandQueryDto brand = brandService.queryBrandById(id);
         return new CommonResult().success(brand);
@@ -93,12 +91,9 @@ public class BrandController {
 
     /**
      * 根据id修改品牌信息
-     * @param brand
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据id修改品牌信息",notes = "根据品牌Id修改")
-    @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT )
+    @RequestMapping(value = "/update", method = RequestMethod.PUT )
     public Object updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
         brandService.update(brand,new UpdateWrapper<Brand>().lambda().eq(Brand::getId,id));
@@ -107,11 +102,9 @@ public class BrandController {
 
     /**
      * 根据Id删除品牌
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据Id删除品牌",notes = "根据品牌Id删除")
-    @RequestMapping(value = "/removeBrand/{id}", method = RequestMethod.DELETE )
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE )
     public Object removeBrandById(@PathVariable Integer id){
 
         Brand brand = brandService.getById(id);

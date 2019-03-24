@@ -10,6 +10,8 @@ import com.skymall.service.impl.CollectServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +31,9 @@ public class CollectController {
 
     /**
      * 添加收藏
-     * @param collect
-     * @return
      */
     @ApiOperation(value = "添加收藏")
-    @RequestMapping(value = "/addCollect",method = RequestMethod.POST )
+    @RequestMapping(value = "/add",method = RequestMethod.POST )
     public Object addCollect(@RequestBody Collect collect){
         collectService.save(collect);
         return new CommonResult().success(collect.getId());
@@ -42,13 +42,14 @@ public class CollectController {
     /**
      *
      * 根据用户Id查询收藏列表
-     * @param page
-     * @param size
-     * @param userId
-     * @return
      */
     @ApiOperation(value = "根据用户Id查询收藏列表")
-    @RequestMapping(value = "/queryCollect/{userId}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query",name = "userId",value = "用户id",required = true,dataType = "Integer")
+    })
+    @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET)
     public Object queryCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size,
                                        @PathVariable Integer userId){
@@ -60,12 +61,13 @@ public class CollectController {
 
     /**
      * 分页查询所有收藏信息
-     * @param page
-     * @param size
-     * @return
      */
     @ApiOperation(value = "分页查询所有收藏信息")
-    @RequestMapping(value = "/queryCollect",method = RequestMethod.GET )
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer")
+    })
+    @RequestMapping(value = "/query",method = RequestMethod.GET )
     public Object queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                           @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Collect> cartPage = new Page<>(page,size);
@@ -75,14 +77,12 @@ public class CollectController {
 
     /**
      * 根据id删除收藏信息
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据id删除收藏信息")
-    @RequestMapping(value = "/removeCollect",method = RequestMethod.DELETE )
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
     public Object removeCollect(@RequestParam Integer id){
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
         collectService.remove(queryWrapper.eq("id",id));
-        return new CommonResult().success("操作成功");
+        return new CommonResult().success();
     }
 }

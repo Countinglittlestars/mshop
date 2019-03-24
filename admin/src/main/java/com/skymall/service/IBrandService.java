@@ -7,8 +7,6 @@ import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
 import com.skymall.dto.BrandQueryDto;
 
-import java.util.List;
-
 /**
  * <p>
  *  服务类

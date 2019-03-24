@@ -27,11 +27,9 @@ public class GoodsAttributeController {
 
     /**
      * 添加商品参数值
-     * @param goodsAttribute
-     * @return
      */
     @ApiOperation(value = "添加商品参数值")
-    @RequestMapping(value = "/addGoodsAttr",method = RequestMethod.POST )
+    @RequestMapping(value = "/add",method = RequestMethod.POST )
     public Object addGoodsAttribute(@RequestBody GoodsAttribute goodsAttribute){
         goodsAttributeService.save(goodsAttribute);
         return new CommonResult().success(goodsAttribute.getId());

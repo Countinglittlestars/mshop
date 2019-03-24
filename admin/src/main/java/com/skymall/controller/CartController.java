@@ -13,6 +13,8 @@ import com.skymall.service.impl.GoodServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +39,9 @@ public class CartController {
 
     /**
      * 新增购物车
-     * @param cart
-     * @return
      */
     @ApiOperation(value = "新增购物车")
-    @RequestMapping(value = "/addCart",method = RequestMethod.POST )
+    @RequestMapping(value = "/add",method = RequestMethod.POST )
     public Object addCart(@RequestBody Cart cart){
         cartService.save(cart);
         return new CommonResult().success(cart.getId());
@@ -49,12 +49,13 @@ public class CartController {
 
     /**
      * 分页查询所有购物车
-     * @param page
-     * @param size
-     * @return
      */
     @ApiOperation(value = "分页查询所有购物车")
-    @RequestMapping(value = "/queryCart",method = RequestMethod.GET )
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer")
+    })
+    @RequestMapping(value = "/queryByPage",method = RequestMethod.GET )
     public Object queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size){
         Page<Cart> cartPage = new Page<>(page,size);
@@ -65,10 +66,6 @@ public class CartController {
 
     /**
      * 根据用户Id查询购物车信息
-     * @param page
-     * @param size
-     * @param userId
-     * @return
      */
     @ApiOperation(value = "根据用户Id查询购物车信息")
     @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET )
@@ -84,10 +81,9 @@ public class CartController {
 
     /**
      * 根据商品SN删除购物车
-     * @param goodsSn
-     * @return
      */
     @ApiOperation(value = "根据商品SN删除购物车")
+    @ApiImplicitParam(paramType="delete", name = "goodsSn", value = "商品sn", required = true, dataType = "Integer")
     @RequestMapping(value = "/removeByGoodsSn",method = RequestMethod.DELETE )
     public Object removeByGoodsId(@RequestParam String goodsSn){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
@@ -116,11 +112,10 @@ public class CartController {
 
     /**
      * 清空购物车
-     * @param userId
-     * @return
      */
     @ApiOperation(value = "清空购物车")
-    @RequestMapping(value = "/removeCart",method = RequestMethod.DELETE )
+    @ApiImplicitParam(paramType="delete", name = "userId", value = "用户Id", required = true, dataType = "Integer")
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
     public Object removeCart(@RequestParam Integer userId){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         cartService.remove(queryWrapper.eq("user_id",userId));
