@@ -19,5 +19,6 @@ import java.util.List;
 public interface IBrandService extends IService<Brand> {
     public IPage<Brand> queryByPage(Page<Brand> page);
     public Object addBrand(BrandAddDto brandAddDto);
+    public Object queryBrandById(Integer id);
 
 }

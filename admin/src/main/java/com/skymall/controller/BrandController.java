@@ -109,6 +109,7 @@ public class BrandController {
         }else{
             brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
             return new CommonResult().success();
+
             }
         }
 

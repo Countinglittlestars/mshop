@@ -45,4 +45,14 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         brandMapper.insert(brand);
         return new CommonResult().success(brand.getId());
     }
+
+    @Override
+    public Object queryBrandById(Integer id) {
+        Brand brand = brandMapper.selectById(id);
+        BrandAddDto brandAddDto = new BrandAddDto();
+        BeanUtils.mapping(brand,brandAddDto);
+
+        return null;
+    }
+
 }

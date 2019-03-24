@@ -10,7 +10,6 @@ public enum ExceptionEnums {
     NOTFOUND(500,"数据不存在");
 
 
-
     private Integer ecode;
 
     private String emsg;
