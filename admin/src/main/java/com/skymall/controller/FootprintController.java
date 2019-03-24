@@ -23,6 +23,7 @@ import javax.annotation.Resource;
  */
 @Api(description = "足迹管理")
 @RestController
+@RequestMapping("/admin/footPrint")
 public class FootprintController {
 
     @Resource

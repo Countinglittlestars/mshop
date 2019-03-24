@@ -24,6 +24,7 @@ import javax.annotation.Resource;
  */
 @Api(description = "收藏管理")
 @RestController
+@RequestMapping("/admin/collect")
 public class CollectController {
 
     @Resource
