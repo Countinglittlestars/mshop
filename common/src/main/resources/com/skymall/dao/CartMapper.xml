@@ -23,7 +23,7 @@
 
 
 
-    <select id="queryList" resultMap="com.skymall.vo.wechat.CartVo">
+    <select id="queryList" resultType="com.skymall.vo.wechat.CartVo">
         select a.*,
         b.name as goodsName,
         b.list_pic_url as listPicUrl

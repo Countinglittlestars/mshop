@@ -33,5 +33,4 @@ public class GoodsAttributeController {
         return new CommonResult().success(goodsAttribute.getId());
     }
 
-    
 }

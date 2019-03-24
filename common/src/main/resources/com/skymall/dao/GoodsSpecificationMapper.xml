@@ -30,7 +30,7 @@
     </select>
 
 
-    <select id="queryList" resultMap="goodsSpecificationMap">
+    <select id="queryList" resultType="com.skymall.vo.wechat.GoodsSpecificationVo">
         select
         <if test="fields != null and fields != ''">
             ${fields}

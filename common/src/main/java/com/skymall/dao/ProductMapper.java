@@ -1,9 +1,13 @@
 package com.skymall.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.skymall.domain.Product;
+import com.skymall.dto.ProductQueryDto;
+import com.skymall.vo.admin.ProductEntity;
 import com.skymall.vo.wechat.ProductVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -18,5 +22,6 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     ProductVo queryObject(Integer goodsId);
 
+    IPage<ProductEntity> queryEntityList(IPage page, ProductQueryDto productQueryDto);
 
 }

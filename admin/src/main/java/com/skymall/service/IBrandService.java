@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Brand;
+import com.skymall.dto.BrandAddDto;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ import java.util.List;
  */
 public interface IBrandService extends IService<Brand> {
     public IPage<Brand> queryByPage(Page<Brand> page);
+    public Object addBrand(BrandAddDto brandAddDto);
+
 }

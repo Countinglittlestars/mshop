@@ -10,6 +10,7 @@ import com.skymall.service.ICartService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -31,7 +32,15 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     }
 
     @Override
-    public IPage<Cart> pageByCondition(Page<Cart> page, QueryWrapper<Cart> queryWrapper) {
+    public IPage<Cart> pageByExample(Page<Cart> page, QueryWrapper<Cart> queryWrapper) {
         return cartMapper.selectPage(page,queryWrapper);
     }
+//
+//    @Override
+//    public List<Cart> selectUnSaleGoods() {
+//
+//        return cartMapper.selectUnSaleGoods();
+//    }
+
+
 }
