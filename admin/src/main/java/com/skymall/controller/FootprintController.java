@@ -8,6 +8,8 @@ import com.skymall.domain.Footprint;
 import com.skymall.service.impl.FootprintServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,6 +19,7 @@ import javax.annotation.Resource;
  * @date 2019/3/15
  * 足迹管理
  */
+@Api(description = "足迹管理")
 @RestController
 public class FootprintController {
 
@@ -28,6 +31,7 @@ public class FootprintController {
      * @param footprint
      * @return
      */
+    @ApiOperation(value = "新增足迹")
     @RequestMapping(value = "/addFootprint",method = RequestMethod.POST )
     public Object addFootprint(@RequestBody Footprint footprint){
         footprintService.save(footprint);
@@ -41,6 +45,7 @@ public class FootprintController {
      * @param size
      * @return
      */
+    @ApiOperation(value = "分页查询足迹")
     @RequestMapping(value = "/queryFootpring",method = RequestMethod.GET )
     public Object queryFootprintByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                            @RequestParam (name = "size" ,defaultValue = "10") Integer size){
@@ -55,6 +60,7 @@ public class FootprintController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id删除足迹")
     @RequestMapping(value = "/removeFootprint",method = RequestMethod.DELETE )
     public Object removeFootprint(@RequestParam Integer id){
         QueryWrapper<Footprint> queryWrapper = new QueryWrapper<>();

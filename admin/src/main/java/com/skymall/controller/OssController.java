@@ -3,6 +3,7 @@ package com.skymall.controller;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import com.skymall.vo.CommonResult;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Api(description = "OSS管理")
 @RestController
 @RequestMapping(value = "/admin/oss")
 public class OssController {

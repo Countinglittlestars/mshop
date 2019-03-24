@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.BrandMapper;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
+import com.skymall.dto.BrandQueryDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.service.IBrandService;
 
@@ -17,6 +18,7 @@ import com.skymall.vo.Response;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -47,12 +49,37 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    public Object queryBrandById(Integer id) {
+    public BrandQueryDto queryBrandById(Integer id) {
         Brand brand = brandMapper.selectById(id);
-        BrandAddDto brandAddDto = new BrandAddDto();
-        BeanUtils.mapping(brand,brandAddDto);
+        BrandQueryDto brandQueryDto = new BrandQueryDto();
+        BeanUtils.mapping(brand,brandQueryDto);
+        return brandQueryDto;
+    }
 
-        return null;
+    @Override
+    public Object queryBrandByPage(BrandQueryDto brandQueryDto,Integer page,Integer size) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        Page<Brand> brandPage = new Page<>(page,size);
+        if(brandQueryDto.getName() != null) {
+            queryWrapper.like("name", brandQueryDto.getName());
+        }
+        if(brandQueryDto.getSimpleDesc() != null) {
+            queryWrapper.eq("is_on_sale", brandQueryDto.getSimpleDesc());
+        }
+        if(brandQueryDto.getIsNew() != null) {
+            queryWrapper.eq("brand_id", brandQueryDto.getIsNew());
+        }
+        if(brandQueryDto.getIsShow() != null) {
+            queryWrapper.eq("goods_sn", brandQueryDto.getIsShow());
+        }
+        if(brandQueryDto.getSortOrder() != null) {
+            queryWrapper.eq("is_hot", brandQueryDto.getSortOrder());
+        }
+        if(brandQueryDto.getNewSortOrder() != null) {
+            queryWrapper.eq("is_new", brandQueryDto.getNewSortOrder());
+        }
+        IPage<Brand> data = brandMapper.selectPage(brandPage,queryWrapper);
+        return data;
     }
 
 }

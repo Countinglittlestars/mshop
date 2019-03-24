@@ -9,6 +9,8 @@ import com.skymall.domain.CategoryWithChildrenItem;
 import com.skymall.service.impl.CategoryServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,7 +25,7 @@ import java.util.List;
  *
  */
 
-
+@Api(description = "类目管理")
 @RestController
 @RequestMapping(value="/admin/category")
 public class CategoryController {
@@ -36,6 +38,7 @@ public class CategoryController {
      * @param category
      * @return
      */
+    @ApiOperation(value = "新增类目")
     @RequestMapping(value = "/addCategory",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
     public Object addCategory(@RequestBody Category category){
         categoryService.save(category);
@@ -48,6 +51,7 @@ public class CategoryController {
      * @param page
      * @return
      */
+    @ApiOperation(value = "分页查询类目信息")
     @RequestMapping(value = "/queryCategoryByPage",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Object queryAllCategoryByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size){
@@ -60,6 +64,7 @@ public class CategoryController {
      * 显示所有类目
      * @return
      */
+    @ApiOperation(value = "显示所有类目")
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Object queryAllCategory(){
 //                Category root = new Category();
@@ -79,6 +84,7 @@ public class CategoryController {
      * 查找分类列表，格式为：一级分类下有list二级分类
      * @return
      */
+    @ApiOperation(value = "查找分类列表，格式为：一级分类下有list二级分类")
     @RequestMapping(value = "/queryWithChildren",method = RequestMethod.GET)
     public Object listWhitChildren(){
 
@@ -92,6 +98,7 @@ public class CategoryController {
     /**
      * 根据父分类查到所有的子分类
      */
+    @ApiOperation(value = "根据父分类查到所有的子分类")
     @RequestMapping(value="/queryByParentId/{parentId}", method = RequestMethod.GET)
     public Object queryByParentId(@PathVariable Integer parentId){
 

@@ -5,6 +5,8 @@ import com.skymall.domain.GoodsAttribute;
 import com.skymall.service.impl.GoodsAttributeServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import javax.annotation.Resource;
  *
  * 商品参数值管理
  */
+@Api(description = "商品参数值管理")
 @RestController
 public class GoodsAttributeController {
     @Resource
@@ -27,6 +30,7 @@ public class GoodsAttributeController {
      * @param goodsAttribute
      * @return
      */
+    @ApiOperation(value = "添加商品参数值")
     @RequestMapping(value = "/addGoodsAttr",method = RequestMethod.POST )
     public Object addGoodsAttribute(@RequestBody GoodsAttribute goodsAttribute){
         goodsAttributeService.save(goodsAttribute);

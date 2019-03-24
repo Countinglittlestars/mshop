@@ -1,5 +1,8 @@
 package com.skymall.dto;
 
+import lombok.Data;
+
+@Data
 public class BrandQueryDto {
     /**
      * 品牌名称
