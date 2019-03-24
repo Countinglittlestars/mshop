@@ -9,6 +9,8 @@ import com.skymall.domain.Collect;
 import com.skymall.service.impl.CollectServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,6 +20,7 @@ import javax.annotation.Resource;
  * @date 2019/3/14
  * 收藏管理
  */
+@Api(description = "收藏管理")
 @RestController
 public class CollectController {
 
@@ -29,6 +32,7 @@ public class CollectController {
      * @param collect
      * @return
      */
+    @ApiOperation(value = "添加收藏")
     @RequestMapping(value = "/addCollect",method = RequestMethod.POST )
     public Object addCollect(@RequestBody Collect collect){
         collectService.save(collect);
@@ -43,6 +47,7 @@ public class CollectController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "根据用户Id查询收藏列表")
     @RequestMapping(value = "/queryCollect/{userId}",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
     public Object queryCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size,
@@ -59,6 +64,7 @@ public class CollectController {
      * @param size
      * @return
      */
+    @ApiOperation(value = "分页查询所有收藏信息")
     @RequestMapping(value = "/queryCollect",method = RequestMethod.GET )
     public Object queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                           @RequestParam (name = "size",defaultValue = "10") Integer size){
@@ -72,6 +78,7 @@ public class CollectController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id删除收藏信息")
     @RequestMapping(value = "/removeCollect",method = RequestMethod.DELETE )
     public Object removeCollect(@RequestParam Integer id){
         QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();

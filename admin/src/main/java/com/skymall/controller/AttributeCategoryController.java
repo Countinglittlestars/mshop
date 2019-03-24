@@ -7,6 +7,8 @@ import com.skymall.domain.AttributeCategory;
 
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
 import com.skymall.vo.CommonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import java.util.List;
  * 商品参数类型管理
  */
 
+@Api(description = "商品参数类型管理")
 @RestController
 @RequestMapping(value = "/admin/attributeCategory")
 public class AttributeCategoryController {
@@ -31,6 +34,7 @@ public class AttributeCategoryController {
      * @param attributeCategory
      * @return
      */
+    @ApiOperation(value = "新增商品参数")
     @RequestMapping(value = "/addAttrCate",method = RequestMethod.POST )
     public Object addAttributeCategory(@RequestBody AttributeCategory attributeCategory){
         attributeCategoryService.save(attributeCategory);
@@ -43,6 +47,7 @@ public class AttributeCategoryController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id修改商品参数类型")
     @RequestMapping(value = "/updateAttrCate/{id}",method = RequestMethod.PUT )
     public Object updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
@@ -55,7 +60,7 @@ public class AttributeCategoryController {
      * 查询所有商品参数类型
      * @return
      */
-
+    @ApiOperation(value = "查询所有商品参数类型")
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public Object queryAttributeCategory(){
         List<AttributeCategory> list = attributeCategoryService.list(null);
@@ -71,6 +76,7 @@ public class AttributeCategoryController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id删除商品参数类型")
     @RequestMapping(value = "/deleteAttrCate",method = RequestMethod.DELETE )
     public Object removeAttributeCategory(@RequestParam Integer id){
         QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();

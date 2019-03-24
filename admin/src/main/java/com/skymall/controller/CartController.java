@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
 import com.skymall.domain.Goods;
+import com.skymall.service.ICartService;
+import com.skymall.service.IGoodService;
 import com.skymall.service.impl.CartServiceImpl;
 import com.skymall.service.impl.GoodServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,20 +25,22 @@ import java.util.List;
  * @date 2019/3/14
  * 购物车管理
  */
+@Api(description = "购物车管理")
 @RestController
 @RequestMapping("/admin/cart")
 public class CartController {
 
     @Resource
-    private CartServiceImpl cartService;
+    private ICartService cartService;
     @Resource
-    private GoodServiceImpl goodService;
+    private IGoodService goodService;
 
     /**
      * 新增购物车
      * @param cart
      * @return
      */
+    @ApiOperation(value = "新增购物车")
     @RequestMapping(value = "/addCart",method = RequestMethod.POST )
     public Object addCart(@RequestBody Cart cart){
         cartService.save(cart);
@@ -47,6 +53,7 @@ public class CartController {
      * @param size
      * @return
      */
+    @ApiOperation(value = "分页查询所有购物车")
     @RequestMapping(value = "/queryCart",method = RequestMethod.GET )
     public Object queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                        @RequestParam (name = "size",defaultValue = "10") Integer size){
@@ -63,6 +70,7 @@ public class CartController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "根据用户Id查询购物车信息")
     @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET )
     public Object queryByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                   @RequestParam (name = "size",defaultValue = "10") Integer size,
@@ -79,11 +87,12 @@ public class CartController {
      * @param goodsSn
      * @return
      */
+    @ApiOperation(value = "根据商品SN删除购物车")
     @RequestMapping(value = "/removeByGoodsSn",method = RequestMethod.DELETE )
     public Object removeByGoodsId(@RequestParam String goodsSn){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         cartService.remove(queryWrapper.eq("goods_sn",goodsSn));
-        return new CommonResult().success("删除成功");
+        return new CommonResult().success();
     }
 
 //    /**
@@ -110,10 +119,11 @@ public class CartController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "清空购物车")
     @RequestMapping(value = "/removeCart",method = RequestMethod.DELETE )
     public Object removeCart(@RequestParam Integer userId){
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         cartService.remove(queryWrapper.eq("user_id",userId));
-        return new CommonResult().success("操作成功");
+        return new CommonResult().success();
     }
 }

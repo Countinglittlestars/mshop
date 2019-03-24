@@ -5,6 +5,8 @@ import com.skymall.dto.UmsAdminLoginParam;
 import com.skymall.dto.UmsAdminParam;
 import com.skymall.service.ISysUserService;
 import com.skymall.vo.CommonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Api(description = "登录管理")
 @RestController
 @RequestMapping(value = "/admin")
 public class LoginController {
@@ -27,6 +30,7 @@ public class LoginController {
 
     private String tokenHead = "Bearer";
 
+    @ApiOperation(value = "注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Object register(@RequestBody UmsAdminParam umsAdminParam, BindingResult result) {
         SysUser umsAdmin = userService.register(umsAdminParam);
@@ -36,6 +40,7 @@ public class LoginController {
         return new CommonResult().success(umsAdmin);
     }
 
+    @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Object login(@RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
         String token = userService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
@@ -49,11 +54,13 @@ public class LoginController {
     }
 
 
+    @ApiOperation(value = "注销")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Object logout() {
         return new CommonResult().success(null);
     }
 
+    @ApiOperation(value = "用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Object getAdminInfo(Principal principal) {
         String username = principal.getName();
