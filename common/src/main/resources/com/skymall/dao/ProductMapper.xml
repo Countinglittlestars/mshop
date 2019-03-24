@@ -32,15 +32,15 @@
         nideshop_product.goods_number goodsNumber,
         nideshop_product.retail_price retailPrice,
         nideshop_product.market_price marketPrice,
-        nideshop_goods.name goods_name goodsName
+        nideshop_goods.name goodsName
         from nideshop_product
         LEFT JOIN nideshop_goods ON nideshop_product.goods_id = nideshop_goods.id
-        WHERE 1=1 dto.goodsId
-        <if test="goodsId != null and goodsId.trim() != ''">
-            AND nideshop_product.goods_id = #{goodsId}
+        WHERE 1=1
+        <if test="dto.goodsId != null">
+            AND nideshop_product.goods_id = #{dto.goodsId}
         </if>
-        <if test="goodsName != null and goodsName.trim() != ''">
-            AND nideshop_goods.name LIKE concat('%',#{goodsName},'%')
+        <if test="dto.goodsName != null">
+            AND nideshop_goods.name LIKE concat('%',#{dto.goodsName},'%')
         </if>
         order by nideshop_product.id desc
     </select>

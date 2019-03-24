@@ -36,6 +36,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Resource
     IGoodsSpecificationService goodsSpecificationService;
 
+    /**
+     * 根据goodsId或者商品名称查找对应的产品信息
+     * @param page
+     * @param map
+     * @return
+     */
     @Override
     public IPage<ProductEntity> queryList(IPage page, ProductQueryDto map) {
         IPage<ProductEntity> pageEntity = productMapper.queryEntityList(page, map);

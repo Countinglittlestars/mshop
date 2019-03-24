@@ -5,6 +5,7 @@ import com.skymall.domain.Product;
 import com.skymall.dto.ProductQueryDto;
 import com.skymall.vo.admin.ProductEntity;
 import com.skymall.vo.wechat.ProductVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,6 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     ProductVo queryObject(Integer goodsId);
 
-    IPage<ProductEntity> queryEntityList(IPage page, ProductQueryDto productQueryDto);
+    IPage<ProductEntity> queryEntityList(IPage page, @Param(value = "dto") ProductQueryDto productQueryDto);
 
 }
