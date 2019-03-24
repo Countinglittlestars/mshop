@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
+import com.skymall.dto.BrandQueryDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
 import com.skymall.vo.CommonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +25,7 @@ import java.util.List;
  *
  * 品牌管理
  */
+@Api(description = "品牌管理")
 @RestController
 @RequestMapping(value="/admin/brand")
 public class BrandController {
@@ -31,6 +35,7 @@ public class BrandController {
     /**
      * 新增品牌
      */
+    @ApiOperation(value = "新增收货地址",notes = "品牌名称不能重复")
     @RequestMapping(value = "/addBrand",method = RequestMethod.POST )
     public Object addBrand(@RequestBody BrandAddDto brandAddDto){
 
@@ -51,20 +56,23 @@ public class BrandController {
      * @param size
      * @return
      */
+    @ApiOperation(value = "分页查询所有品牌",notes = "默认每页10条数据")
     @RequestMapping(value = "/queryBrandByPage", method = RequestMethod.GET)
-    public Object queryAllBrandByPage(@RequestParam (value = "page", defaultValue = "1") Integer page,
-                                        @RequestParam (value = "size", defaultValue = "10") Integer size){
-//        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
-//        此处的Page来自com.baomidou.mybatisplus.extension.plugins.pagination.Page，若导错包会报错
-        Page<Brand> brandPage = new Page<>(page,size);
-        IPage<Brand> data = brandService.queryByPage(brandPage);
-        return new CommonResult().success(data);
+    public Object queryAllBrandByPage(BrandQueryDto brandQueryDto,
+            @RequestParam (value = "page", defaultValue = "1") Integer page,
+            @RequestParam (value = "size", defaultValue = "10") Integer size){
+////        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
+////        此处的Page来自com.baomidou.mybatisplus.extension.plugins.pagination.Page，若导错包会报错
+//        Page<Brand> brandPage = new Page<>(page,size);
+//        IPage<Brand> data = brandService.queryByPage(brandPage);
+        return new CommonResult().success(brandService.queryBrandByPage(brandQueryDto,page,size));
     }
 
     /**
      * 查询所有品牌
      * @return
      */
+    @ApiOperation(value = "查询所有品牌")
     @RequestMapping(value = "/queryBrand", method = RequestMethod.GET )
     public Object queryBrand(){
         List<Brand> list = brandService.list(null);
@@ -76,10 +84,11 @@ public class BrandController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据Id查询品牌信息",notes = "根据品牌Id查询")
     @RequestMapping(value = "/queryBrandById/{id}", method = RequestMethod.GET )
     public Object queryBrandById(@PathVariable Integer id){
-        List<Brand> list = brandService.list(new QueryWrapper<Brand>().lambda().eq(Brand::getId,id));
-        return new CommonResult().success(list);
+        BrandQueryDto brand = brandService.queryBrandById(id);
+        return new CommonResult().success(brand);
     }
 
     /**
@@ -88,6 +97,7 @@ public class BrandController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id修改品牌信息",notes = "根据品牌Id修改")
     @RequestMapping(value = "/updateBrand", method = RequestMethod.PUT )
     public Object updateBrandById(@RequestBody Brand brand,
                                     @RequestParam Integer id){
@@ -100,6 +110,7 @@ public class BrandController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据Id删除品牌",notes = "根据品牌Id删除")
     @RequestMapping(value = "/removeBrand/{id}", method = RequestMethod.DELETE )
     public Object removeBrandById(@PathVariable Integer id){
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
+import com.skymall.dto.BrandQueryDto;
 
 import java.util.List;
 
@@ -19,5 +20,6 @@ import java.util.List;
 public interface IBrandService extends IService<Brand> {
     public IPage<Brand> queryByPage(Page<Brand> page);
     public Object addBrand(BrandAddDto brandAddDto);
-    public Object queryBrandById(Integer id);
+    public BrandQueryDto queryBrandById(Integer id);
+    public Object queryBrandByPage(BrandQueryDto brandQueryDto,Integer page,Integer size);
 }
