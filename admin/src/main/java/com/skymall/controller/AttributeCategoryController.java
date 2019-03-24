@@ -8,6 +8,7 @@ import com.skymall.domain.AttributeCategory;
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
 import com.skymall.vo.CommonResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,7 @@ public class AttributeCategoryController {
      * 根据id修改商品参数类型
      */
     @ApiOperation(value = "根据id修改商品参数类型")
+    @ApiImplicitParam(type = "update",name = "id",value = "商品参数Id",required = true,dataType = "Integer")
     @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT )
     public Object updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
@@ -69,6 +71,7 @@ public class AttributeCategoryController {
      * 根据id删除商品参数类型
      */
     @ApiOperation(value = "根据id删除商品参数类型")
+    @ApiImplicitParam(type = "delete",name = "id",value = "商品参数Id",required = true,dataType = "Integer")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
     public Object removeAttributeCategory(@RequestParam Integer id){
         QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();
