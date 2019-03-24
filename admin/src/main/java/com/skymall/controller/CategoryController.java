@@ -13,6 +13,8 @@ import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
 import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,11 +40,9 @@ public class CategoryController {
 
     /**
      * 新增类目
-     * @param category
-     * @return
      */
     @ApiOperation(value = "新增类目")
-    @RequestMapping(value = "/addCategory",method = RequestMethod.POST,produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object addCategory(@RequestBody Category category){
         if(category.getParentId() == 0){
             category.setLevel("L1");
@@ -54,11 +54,13 @@ public class CategoryController {
 
     /**
      * 分页查询类目信息
-     * @param page
-     * @return
      */
     @ApiOperation(value = "分页查询类目信息")
-    @RequestMapping(value = "/queryCategoryByPage",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryByPage",method = RequestMethod.GET)
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "page", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "size", value = "每页信息数", required = false, dataType = "Integer")
+    })
     public Object queryAllCategoryByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "size", defaultValue = "10") Integer size){
         Page<Category> categoryPage = new Page<>(page,size);
@@ -68,10 +70,9 @@ public class CategoryController {
 
     /**
      * 显示所有类目
-     * @return
      */
     @ApiOperation(value = "显示所有类目")
-    @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAll",method = RequestMethod.GET)
     public Object queryAllCategory(){
 //                Category root = new Category();
 //        root.setId(0);
@@ -88,7 +89,6 @@ public class CategoryController {
 
     /**
      * 查找分类列表，格式为：一级分类下有list二级分类
-     * @return
      */
     @ApiOperation(value = "查找分类列表，格式为：一级分类下有list二级分类")
     @RequestMapping(value = "/queryWithChildren",method = RequestMethod.GET)

@@ -4,21 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skymall.dao.AddressMapper;
 import com.skymall.domain.Address;
-import com.skymall.domain.User;
 import com.skymall.dto.AddressAddDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.impl.AddressServiceImpl;
 import com.skymall.vo.CommonResult;
-import com.skymall.vo.Response;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
+
 
 /**
  * @author linchusen
@@ -36,7 +32,6 @@ public class AddressController {
 
     /**
      * 新增收货地址
-     * @param addressAddDto
      */
     @ApiOperation(value = "新增收货地址")
     @RequestMapping(value = "/addAddress",method = RequestMethod.POST )
@@ -47,12 +42,10 @@ public class AddressController {
 
     /**
      * 根据Id修改收货地址
-     * @param address
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据Id修改收货地址")
-    @RequestMapping(value = "/updateAdd/{id}",method = RequestMethod.PUT )
+    @ApiImplicitParam(type = "update",name = "id",value = "地址id",required = true,dataType = "Integer")
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT )
     public Object updateAdd(@RequestBody Address address,
                               @PathVariable Integer id){
         boolean b = addressService.update
@@ -67,7 +60,8 @@ public class AddressController {
      * 根据地址Id查询地址信息
      */
     @ApiOperation(value = "根据地址Id查询地址信息")
-    @RequestMapping(value = "/queryAddById/{id}",method = RequestMethod.GET )
+    @ApiImplicitParam(type = "query",name = "id",value = "地址id",required = true,dataType = "Integer")
+    @RequestMapping(value = "/queryById/{id}",method = RequestMethod.GET )
     public Object queryAddInfo(@PathVariable Integer id){
         Address address = addressService.getById(id);
         return new CommonResult().success(address);
@@ -77,7 +71,12 @@ public class AddressController {
      * 根据用户id分页查询地址信息
      */
     @ApiOperation(value = "根据用户id分页查询地址信息")
-    @RequestMapping(value = "/queryAdd/{userId}",method = RequestMethod.GET )
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer"),
+            @ApiImplicitParam(paramType="query", name = "userId", value = "用户id", required = false, dataType = "Integer"),
+    })
+    @RequestMapping(value = "/queryByUserId/{userId}",method = RequestMethod.GET )
     public Object queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      @PathVariable Integer userId){
@@ -91,7 +90,7 @@ public class AddressController {
      * 分页查询所有收货地址
      */
     @ApiOperation(value = "分页查询所有收货地址")
-    @RequestMapping(value = "/queryAllAdd",method = RequestMethod.GET )
+    @RequestMapping(value = "/queryAll",method = RequestMethod.GET )
     public Object queryAddByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size){
         Page<Address> addressPage = new Page<>(page,size);
@@ -103,7 +102,8 @@ public class AddressController {
      * 根据id删除收货地址
      */
     @ApiOperation(value = "根据id删除收货地址")
-    @RequestMapping(value = "/removeAdd",method = RequestMethod.DELETE )
+    @ApiImplicitParam(type = "delete",name = "id",value = "地址id",required = true,dataType = "Integer")
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
     public Object removeAdd(@RequestParam Integer id){
         Address address = addressService.getById(id);
         if (address == null){

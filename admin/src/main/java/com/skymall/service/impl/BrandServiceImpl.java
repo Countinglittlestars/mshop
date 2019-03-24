@@ -9,16 +9,13 @@ import com.skymall.dao.BrandMapper;
 import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
 import com.skymall.dto.BrandQueryDto;
-import com.skymall.enums.ExceptionEnums;
 import com.skymall.service.IBrandService;
 
 import com.skymall.utils.BeanUtils;
 import com.skymall.vo.CommonResult;
-import com.skymall.vo.Response;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 
 /**

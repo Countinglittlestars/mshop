@@ -8,6 +8,7 @@ import com.skymall.domain.AttributeCategory;
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
 import com.skymall.vo.CommonResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +32,9 @@ public class AttributeCategoryController {
 
     /**
      * 新增商品参数类型
-     * @param attributeCategory
-     * @return
      */
     @ApiOperation(value = "新增商品参数")
-    @RequestMapping(value = "/addAttrCate",method = RequestMethod.POST )
+    @RequestMapping(value = "/add",method = RequestMethod.POST )
     public Object addAttributeCategory(@RequestBody AttributeCategory attributeCategory){
         attributeCategoryService.save(attributeCategory);
         return new CommonResult().success(attributeCategory.getId());
@@ -43,22 +42,19 @@ public class AttributeCategoryController {
 
     /**
      * 根据id修改商品参数类型
-     * @param attributeCategory
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据id修改商品参数类型")
-    @RequestMapping(value = "/updateAttrCate/{id}",method = RequestMethod.PUT )
+    @ApiImplicitParam(type = "update",name = "id",value = "商品参数Id",required = true,dataType = "Integer")
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT )
     public Object updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
         UpdateWrapper<AttributeCategory> updateWrapper = new UpdateWrapper<>();
         attributeCategoryService.update(attributeCategory,updateWrapper.eq("id",id));
-        return new CommonResult().success("修改成功");
+        return new CommonResult().success();
     }
 
     /**
      * 查询所有商品参数类型
-     * @return
      */
     @ApiOperation(value = "查询所有商品参数类型")
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
@@ -73,14 +69,13 @@ public class AttributeCategoryController {
 
     /**
      * 根据id删除商品参数类型
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据id删除商品参数类型")
-    @RequestMapping(value = "/deleteAttrCate",method = RequestMethod.DELETE )
+    @ApiImplicitParam(type = "delete",name = "id",value = "商品参数Id",required = true,dataType = "Integer")
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
     public Object removeAttributeCategory(@RequestParam Integer id){
         QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();
         attributeCategoryService.remove(queryWrapper.eq("id",id));
-        return new CommonResult().success("删除成功");
+        return new CommonResult().success();
     }
 }
