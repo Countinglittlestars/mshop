@@ -69,15 +69,15 @@ public class BrandController {
         return new CommonResult().success(brandService.queryBrandByPage(brandQueryDto,page,size));
     }
 
-    /**
-     * 查询所有品牌
-     */
-    @ApiOperation(value = "查询所有品牌")
-    @RequestMapping(value = "/queryAll", method = RequestMethod.GET )
-    public Object queryBrand(){
-        List<Brand> list = brandService.list(null);
-        return new CommonResult().success(list);
-    }
+//    /**
+//     * 查询所有品牌
+//     */
+//    @ApiOperation(value = "查询所有品牌")
+//    @RequestMapping(value = "/queryAll", method = RequestMethod.GET )
+//    public Object queryBrand(){
+//        List<Brand> list = brandService.list(null);
+//        return new CommonResult().success(list);
+//    }
 
     /**
      * 根据Id查询品牌信息
