@@ -23,4 +23,27 @@
 		where a.id = #{value}
 	</select>
 
+    <select id="queryEntityList" resultType="com.skymall.vo.admin.ProductEntity" parameterType="com.skymall.dto.ProductQueryDto">
+        select
+        nideshop_product.id,
+        nideshop_product.goods_id goodsId,
+        nideshop_product.goods_specification_ids goodsSpecificationIds,
+        nideshop_product.goods_sn goodsSn,
+        nideshop_product.goods_number goodsNumber,
+        nideshop_product.retail_price retailPrice,
+        nideshop_product.market_price marketPrice,
+        nideshop_goods.name goods_name goodsName
+        from nideshop_product
+        LEFT JOIN nideshop_goods ON nideshop_product.goods_id = nideshop_goods.id
+        WHERE 1=1 dto.goodsId
+        <if test="goodsId != null and goodsId.trim() != ''">
+            AND nideshop_product.goods_id = #{goodsId}
+        </if>
+        <if test="goodsName != null and goodsName.trim() != ''">
+            AND nideshop_goods.name LIKE concat('%',#{goodsName},'%')
+        </if>
+        order by nideshop_product.id desc
+    </select>
+
+
 </mapper>

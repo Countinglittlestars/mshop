@@ -16,5 +16,5 @@ import com.skymall.domain.Collect;
  */
 public interface ICollectService extends IService<Collect> {
     IPage<Collect> queryByPage(Page<Collect> page);
-    IPage<Collect> pageByCondition(Page<Collect> page, QueryWrapper<Collect> queryWrapper);
+    IPage<Collect> pageByExample(Page<Collect> page, QueryWrapper<Collect> queryWrapper);
 }

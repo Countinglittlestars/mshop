@@ -118,8 +118,9 @@ public class BrandController {
         if (brand == null) {
             throw  new ApiRRException(ExceptionEnums.NOTFOUND);
         }else{
-        brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
-        return new CommonResult().success();
+            brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
+            return new CommonResult().success();
+
             }
         }
 

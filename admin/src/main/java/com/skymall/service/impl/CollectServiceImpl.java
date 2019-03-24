@@ -29,7 +29,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     }
 
     @Override
-    public IPage<Collect> pageByCondition(Page<Collect> page, QueryWrapper<Collect> queryWrapper) {
+    public IPage<Collect> pageByExample(Page<Collect> page, QueryWrapper<Collect> queryWrapper) {
         return collectMapper.selectPage(page,queryWrapper);
     }
 }

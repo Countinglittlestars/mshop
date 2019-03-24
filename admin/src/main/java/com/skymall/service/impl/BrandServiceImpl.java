@@ -81,4 +81,5 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         IPage<Brand> data = brandMapper.selectPage(brandPage,queryWrapper);
         return data;
     }
+
 }
