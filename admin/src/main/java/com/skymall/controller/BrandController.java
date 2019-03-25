@@ -7,7 +7,6 @@ import com.skymall.dto.BrandAddDto;
 import com.skymall.dto.BrandQueryDto;
 import com.skymall.enums.ExceptionEnums;
 import com.skymall.exception.AdminException;
-import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
 import com.skymall.vo.CommonResult;
 import io.swagger.annotations.Api;
@@ -22,7 +21,7 @@ import java.util.List;
 
 /**
  * @author linchusen
- * @date 2019/03/14
+ * @since 2019/03/14
  *
  * 品牌管理
  */
@@ -98,7 +97,7 @@ public class BrandController {
         //先查询，如果查不到，就报错
         if(brandService.getById(id) == null) throw new AdminException("根据id找不到品牌信息", 500);
         brandService.update(brand,new UpdateWrapper<Brand>().lambda().eq(Brand::getId,id));
-        return new CommonResult().success("操作成功");
+        return new CommonResult().success();
     }
 
     /**

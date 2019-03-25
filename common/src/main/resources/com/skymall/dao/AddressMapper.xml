@@ -22,4 +22,34 @@
         id, user_id, user_name, tel_number, postal_Code, national_Code, province_Name, city_Name, county_Name, detail_Info, is_default
     </sql>
 
+    <select id="queryByAddressQueryDto" parameterType="com.skymall.dto.AddressQueryDto" resultType="com.skymall.vo.admin.AddressEntity" >
+        SELECT
+        a.id id,
+        b.username memberName,
+        a.user_id userId,
+        a.user_name userName,
+        a.tel_number telNumber,
+        a.postal_Code postalCode,
+        a.national_Code nationalCode,
+        a.province_Name provinceName,
+        a.city_Name cityName,
+        a.county_Name countyName,
+        a.detail_Info detailInfo,
+        a.is_default isDefault
+        FROM
+        nideshop_address a
+        LEFT JOIN nideshop_user b ON a.user_id = b.id
+        WHERE 1=1
+        <if test="dto.id != null">
+            AND a.id = #{dto.id}
+        </if>
+    <if test="dto.userId != null">
+        AND a.user_id = #{dto.userId}
+    </if>
+    <if test="dto.userName != null">
+        AND b.username = #{dto.userName}
+    </if>
+    ORDER BY a.id ASC
+    </select>
+
 </mapper>
