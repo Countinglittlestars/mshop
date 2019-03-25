@@ -6,6 +6,7 @@ import com.skymall.domain.Brand;
 import com.skymall.dto.BrandAddDto;
 import com.skymall.dto.BrandQueryDto;
 import com.skymall.enums.ExceptionEnums;
+import com.skymall.exception.AdminException;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.IBrandService;
 import com.skymall.vo.CommonResult;
@@ -42,12 +43,10 @@ public class BrandController {
         Brand brand = brandService.getOne
                 (new QueryWrapper<Brand>().lambda().eq(Brand::getName, brandAddDto.getName()));
         if (brand != null){
-            throw new ApiRRException(ExceptionEnums.NOTUNIQUE);
+            throw new AdminException(ExceptionEnums.NOTUNIQUE);
         }
         brandService.addBrand(brandAddDto);
-        Brand newBrand = brandService.getOne
-                (new QueryWrapper<Brand>().lambda().eq(Brand::getName, brandAddDto.getName()));
-        return new CommonResult().success(newBrand.getId());
+        return new CommonResult().success();
     }
 
     /**
@@ -60,8 +59,8 @@ public class BrandController {
     })
     @RequestMapping(value = "/queryByPage", method = RequestMethod.GET)
     public Object queryAllBrandByPage(BrandQueryDto brandQueryDto,
-            @RequestParam (value = "page", defaultValue = "1") Integer page,
-            @RequestParam (value = "size", defaultValue = "10") Integer size){
+            @RequestParam (value = "pageNum", defaultValue = "1") Integer page,
+            @RequestParam (value = "pageSize", defaultValue = "5") Integer size){
 ////        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
 ////        此处的Page来自com.baomidou.mybatisplus.extension.plugins.pagination.Page，若导错包会报错
 //        Page<Brand> brandPage = new Page<>(page,size);
@@ -69,15 +68,15 @@ public class BrandController {
         return new CommonResult().success(brandService.queryBrandByPage(brandQueryDto,page,size));
     }
 
-//    /**
-//     * 查询所有品牌
-//     */
-//    @ApiOperation(value = "查询所有品牌")
-//    @RequestMapping(value = "/queryAll", method = RequestMethod.GET )
-//    public Object queryBrand(){
-//        List<Brand> list = brandService.list(null);
-//        return new CommonResult().success(list);
-//    }
+    /**
+     * 查询所有品牌
+     */
+    @ApiOperation(value = "查询所有品牌")
+    @RequestMapping(value = "/queryBrand", method = RequestMethod.GET )
+    public Object queryBrand(){
+        List<Brand> list = brandService.list(null);
+        return new CommonResult().success(list);
+    }
 
     /**
      * 根据Id查询品牌信息
@@ -93,9 +92,11 @@ public class BrandController {
      * 根据id修改品牌信息
      */
     @ApiOperation(value = "根据id修改品牌信息",notes = "根据品牌Id修改")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT )
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST )
     public Object updateBrandById(@RequestBody Brand brand,
-                                    @RequestParam Integer id){
+                                    @PathVariable Integer id){
+        //先查询，如果查不到，就报错
+        if(brandService.getById(id) == null) throw new AdminException("根据id找不到品牌信息", 500);
         brandService.update(brand,new UpdateWrapper<Brand>().lambda().eq(Brand::getId,id));
         return new CommonResult().success("操作成功");
     }
@@ -109,7 +110,7 @@ public class BrandController {
 
         Brand brand = brandService.getById(id);
         if (brand == null) {
-            throw  new ApiRRException(ExceptionEnums.NOTFOUND);
+            throw  new AdminException(ExceptionEnums.NOTFOUND);
         }else{
             brandService.remove(new QueryWrapper<Brand>().lambda().eq(Brand::getId, id));
             return new CommonResult().success();
