@@ -123,7 +123,7 @@ public class AddressController {
     public Object removeAdd(@RequestParam Integer id){
         Address address = addressService.getById(id);
         if (address == null){
-            throw new ApiRRException(ExceptionEnums.NOTFOUND);
+            throw new AdminException(ExceptionEnums.NOTFOUND);
         }
         addressService.remove(new QueryWrapper<Address>().lambda().eq(Address::getId,id));
         return new CommonResult().success();
