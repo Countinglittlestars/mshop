@@ -9,6 +9,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Address;
 import com.skymall.dto.AddressAddDto;
+import com.skymall.dto.AddressQueryDto;
+import com.skymall.vo.admin.AddressEntity;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,8 +25,11 @@ import com.skymall.dto.AddressAddDto;
 public interface IAddressService extends IService<Address> {
     IPage<Address> queryByPage(Page<Address> page);
 
-    IPage<Address> pageByExample(Page<Address> page, LambdaQueryWrapper<Address> queryWrapper);
+    List<AddressEntity> pageByAddressQueryDto(Integer page, Integer size, AddressQueryDto addressQueryDto);
 
     Object addAddress(AddressAddDto addressAddDto);
+
+//    Object queryAddress(AddressEntity addressEntity,Integer page, Integer size);
+
 
 }
