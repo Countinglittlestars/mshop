@@ -80,11 +80,9 @@ public class AddressController {
     public Object queryAdd(@RequestParam (name = "page",defaultValue = "1") Integer page,
                                      @RequestParam (name = "size" ,defaultValue = "10") Integer size,
                                      AddressQueryDto addressQueryDto){
-        List<AddressEntity> data = addressService.pageByAddressQueryDto(page,size,addressQueryDto);
-        if(data.size() < 1){
-            throw new AdminException("查询失败",500);
-        }
-        return new CommonResult().success(data);
+        IPage<AddressEntity> result = addressService.pageByAddressQueryDto(page,size,addressQueryDto);
+
+        return new CommonResult().success(result);
     }
 
 

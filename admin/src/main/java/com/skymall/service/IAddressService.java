@@ -25,7 +25,7 @@ import java.util.List;
 public interface IAddressService extends IService<Address> {
     IPage<Address> queryByPage(Page<Address> page);
 
-    List<AddressEntity> pageByAddressQueryDto(Integer page, Integer size, AddressQueryDto addressQueryDto);
+    IPage<AddressEntity> pageByAddressQueryDto(Integer page, Integer size, AddressQueryDto addressQueryDto);
 
     Object addAddress(AddressAddDto addressAddDto);
 

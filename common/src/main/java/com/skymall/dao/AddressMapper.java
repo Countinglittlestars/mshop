@@ -1,6 +1,7 @@
 package com.skymall.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.Address;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.dto.AddressQueryDto;
@@ -18,6 +19,6 @@ import java.util.List;
  * @since 2019-03-06
  */
 public interface AddressMapper extends BaseMapper<Address> {
-    List<AddressEntity> queryByAddressQueryDto
-            (IPage page, @Param(value = "dto") AddressQueryDto addressQueryDto);
+    IPage queryByAddressQueryDto
+            (Page page, @Param(value = "dto") AddressQueryDto addressQueryDto);
 }

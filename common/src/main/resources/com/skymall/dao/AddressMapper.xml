@@ -25,9 +25,8 @@
     <select id="queryByAddressQueryDto" parameterType="com.skymall.dto.AddressQueryDto" resultType="com.skymall.vo.admin.AddressEntity" >
         SELECT
         a.id id,
-        b.username memberName,
+        b.username userName,
         a.user_id userId,
-        a.user_name userName,
         a.tel_number telNumber,
         a.postal_Code postalCode,
         a.national_Code nationalCode,
@@ -37,9 +36,8 @@
         a.detail_Info detailInfo,
         a.is_default isDefault
         FROM
-        nideshop_address a
-        LEFT JOIN nideshop_user b ON a.user_id = b.id
-        WHERE 1=1
+        nideshop_address a, nideshop_user b
+        where a.user_id = b.id
         <if test="dto.id != null">
             AND a.id = #{dto.id}
         </if>
@@ -47,7 +45,7 @@
         AND a.user_id = #{dto.userId}
     </if>
     <if test="dto.userName != null">
-        AND b.username = #{dto.userName}
+        AND b.username like concat('%',#{dto.userName},'%')
     </if>
     ORDER BY a.id ASC
     </select>

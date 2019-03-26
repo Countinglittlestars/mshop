@@ -41,7 +41,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
 
 
     @Override
-    public List<AddressEntity> pageByAddressQueryDto(Integer page, Integer size, AddressQueryDto addressQueryDto) {
+    public IPage<AddressEntity> pageByAddressQueryDto(Integer page, Integer size, AddressQueryDto addressQueryDto) {
         Page<AddressEntity> addressEntityPage = new Page<>(page,size);
         return addressMapper.queryByAddressQueryDto(addressEntityPage,addressQueryDto);
     }
