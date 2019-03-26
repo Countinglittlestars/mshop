@@ -66,9 +66,9 @@ public class AddressEntity {
 
     private Integer isDefault;
 
-    Integer page;
+//    Integer page;
 
-    Integer size;
+//    Integer size;
 
 
 }

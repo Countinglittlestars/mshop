@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.skymall.dao.AttributeMapper;
 import com.skymall.domain.Attribute;
+import com.skymall.dto.AttributeQueryDto;
 import com.skymall.service.impl.AttributeServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import com.skymall.vo.admin.AttributeEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,6 +52,16 @@ public class AttributeController {
     public Object queryAttribute(){
         List<Attribute> list = attributeService.list(null);
         return new CommonResult().success(list);
+    }
+
+    /**
+     * 根据属性种类名或属性名分页查询属性id，属性种类名，属性名
+     */
+    @RequestMapping(value = "/queryByPage",method = RequestMethod.GET)
+    public Object queryByPage(AttributeQueryDto attributeQueryDto,
+                              @RequestParam(defaultValue = "1") Integer page,
+                              @RequestParam(defaultValue = "10") Integer size){
+        return new CommonResult().success(attributeService.queryEntity(page,size,attributeQueryDto));
     }
 
     /**
