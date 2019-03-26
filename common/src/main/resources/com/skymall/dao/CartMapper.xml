@@ -47,4 +47,28 @@
         </if>
     </select>
 
+
+    <select id="queryPage" resultType="com.skymall.vo.admin.CollectEntity" parameterType="com.skymall.dto.CartQueryDto">
+        select c.id, g.`name` goodsName,  g.goods_sn goodsSn, g.list_pic_url listPicUrl, g.is_on_sale isOnSale,
+        g.market_price marketPrice, g.retail_price retailPrice, u.id userId, u.username userName
+           from nideshop_goods g, nideshop_cart c , nideshop_user u
+          where g.id = c.goods_id and u.id = c.user_id
+          <if test="dto.goodsName != null">
+              and g.name like concat('%', #{dto.goodsName}, '%')
+          </if>
+          <if test="dto.userName != null">
+              and u.username like concat('%', #{dto.userName}, '%')
+          </if>
+          <if test="dto.userId != null">
+              and u.id = #{dto.userId}
+          </if>
+          order by c.id
+    </select>
+
+
+
+
+
+
+
 </mapper>

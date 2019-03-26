@@ -30,4 +30,27 @@
 			 ORDER BY
 				 id DESC
     </select>
+
+	<select id="queryPage" resultType="com.skymall.vo.wechat.FootprintVo" parameterType="com.skymall.dto.FootPrintQueryDto">
+          SELECT
+				MAX(f.id) id,
+				f.user_id,
+				f.goods_id,
+				f.add_time add_time,
+				f.referrer,
+				g. NAME AS NAME,
+				g.list_pic_url AS list_pic_url,
+				g.goods_brief AS goods_brief,
+				g.retail_price AS retail_price
+			FROM
+				nideshop_footprint f
+			  LEFT JOIN nideshop_goods g ON f.goods_id = g.id
+			WHERE 1=1
+				<if test="dto.userId != null">
+					 and f.user_id = #{dto.userId}
+				</if>
+				GROUP BY goods_id
+			 ORDER BY
+				f.add_time DESC
+    </select>
 </mapper>

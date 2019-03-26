@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
 import com.skymall.domain.Goods;
+import com.skymall.dto.CartQueryDto;
 import com.skymall.service.ICartService;
 import com.skymall.service.IGoodService;
 import com.skymall.service.impl.CartServiceImpl;
 import com.skymall.service.impl.GoodServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import com.skymall.vo.admin.CartEntitiy;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -56,10 +58,11 @@ public class CartController {
             @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer")
     })
     @RequestMapping(value = "/queryByPage",method = RequestMethod.GET )
-    public Object queryAllCartByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
-                                       @RequestParam (name = "size",defaultValue = "10") Integer size){
-        Page<Cart> cartPage = new Page<>(page,size);
-        IPage<Cart> data = cartService.queryByPage(cartPage);
+    public Object queryAllCartByPage(CartQueryDto cartQueryDto,
+                                        @RequestParam (name = "pageNum",defaultValue = "1") Integer page,
+                                       @RequestParam (name = "pageSize",defaultValue = "5") Integer size){
+        Page<CartEntitiy> cartPage = new Page<>(page,size);
+        IPage<CartEntitiy> data = cartService.queryByPage(cartQueryDto, cartPage);
         return new CommonResult().success(data);
     }
 

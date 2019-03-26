@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.Footprint;
+import com.skymall.dto.FootPrintQueryDto;
 import com.skymall.vo.wechat.FootprintVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface FootprintMapper extends BaseMapper<Footprint> {
 
-    public IPage<FootprintVo> queryByPage(Page page, @Param("userId")Integer userId);
+    IPage<FootprintVo> queryByPage(Page page, @Param("userId")Integer userId);
 
+    IPage<FootprintVo> queryPage(IPage page, FootPrintQueryDto dto);
 }

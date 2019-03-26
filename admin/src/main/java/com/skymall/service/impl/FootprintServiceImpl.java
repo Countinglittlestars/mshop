@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.FootprintMapper;
 import com.skymall.domain.Footprint;
+import com.skymall.dto.FootPrintQueryDto;
 import com.skymall.service.IFootprintService;
+import com.skymall.vo.wechat.FootprintVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +25,7 @@ public class FootprintServiceImpl extends ServiceImpl<FootprintMapper, Footprint
     @Resource
     private FootprintMapper footprintMapper;
     @Override
-    public IPage<Footprint> queryByPage(Page<Footprint> page) {
-        return footprintMapper.selectPage(page,null);
+    public IPage<FootprintVo> queryByPage(Page<FootprintVo> page, FootPrintQueryDto footPrintQueryDto) {
+        return footprintMapper.queryPage(page, footPrintQueryDto);
     }
 }

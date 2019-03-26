@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.skymall.domain.Cart;
+import com.skymall.dto.CartQueryDto;
+import com.skymall.vo.admin.CartEntitiy;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  */
 
 public interface ICartService extends IService<Cart> {
-    public IPage<Cart> queryByPage(Page<Cart> page);
+    public IPage<CartEntitiy> queryByPage(CartQueryDto cartQueryDto, Page<CartEntitiy> page);
     public IPage<Cart> pageByExample(Page<Cart> page, QueryWrapper<Cart> queryWrapper);
 //    public List<Cart> selectUnSaleGoods();
 }

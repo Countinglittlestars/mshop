@@ -40,4 +40,21 @@
 
     </select>
 
+
+    <select id="queryPage" resultType="com.skymall.vo.admin.CollectEntity" parameterType="com.skymall.dto.CollectQueryDto">
+      select a.id as id , b.id as userId, b.username as userName,c.name as goodsName,
+        c.goods_Sn goodsSn, c.is_on_sale as isOnSale, c.list_pic_url ListPicUrl
+        from nideshop_collect a
+        left join nideshop_user b on a.user_id = b.id
+        left join nideshop_goods c on a.value_id = c.id
+        where 1 = 1
+        <if test="dto.userId != null">
+              and b.id = #{dto.userId}
+        </if>
+        <if test="dto.userName != null">
+            and b.username like concat('%', #{dto.userName}, '%')
+        </if>
+        order by a.id desc
+    </select>
+
 </mapper>

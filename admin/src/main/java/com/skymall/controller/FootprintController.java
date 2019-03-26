@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.FootprintMapper;
 import com.skymall.domain.Footprint;
+import com.skymall.dto.FootPrintQueryDto;
 import com.skymall.service.impl.FootprintServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import com.skymall.vo.wechat.FootprintVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -48,11 +50,12 @@ public class FootprintController {
             @ApiImplicitParam(paramType="query", name = "pageNum", value = "页码", required = false, dataType = "Integer"),
             @ApiImplicitParam(paramType="query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer"),
     })
-    @RequestMapping(value = "/queryFootpring",method = RequestMethod.GET )
-    public Object queryFootprintByUserId(@RequestParam (name = "page",defaultValue = "1") Integer page,
-                                           @RequestParam (name = "size" ,defaultValue = "10") Integer size){
-        Page<Footprint> footprintPage = new Page<>(page,size);
-        IPage<Footprint> data = footprintService.queryByPage(footprintPage);
+    @RequestMapping(value = "/query",method = RequestMethod.GET )
+    public Object queryFootprintByUserId( FootPrintQueryDto footPrintQueryDto,
+                                            @RequestParam (name = "pageNum",defaultValue = "1") Integer page,
+                                           @RequestParam (name = "pageSize" ,defaultValue = "5") Integer size){
+        Page<FootprintVo> footprintPage = new Page<>(page,size);
+        IPage<FootprintVo> data = footprintService.queryByPage(footprintPage, footPrintQueryDto);
         return new CommonResult().success(data);
     }
 

@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.CartMapper;
 import com.skymall.domain.Cart;
+import com.skymall.dto.CartQueryDto;
 import com.skymall.service.ICartService;
+import com.skymall.vo.admin.CartEntitiy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,8 +29,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
 
     @Override
-    public IPage<Cart> queryByPage(Page<Cart> page) {
-        return cartMapper.selectPage(page,null);
+    public IPage<CartEntitiy> queryByPage(CartQueryDto cartQueryDto, Page<CartEntitiy> page) {
+        IPage result = cartMapper.queryPage(page, cartQueryDto);
+        return result;
     }
 
     @Override

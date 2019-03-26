@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.dao.CollectMapper;
 import com.skymall.domain.Collect;
+import com.skymall.dto.CollectQueryDto;
 import com.skymall.service.impl.CollectServiceImpl;
 import com.skymall.vo.CommonResult;
 import com.skymall.vo.Response;
+import com.skymall.vo.admin.CollectEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -69,10 +71,11 @@ public class CollectController {
             @ApiImplicitParam(paramType = "query", name = "pageSize", value = "每页信息数", required = false, dataType = "Integer")
     })
     @RequestMapping(value = "/query",method = RequestMethod.GET )
-    public Object queryAllCollectByPage(@RequestParam (name = "page",defaultValue = "1") Integer page,
-                                          @RequestParam (name = "size",defaultValue = "10") Integer size){
-        Page<Collect> cartPage = new Page<>(page,size);
-        IPage<Collect> data = collectService.queryByPage(cartPage);
+    public Object queryAllCollectByPage(CollectQueryDto collectQueryDto,
+                                          @RequestParam (name = "pageNum",defaultValue = "1") Integer pageNum,
+                                        @RequestParam (name = "pageSize",defaultValue = "5") Integer pageSize){
+        Page<Collect> cartPage = new Page<>(pageNum,pageSize);
+        IPage<CollectEntity> data = collectService.queryByPage(cartPage, collectQueryDto);
         return new CommonResult().success(data);
     }
 
