@@ -59,18 +59,18 @@ public class AttributeController {
      */
     @RequestMapping(value = "/queryByPage",method = RequestMethod.GET)
     public Object queryByPage(AttributeQueryDto attributeQueryDto,
-                              @RequestParam(defaultValue = "1") Integer page,
-                              @RequestParam(defaultValue = "10") Integer size){
-        return new CommonResult().success(attributeService.queryEntity(page,size,attributeQueryDto));
+                              @RequestParam(defaultValue = "1") Integer pageNum,
+                              @RequestParam(defaultValue = "10") Integer pageSize){
+        return new CommonResult().success(attributeService.queryEntity(pageNum,pageSize,attributeQueryDto));
     }
 
     /**
      * 根据id修改商品参数
      */
     @ApiOperation(value = "根据id修改商品参数")
-    @RequestMapping(value = "/update",method = RequestMethod.PUT )
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.POST )
     public Object updateAttribute(@RequestBody Attribute attribute,
-                                    @RequestParam Integer id){
+                                    @PathVariable Integer id){
         UpdateWrapper<Attribute> updateWrapper = new UpdateWrapper<>();
         attributeService.update(attribute,updateWrapper.eq("id",id));
         return new CommonResult().success();
@@ -80,8 +80,8 @@ public class AttributeController {
      * 根据id删除商品参数
      */
     @ApiOperation(value = "根据id删除商品参数")
-    @RequestMapping(value = "/delete",method = RequestMethod.DELETE )
-    public Object removeAttribute(@RequestParam Integer id){
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.GET )
+    public Object removeAttribute(@PathVariable Integer id){
         QueryWrapper<Attribute> queryWrapper = new QueryWrapper<>();
         attributeService.remove(queryWrapper.eq("id",id));
         return new CommonResult().success();
@@ -96,6 +96,10 @@ public class AttributeController {
         return new CommonResult().success(attributes);
     }
 
-
+    @RequestMapping(value = "query/{id}", method = RequestMethod.GET)
+    public Object query(@PathVariable(value = "id") Integer id){
+        Attribute attribute = attributeService.getById(id);
+        return new CommonResult().success(attribute);
+    }
 
 }
