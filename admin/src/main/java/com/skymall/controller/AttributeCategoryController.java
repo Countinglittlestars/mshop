@@ -59,7 +59,8 @@ public class AttributeCategoryController {
     @ApiOperation(value = "查询所有商品参数类型")
     @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public Object queryAttributeCategory(){
-        List<AttributeCategory> list = attributeCategoryService.list(null);
+
+        List<AttributeCategory> list = attributeCategoryService.list(new QueryWrapper<AttributeCategory>().lambda().eq(AttributeCategory::getEnabled, 1));
         return new CommonResult().success(list);
 
     }
