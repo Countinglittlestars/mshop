@@ -3,6 +3,7 @@ package com.skymall.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.AttributeCategory;
 
 import com.skymall.service.impl.AttributeCategoryServiceImpl;
@@ -57,7 +58,7 @@ public class AttributeCategoryController {
      * 查询所有商品参数类型
      */
     @ApiOperation(value = "查询所有商品参数类型")
-    @RequestMapping(value = "/queryAll",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/queryAll",method = RequestMethod.GET)
     public Object queryAttributeCategory(){
 
         List<AttributeCategory> list = attributeCategoryService.list(new QueryWrapper<AttributeCategory>().lambda().eq(AttributeCategory::getEnabled, 1));
@@ -66,7 +67,23 @@ public class AttributeCategoryController {
     }
 
 
+    /**
+     * 根据id或名称分页查询商品参数类型
+     */
+    @RequestMapping(value = "/queryByPage",method = RequestMethod.GET)
+    public Object queryAttrCateByPage(AttributeCategory attributeCategory,
+                                      @RequestParam(defaultValue = "1") Integer page,
+                                      @RequestParam(defaultValue = "10") Integer size){
+        return new CommonResult().success(attributeCategoryService.queryByPage(page,size,attributeCategory));
+    }
 
+    /**
+     * 查询可用参数类型
+     */
+    @RequestMapping(value = "/queryEnabled")
+    public Object queryEnableEnabledAttrCate(){
+        return new CommonResult().success(attributeCategoryService.queryEnableEnabledAttrCate());
+    }
 
     /**
      * 根据id删除商品参数类型

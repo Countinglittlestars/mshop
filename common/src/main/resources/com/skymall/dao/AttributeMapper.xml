@@ -16,4 +16,21 @@
     <select id="queryByGoodId" parameterType="Integer">
       select a.* from nideshop_attribute a , nideshop_goods_attribute ga where a.id  = ga.attribute_id and goods_id = #{goodId}
     </select>
+
+    <select id="queryEntity" parameterType="com.skymall.dto.AttributeQueryDto" resultType="com.skymall.vo.admin.AttributeEntity">
+    SELECT
+    b.name attributeCategoryName,
+    a.id id,
+    a.name attributeName,
+    a.sort_order sortOrder
+    FROM nideshop_attribute a , nideshop_attribute_category b
+    WHERE 1=1
+    <if test="dto.attributeCategoryName != null">
+        AND b.name like concat('%',#{dto.attributeCategoryName},'%')
+    </if>
+    <if test="dto.attributeName != null">
+        AND a.name like concat('%',#{dto.attributeName},'%')
+    </if>
+    ORDER BY a.id ASC
+    </select>
 </mapper>

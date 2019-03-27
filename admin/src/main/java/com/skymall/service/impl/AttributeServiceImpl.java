@@ -1,12 +1,16 @@
 package com.skymall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skymall.dao.AttributeMapper;
 import com.skymall.domain.Attribute;
 import com.skymall.domain.GoodsAttribute;
+import com.skymall.dto.AttributeQueryDto;
 import com.skymall.service.IAttributeService;
 import com.skymall.service.IGoodsAttributeService;
+import com.skymall.vo.admin.AttributeEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +33,10 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
     @Resource
     IGoodsAttributeService goodsAttributeService;
 
+    @Resource
+    AttributeMapper attributeMapper;
+
+
     @Override
     public List<Attribute> queryByGoodId(Integer goodId) {
         List<Attribute> attributes = new ArrayList<>();
@@ -45,5 +53,11 @@ public class AttributeServiceImpl extends ServiceImpl<AttributeMapper, Attribute
             }
         });
         return attributes;
+    }
+
+    @Override
+    public IPage<AttributeEntity> queryEntity(Integer page, Integer size, AttributeQueryDto attributeQueryDto) {
+        Page<AttributeEntity> page1 = new Page<>(page,size);
+        return attributeMapper.queryEntity(page1,attributeQueryDto);
     }
 }
