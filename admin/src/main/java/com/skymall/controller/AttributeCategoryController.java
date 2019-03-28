@@ -46,7 +46,7 @@ public class AttributeCategoryController {
      */
     @ApiOperation(value = "根据id修改商品参数类型")
     @ApiImplicitParam(type = "update",name = "id",value = "商品参数Id",required = true,dataType = "Integer")
-    @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT )
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.POST )
     public Object updateAttributeCategory(@RequestBody AttributeCategory attributeCategory,
                                             @PathVariable Integer id){
         UpdateWrapper<AttributeCategory> updateWrapper = new UpdateWrapper<>();
@@ -96,4 +96,12 @@ public class AttributeCategoryController {
         attributeCategoryService.remove(queryWrapper.eq("id",id));
         return new CommonResult().success();
     }
+
+    @RequestMapping(value = "queryById/{id}",method = RequestMethod.GET)
+    public Object queryById(@PathVariable(value = "id")Integer id){
+        QueryWrapper<AttributeCategory> queryWrapper = new QueryWrapper<>();
+        return new CommonResult().success(attributeCategoryService.getById(id));
+    }
+
+
 }

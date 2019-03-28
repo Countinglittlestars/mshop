@@ -35,6 +35,9 @@ public class AttributeCategoryServiceImpl extends ServiceImpl<AttributeCategoryM
         if (null != attributeCategory.getName()){
             queryWrapper.like("name",attributeCategory.getName());
         }
+        if( null != attributeCategory.getEnabled()){
+            queryWrapper.eq("enabled", attributeCategory.getEnabled());
+        }
         Page page1 = new Page(page,size);
         return attributeCategoryMapper.selectMapsPage(page1,queryWrapper);
     }
