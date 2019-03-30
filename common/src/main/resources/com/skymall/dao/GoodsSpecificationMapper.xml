@@ -91,5 +91,71 @@
         </if>
         order by nideshop_goods_specification.id desc
     </select>
+    
+    <select id="queryAll" resultType="com.skymall.vo.admin.GoodSpecificationEntity">
+    select
+    a.id goodsId,
+    a.name goodsName,
+    a.goods_sn goodsSN,
+    b.id specId,
+    b.name specName,
+    c.id,
+    c.value goodsSpecValue
+    from
+    nideshop_goods a,
+    nideshop_specification b,
+    nideshop_goods_specification c
+    where
+    c.specification_id = b.id
+    and c.goods_id = a.id
+    </select>
+
+    <select id="queryById" parameterType="Integer" resultType="com.skymall.vo.admin.GoodSpecificationEntity">
+    select
+    a.id goodsId,
+    a.name goodsName,
+    a.goods_sn goodsSN,
+    b.id specId,
+    b.name specName,
+    c.id,
+    c.value goodsSpecValue
+    from
+    nideshop_goods a,
+    nideshop_specification b,
+    nideshop_goods_specification c
+    where
+    c.specification_id = b.id
+    and c.goods_id = a.id
+    and c.id = #{id}
+    </select>
+
+    <select id="queryByExample" parameterType="com.skymall.dto.GoodsSpecQueryDto" resultType="com.skymall.vo.admin.GoodSpecificationEntity">
+    select
+    a.id goodsId,
+    a.name goodsName,
+    a.goods_sn goodsSN,
+    b.id specId,
+    b.name specName,
+    c.id,
+    c.value goodsSpecValue
+    from
+    nideshop_goods a,
+    nideshop_specification b,
+    nideshop_goods_specification c
+    where
+    c.specification_id = b.id
+    and c.goods_id = a.id
+    <if test="dto.goodsSN != null">
+    and a.goods_sn = #{dto.goodsSN}
+    </if>
+    <if test="dto.goodsName != null">
+    and a.name like concat('%',#{dto.goodsName},'%')
+    </if>
+    <if test="dto.specName != null">
+    and b.name = #{dto.specName}
+    </if>
+    ORDER BY c.id ASC
+    </select>
+
 
 </mapper>

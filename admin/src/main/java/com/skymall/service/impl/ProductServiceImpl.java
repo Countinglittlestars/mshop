@@ -11,14 +11,12 @@ import com.skymall.dto.ProductQueryDto;
 import com.skymall.service.IGoodsSpecificationService;
 import com.skymall.service.IProductService;
 import com.skymall.utils.StringUtils;
-import com.skymall.vo.admin.GoodsSpecificationEntity;
 import com.skymall.vo.admin.ProductEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
