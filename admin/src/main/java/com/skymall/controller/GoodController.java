@@ -6,7 +6,6 @@ import com.skymall.dto.GoodQueryDto;
 import com.skymall.dto.GoodUpdateInfoDto;
 import com.skymall.service.IGoodService;
 import com.skymall.vo.CommonResult;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
