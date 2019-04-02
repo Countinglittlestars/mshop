@@ -14,13 +14,13 @@
     id id,
     name name,
     sort_order sortOrder
-    from nideshop_specification
+    from nideshop_specification s
     where 1=1
     <if test="dto.id != null">
-        AND id = #{dto.id}
+        AND s.id = #{dto.id}
     </if>
     <if test="dto.name != null">
-        AND name = #{dto.name}
+        AND s.name LIKE concat('%',#{dto.name},'%')
     </if>
     ORDER BY sort_order ASC
     </select>

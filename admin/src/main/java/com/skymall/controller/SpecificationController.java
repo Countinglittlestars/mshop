@@ -2,6 +2,7 @@ package com.skymall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skymall.domain.Specification;
 import com.skymall.service.ISpecificationService;
@@ -38,10 +39,11 @@ public class SpecificationController {
      */
     @RequestMapping(value = "/queryByPage",method = RequestMethod.GET)
     public Object querySpec(Specification specification,
-                            @RequestParam(defaultValue =  "1") Integer page,
-                            @RequestParam(defaultValue =  "10") Integer size){
-        Page page1 = new Page(page,size);
-        return new CommonResult().success(specificationService.querySpec(page1,specification));
+                            @RequestParam(defaultValue =  "1") Integer pageNum,
+                            @RequestParam(defaultValue =  "10") Integer pageSize){
+        Page page1 = new Page(pageNum,pageSize);
+        IPage result = specificationService.querySpec(page1,specification);
+        return new CommonResult().success(result);
     }
 
     /**
