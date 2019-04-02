@@ -26,4 +26,10 @@ public class WcCollectServiceImpl extends ServiceImpl<CollectMapper, Collect> im
         return collectVos;
     }
 
+    @Override
+    public List<CollectVo> queryList(Map map) {
+        List<CollectVo> collectVos = collectMapper.queryList(map);
+        return collectVos;
+    }
+
 }

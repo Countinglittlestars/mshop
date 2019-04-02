@@ -9,4 +9,6 @@ import java.util.Map;
 
 public interface IWcCollectService extends IService<Collect> {
     public List<CollectVo> queryListByUserId(Map map);
+
+    public List<CollectVo> queryList(Map map);
 }

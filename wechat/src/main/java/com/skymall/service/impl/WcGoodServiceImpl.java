@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
+import com.skymall.dao.BrandMapper;
 import com.skymall.dao.GoodsMapper;
 import com.skymall.domain.*;
+import com.skymall.exception.ApiRRException;
 import com.skymall.service.*;
 import com.skymall.utils.ApiPageUtils;
 import com.skymall.utils.WrapperUtil;
@@ -38,6 +40,9 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
 
     @Resource
     private IWcAttributeService attributeService;
+
+    @Resource
+    private BrandMapper brandMapper;
 
 
     @Resource
@@ -99,7 +104,7 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
         Goods goods = goodsMapper.selectById(id);
 
         //2. 获取展示图片信息
-        GoodsGallery goodsGallery = goodsGalleryService.queryByGoodsId(id);
+        List<GoodsGallery> goodsGallery = goodsGalleryService.queryByGoodsId(id);
 
         //3. 获取"商品-规格"信息
         List<GoodsSpecificationWithName> goodsSpecifications = goodSpecificationService.getSpecificationWithName(id);
@@ -112,7 +117,7 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
             //
             List<GoodsSpecificationWithName> tempList = null;
             for (int j = 0; j < specificationList.size(); j++) {
-                if (specificationList.get(j).get("specificationDd").equals(specItem.getSpecificationId())) {
+                if (specificationList.get(j).get("specificationId").equals(specItem.getSpecificationId())) {
                     tempList = (List<GoodsSpecificationWithName>) specificationList.get(j).get("valueList");
                     break;
                 }
@@ -145,11 +150,17 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
 
         //7. 评论信息
 
+        //8. 品牌信息
+        if(goods.getBrandId() == null){
+            throw new  ApiRRException("根据id查询不到对应的品牌");
+        }
+        Brand brand = brandMapper.selectById(goods.getBrandId());
         result.put("info", goods);
         result.put("gallery", goodsGallery);
         result.put("productList", productVos);
         result.put("specificationList", specificationList);
         result.put("attribute", attributes);
+        result.put("brand", brand);
         return result;
     }
 

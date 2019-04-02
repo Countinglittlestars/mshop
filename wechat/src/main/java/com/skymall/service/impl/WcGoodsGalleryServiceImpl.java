@@ -9,6 +9,7 @@ import com.skymall.service.IWcGoodsGalleryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class WcGoodsGalleryServiceImpl extends ServiceImpl<GoodsGalleryMapper, GoodsGallery> implements IWcGoodsGalleryService  {
@@ -25,9 +26,8 @@ public class WcGoodsGalleryServiceImpl extends ServiceImpl<GoodsGalleryMapper, G
     }
 
     @Override
-    public GoodsGallery queryByGoodsId(Integer goodsId) {
-
-        GoodsGallery result = goodsGalleryMapper.selectById(goodsId);
+    public List<GoodsGallery> queryByGoodsId(Integer goodsId) {
+       List<GoodsGallery> result = goodsGalleryMapper.selectList(new QueryWrapper<GoodsGallery>().lambda().eq(GoodsGallery::getGoodsId, goodsId));
         return result;
     }
 

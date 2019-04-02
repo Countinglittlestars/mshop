@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.dto.CartQueryDto;
 import com.skymall.vo.admin.CartEntitiy;
 import com.skymall.vo.wechat.CartVo;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,15 @@ public interface CartMapper extends BaseMapper<Cart> {
      List<CartVo> queryList(Map map);
 
      IPage<CartEntitiy> queryPage(Page page, CartQueryDto dto);
+
+     void deleteByUserAndProductIds(@Param("user_id") Integer user_id, @Param("productIds") String[] productIds);
+
+     void updateCheck(@Param("productIds") String[] productIds,
+                      @Param("isChecked") Boolean isChecked, @Param("userId") Integer userId);
+
+     void deleteByCart(@Param("user_id") Integer user_id, @Param("session_id") Integer session_id, @Param("checked") Integer checked);
+
+
 
 
 }

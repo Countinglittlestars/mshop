@@ -23,28 +23,27 @@
 
 
 
-    <select id="queryList" resultType="com.skymall.vo.wechat.CartVo">
+    <select id="queryList" resultType="com.skymall.vo.wechat.CartVo" parameterType="Map">
         select a.*,
-        b.name as goodsName,
-        b.list_pic_url as listPicUrl
-        from nideshop_product a
+        b.list_pic_url as list_pic_url,
+        c.retail_price as retail_product_price
+        from nideshop_cart a
         left join nideshop_goods b on a.goods_id = b.id
-        <where>
-            <if test="goods_id != null">
-                and a.goods_id = #{goods_id}
-            </if>
-        </where>
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
-            <otherwise>
-                order by a.id desc
-            </otherwise>
-        </choose>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
+        left join nideshop_product c on c.goods_id = a.goods_id and c.id = a.product_id
+        where 1 = 1
+        <if test="user_id != null">
+            AND a.user_id = #{user_id}
         </if>
+        <if test="goods_id != null">
+            AND a.goods_id = #{goods_id}
+        </if>
+        <if test="product_id != null">
+            AND a.product_id = #{product_id}
+        </if>
+        <if test="checked != null">
+            AND a.checked = #{checked}
+        </if>
+        order by a.id desc
     </select>
 
 
@@ -65,8 +64,29 @@
           order by c.id
     </select>
 
+    <delete id="deleteByUserAndProductIds">
+        delete from nideshop_cart where product_id in
+        <foreach item="id" collection="productIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{user_id}
+    </delete>
 
 
+    <update id="updateCheck">
+        update nideshop_cart
+        set `checked` = #{isChecked}
+        where product_id in
+        <foreach item="product_id" collection="productIds" open="(" separator="," close=")">
+            #{product_id}
+        </foreach>
+        and user_id = #{userId}
+    </update>
+
+    <delete id="deleteByCart">
+        delete from nideshop_cart
+        where  user_id = #{user_id} and  session_id = #{session_id} and  checked = #{checked}
+    </delete>
 
 
 

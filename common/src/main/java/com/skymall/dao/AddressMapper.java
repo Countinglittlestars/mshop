@@ -6,9 +6,11 @@ import com.skymall.domain.Address;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.skymall.dto.AddressQueryDto;
 import com.skymall.vo.admin.AddressEntity;
+import com.skymall.vo.wechat.AddressVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,4 +23,8 @@ import java.util.List;
 public interface AddressMapper extends BaseMapper<Address> {
     IPage queryByAddressQueryDto
             (Page page, @Param(value = "dto") AddressQueryDto addressQueryDto);
+
+    List<AddressVo> queryList(Map map);
+
+
 }

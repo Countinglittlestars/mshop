@@ -24,4 +24,33 @@
         id, order_id, goods_id, goods_name, goods_sn, product_id, number, market_price, retail_price, goods_specifition_name_value, is_real, goods_specifition_ids, list_pic_url
     </sql>
 
+
+
+    <select id="queryList" resultType="com.skymall.vo.wechat.OrderGoodsVo">
+        select * from nideshop_order_goods
+        <where>
+            <if test="order_id != null and order_id != ''">
+                and order_id = #{order_id}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+		select count(*) from nideshop_order_goods
+	</select>
+
+
+
+
 </mapper>

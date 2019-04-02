@@ -9,21 +9,21 @@ public class ProductVo {
     //主键
     private Integer id;
     //商品Id
-    private Integer goods_id;
+    private Integer goodsId;
     //产品Id
-    private Integer product_id;
+    private Integer productId;
     //商品规格ids
-    private String goods_specification_ids;
+    private String goodsSpecificationIds;
     //商品序列号
-    private String goods_sn;
+    private String goodsSn;
     //商品库存
-    private Integer goods_number;
+    private Integer goodsNumber;
     //零售价格
-    private BigDecimal market_price;
+    private BigDecimal marketPrice;
     //时长价
-    private BigDecimal retail_price;
+    private BigDecimal retailPrice;
     //商品名称
-    private String goods_name;
+    private String goodsName;
     //商品图片
-    private String list_pic_url;
+    private String listPicUrl;
 }

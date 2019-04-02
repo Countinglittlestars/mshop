@@ -46,4 +46,30 @@
         id, order_sn, user_id, order_status, shipping_status, pay_status, consignee, country, province, city, district, address, mobile, postscript, shipping_id, shipping_name, pay_id, pay_name, shipping_fee, actual_price, integral, integral_money, order_price, goods_price, add_time, confirm_time, pay_time, freight_price, coupon_id, parent_id, coupon_price, callback_status, shipping_no, full_cut_price, order_type
     </sql>
 
+    <select id="queryObject" resultType="com.skymall.vo.wechat.OrderVo">
+		select a.*,b.code as  shipping_code
+		from nideshop_order a
+		left join nideshop_shipping b on a.shipping_id = b.id
+		where a.id = #{value}
+	</select>
+    <select id="queryList" resultType="com.skymall.vo.wechat.OrderVo">
+        select * from nideshop_order
+        <where>
+            <if test="user_id != null">
+                and user_id = #{user_id}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
 </mapper>

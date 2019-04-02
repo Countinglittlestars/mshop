@@ -50,4 +50,14 @@
     ORDER BY a.id ASC
     </select>
 
+    <!--<select id="queryList" resultMap="com.skymall.vo.wechat.AddressVo">-->
+        <!--select * from nideshop_address-->
+        <!--<where>-->
+            <!--<if test="user_id != null">-->
+                <!--and user_id = #{user_id}-->
+            <!--</if>-->
+        <!--</where>-->
+        <!--order by id desc-->
+    <!--</select>-->
+
 </mapper>

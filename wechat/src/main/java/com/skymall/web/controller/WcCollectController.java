@@ -12,6 +12,7 @@ import com.skymall.service.IWcCollectService;
 import com.skymall.utils.BeanUtils;
 import com.skymall.vo.Response;
 import com.skymall.vo.wechat.CollectVo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +43,7 @@ public class WcCollectController extends AbstractController{
      */
     @RequestMapping(value = "/queryListByUserId", method = RequestMethod.GET)
     public Response queryListByUserId(Integer typeId){
-        Integer userId = Integer.valueOf(request.getParameter(WcConstant.LOGIN_USER_KEY));
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
         if(userId == null) throw new ApiRRException("用户不存在", 500);
         Map map = new HashMap<String, Integer>();
         map.put("userId", userId);
@@ -50,6 +51,20 @@ public class WcCollectController extends AbstractController{
         return Response.success(collectVoList);
     }
 
+    @ApiOperation(value = "获取用户收藏")
+    @PostMapping("list")
+    public Object list( Integer typeId) {
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
+        Map param = new HashMap();
+        param.put("user_id", userId);
+        param.put("type_id", typeId);
+        List<CollectVo> collectEntities = wcCollectService.queryList(param);
+
+//        Query query = new Query(param);
+//        int total = collectService.queryTotal(query);
+//        ApiPageUtils pageUtil = new ApiPageUtils(collectEntities, total, query.getLimit(), query.getPage());
+        return Response.success(collectEntities);
+    }
 
     /**
      * 取消或添加收藏
@@ -57,13 +72,13 @@ public class WcCollectController extends AbstractController{
      */
     @PostMapping("/addordelete")
     public Object addordelete() {
-        User loginUser = new User();
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
         JSONObject jsonParam = getJsonRequest();
         Integer typeId = jsonParam.getInteger("typeId");
         Integer valueId = jsonParam.getInteger("valueId");
 
         Map param = new HashMap();
-        param.put("userId", loginUser.getId());
+        param.put("userId", userId);
         param.put("typeId", typeId);
         param.put("valueId", valueId);
         List<CollectVo> collectEntities = wcCollectService.queryListByUserId(param);
@@ -76,7 +91,7 @@ public class WcCollectController extends AbstractController{
             collectEntity.setTypeId(typeId);
             collectEntity.setValueId(valueId);
             collectEntity.setIsAttention(0);
-            collectEntity.setUserId(loginUser.getId());
+            collectEntity.setUserId(userId);
             //添加收藏
             Collect collect = new Collect();
             BeanUtils.mapping(collectEntity, collect);

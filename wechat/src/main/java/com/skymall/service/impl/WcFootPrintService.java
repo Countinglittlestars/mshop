@@ -10,6 +10,7 @@ import com.skymall.vo.wechat.FootprintVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class WcFootPrintService extends ServiceImpl<FootprintMapper, Footprint> implements IWcFootPrintService {
@@ -26,5 +27,10 @@ public class WcFootPrintService extends ServiceImpl<FootprintMapper, Footprint> 
     public IPage<FootprintVo> queryByPage(Page page, Integer userId){
         IPage page1 = footprintMapper.queryByPage(page, userId);
         return page1;
+    }
+
+    @Override
+    public List<FootprintVo> queryListFootprint(String userid) {
+        return footprintMapper.queryListFootprint(userid);
     }
 }

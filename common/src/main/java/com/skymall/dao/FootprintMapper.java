@@ -8,6 +8,8 @@ import com.skymall.dto.FootPrintQueryDto;
 import com.skymall.vo.wechat.FootprintVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -21,4 +23,6 @@ public interface FootprintMapper extends BaseMapper<Footprint> {
     IPage<FootprintVo> queryByPage(Page page, @Param("userId")Integer userId);
 
     IPage<FootprintVo> queryPage(IPage page, FootPrintQueryDto dto);
+
+    List<FootprintVo> queryListFootprint(String userid);
 }

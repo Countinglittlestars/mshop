@@ -24,4 +24,5 @@ public interface CollectMapper extends BaseMapper<Collect> {
 
     IPage<CollectEntity> queryPage(IPage page, CollectQueryDto dto);
 
+    List<CollectVo> queryList(Map map);
 }

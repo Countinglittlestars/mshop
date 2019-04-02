@@ -16,5 +16,13 @@ public interface IWcCartService extends IService<Cart> {
     Object add(JSONObject jsonObject, Integer userId);
 
     Object removeCart(JSONObject jsonObject);
-    public List<CartVo> queryList(Map<String, Object> map);
+
+    List<CartVo> queryList(Map<String, Object> map);
+
+    Object updateIndex(JSONObject jsonObject, Integer userId);
+
+    Object delete(JSONObject jsonObject, Integer userId);
+
+    Object checked(JSONObject jsonObject, Integer userId);
+
 }

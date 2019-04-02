@@ -27,7 +27,8 @@ public class WcProductServiceImpl extends ServiceImpl<ProductMapper, Product> im
 
     @Override
     public ProductVo queryObject(Integer productId) {
-        return null;
+        ProductVo productVo = productMapper.queryObject(productId);
+        return productVo;
     }
 
 }

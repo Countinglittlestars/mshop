@@ -13,7 +13,7 @@
     </resultMap>
 
     
-    <select id="queryByGoodId" parameterType="Integer">
+    <select id="queryByGoodId" parameterType="Integer" resultMap="BaseResultMap">
       select a.* from nideshop_attribute a , nideshop_goods_attribute ga where a.id  = ga.attribute_id and goods_id = #{goodId}
     </select>
 

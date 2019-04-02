@@ -14,7 +14,7 @@
     </resultMap>
     
     <select id="queryList" resultType="com.skymall.vo.wechat.ProductVo" parameterType="Integer">
-      select a.*, b.name `goodsName`, b.list_pic_url as list_pic_url from nideshop_product a left join nideshop_goods b on a.goods_id = b.id where a.goods_id = #{goodId}
+      select a.*, b.name `goodsName`, b.list_pic_url as list_pic_url from nideshop_product a left join nideshop_goods b on a.goods_id = b.id where a.goods_id = #{goodsId}
     </select>
 
     <select id="queryObject" resultType="com.skymall.vo.wechat.ProductVo" >

@@ -5,40 +5,33 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class CartVo {
+public class OrderGoodsVo {
     private static final long serialVersionUID = 1L;
 
     //主键
     private Integer id;
-    //会员Id
-    private Integer userId;
-    //sessionId
-    private String sessionId;
-    //商品Id
+    //订单Id
+    private Integer orderId;
+    //商品id
     private Integer goodsId;
+    //商品名称
+    private String goodsName;
     //商品序列号
     private String goodsSn;
     //产品Id
     private Integer productId;
-    //产品名称
-    private String goodsName;
+    //商品数量
+    private Integer number;
     //市场价
     private BigDecimal marketPrice;
     //零售价格
     private BigDecimal retailPrice;
-    //product表中的零售价格
-    private BigDecimal retailProductPrice;
-    //数量
-    private Integer number;
-    //规格属性组成的字符串，用来显示用
+    //商品规格详情
     private String goodsSpecifitionNameValue;
-    //product表对应的goods_specifition_ids
+    //虚拟商品
+    private Integer isReal;
+    //商品规格Ids
     private String goodsSpecifitionIds;
-    //
-    private Boolean checked;
-    // 节省金额
-    private BigDecimal crashSavePrice;
-
-    //商品图片
+    //图片链接
     private String listPicUrl;
 }

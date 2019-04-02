@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -35,9 +37,9 @@ public class Order implements Serializable {
 
     private Integer orderStatus;
 
-    private Boolean shippingStatus;
+    private Integer shippingStatus;
 
-    private Boolean payStatus;
+    private Integer payStatus;
 
     private String consignee;
 
@@ -84,11 +86,11 @@ public class Order implements Serializable {
      */
          private BigDecimal goodsPrice;
 
-    private LocalDateTime addTime;
+    private Date addTime;
 
-    private LocalDateTime confirmTime;
+    private Date confirmTime;
 
-    private LocalDateTime payTime;
+    private Date payTime;
 
         /**
      * 配送费用
@@ -104,7 +106,7 @@ public class Order implements Serializable {
 
     private BigDecimal couponPrice;
 
-    private String callbackStatus;
+    private Integer callbackStatus;
 
     private String shippingNo;
 
