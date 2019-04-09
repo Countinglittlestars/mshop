@@ -45,7 +45,7 @@ public class WcPayController {
 //        if (orderInfo.getPayStatus() != 0) {
 //            return Response.error(400, "订单已支付，请不要重复操作");
 //        }
-        orderInfo.setPayStatus(1);
+//        orderInfo.setPayStatus(1);
         Order order = new Order();
         BeanUtils.mapping(orderInfo, order);
         orderService.updateById(order);
@@ -65,7 +65,7 @@ public class WcPayController {
         // 业务处理
         Order orderInfo = new Order();
         orderInfo.setId(orderId);
-        orderInfo.setPayStatus(2);
+//        orderInfo.setPayStatus(2);
         orderInfo.setOrderStatus(201);
         orderInfo.setShippingStatus(0);
         orderInfo.setPayTime(new Date());
@@ -80,7 +80,7 @@ public class WcPayController {
         }
         //修改状态
         Order orderInfo = orderService.getById(orderId);
-        orderInfo.setPayStatus(2);
+//        orderInfo.setPayStatus(2);
         orderInfo.setOrderStatus(201);
         orderInfo.setShippingStatus(0);
         orderInfo.setPayTime(new Date());

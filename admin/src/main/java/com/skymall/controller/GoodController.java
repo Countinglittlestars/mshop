@@ -1,5 +1,6 @@
 package com.skymall.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.skymall.domain.Goods;
 import com.skymall.dto.GoodAddDto;
 import com.skymall.dto.GoodQueryDto;
@@ -80,6 +81,13 @@ public class GoodController {
         goodService.updateById(goods);
         return new CommonResult().success();
     }
+
+    @RequestMapping(value = "query", method = RequestMethod.GET)
+    public Object query(){
+        return new CommonResult().success(goodService.list(new QueryWrapper<Goods>().lambda().orderByDesc(Goods::getId)));
+    }
+
+
 
 
 }

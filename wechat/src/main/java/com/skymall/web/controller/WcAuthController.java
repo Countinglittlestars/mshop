@@ -62,6 +62,7 @@ public class WcAuthController extends AbstractController {
             return Response.error("登录失败");
         }
         //验证用户信息完整性
+        //校验
         String sha1 = CommonUtil.getSha1(fullUserInfo.getRawData() + sessionData.getString("session_key"));
         if (!fullUserInfo.getSignature().equals(sha1)) {
             return Response.error("登录失败");

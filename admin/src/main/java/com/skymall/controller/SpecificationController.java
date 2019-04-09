@@ -83,4 +83,6 @@ public class SpecificationController {
                 (specificationService.remove(new QueryWrapper<Specification>().lambda().eq(Specification::getId,id)));
     }
 
+
+
 }

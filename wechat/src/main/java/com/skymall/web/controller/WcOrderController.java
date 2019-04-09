@@ -1,5 +1,6 @@
 package com.skymall.web.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.skymall.annotation.IgnoreAuth;
 import com.skymall.constant.WcConstant;
 import com.skymall.domain.Order;
@@ -225,10 +226,7 @@ public class WcOrderController extends AbstractController{
         Query query = new Query(params);
         //-----------------------------------------------------------------------------需要补充写sql语句
         List<OrderVo> orderEntityList = orderService.queryList(query);
-        int total = 0;
-        if(!orderEntityList.isEmpty()){
-            total = orderEntityList.size();
-        }
+        int total = orderService.count(new QueryWrapper<Order>().lambda().eq(Order::getUserId, userId));
 
         ApiPageUtils pageUtil = new ApiPageUtils(orderEntityList, total, query.getLimit(), query.getPage());
         //

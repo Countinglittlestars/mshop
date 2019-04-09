@@ -136,7 +136,7 @@
     a.goods_sn goodsSN,
     b.id specId,
     b.name specName,
-    c.id,
+    c.id id,
     c.value goodsSpecValue
     from
     nideshop_goods a,
@@ -154,7 +154,7 @@
     <if test="dto.specName != null">
     and b.name = #{dto.specName}
     </if>
-    ORDER BY c.id ASC
+    ORDER BY c.id DESC
     </select>
 
 

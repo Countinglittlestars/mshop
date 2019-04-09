@@ -12,12 +12,13 @@ import com.skymall.domain.Order;
 import com.skymall.domain.OrderGoods;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.IWcOrderService;
+import com.skymall.service.IWcProductService;
 import com.skymall.utils.BeanUtils;
 import com.skymall.utils.CommonUtil;
+import com.skymall.utils.GuavaCacheUtil;
 import com.skymall.utils.WrapperUtil;
-import com.skymall.vo.wechat.CartVo;
-import com.skymall.vo.wechat.OrderGoodsVo;
-import com.skymall.vo.wechat.OrderVo;
+import com.skymall.vo.wechat.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,9 @@ import java.util.*;
 
 @Service
 public class WcOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IWcOrderService {
+
+    @Value("SHOP_CACHE_NAME")
+    String shopCacheName;
 
     @Resource
     AddressMapper addressMapper;
@@ -40,13 +44,16 @@ public class WcOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implemen
     @Resource
     OrderGoodsMapper orderGoodsMapper;
 
+    @Resource
+    IWcProductService productService;
+
     @Transactional
     public Map<String, Object> submit(JSONObject jsonParam, Integer userId) {
         Map<String, Object> resultObj = new HashMap<String, Object>();
 
 //        Integer couponId = jsonParam.getInteger("couponId");
         String type = jsonParam.getString("type");
-        String postscript = jsonParam.getString("postscript");
+//        String postscript = jsonParam.getString("postscript");
 //        AddressVo addressVo = jsonParam.getObject("checkedAddress",AddressVo.class);
 //        AddressVo addressVo = apiAddressMapper.queryObject(jsonParam.getInteger("addressId"));
         Address addressVo = addressMapper.selectById(jsonParam.getInteger("addressId"));
@@ -72,29 +79,12 @@ public class WcOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implemen
                 goodsTotalPrice = goodsTotalPrice.add(cartItem.getRetailPrice().multiply(new BigDecimal(cartItem.getNumber())));
             }
         } else {
-//            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get(J2CacheUtils.SHOP_CACHE_NAME, "goods" + loginUser.getUserId());
-//            ProductVo productInfo = productService.queryObject(goodsVo.getProductId());
-//            //计算订单的费用
-//            //商品总价
-//            goodsTotalPrice = productInfo.getRetail_price().multiply(new BigDecimal(goodsVo.getNumber()));
-//
-//            CartVo cartVo = new CartVo();
-//            BeanUtils.copyProperties(productInfo, cartVo);
-//            cartVo.setNumber(goodsVo.getNumber());
-//            cartVo.setProduct_id(goodsVo.getProductId());
-//            checkedGoodsList.add(cartVo);
+            BuyGoodsVo goodsVo = (BuyGoodsVo) GuavaCacheUtil.getKey(shopCacheName+userId);
+            ProductVo productInfo = productService.queryObject(goodsVo.getProductId());
+            //计算订单的费用
+            //商品总价
+            goodsTotalPrice = productInfo.getRetailPrice().multiply(new BigDecimal(goodsVo.getNumber()));
         }
-
-
-//        //获取订单使用的优惠券
-//        BigDecimal couponPrice = new BigDecimal(0.00);
-//        CouponVo couponVo = null;
-//        if (couponId != null && couponId != 0) {
-//            couponVo = apiCouponMapper.getUserCoupon(couponId);
-//            if (couponVo != null && couponVo.getCoupon_status() == 1) {
-//                couponPrice = couponVo.getType_money();
-//            }
-//        }
 
         //订单价格计算
         BigDecimal orderTotalPrice = goodsTotalPrice.add(new BigDecimal(freightPrice)); //订单的总价
@@ -116,29 +106,29 @@ public class WcOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implemen
         orderInfo.setDistrict(addressVo.getCountyName());
         orderInfo.setAddress(addressVo.getDetailInfo());
         //
-        orderInfo.setFreightPrice(freightPrice);
+//        orderInfo.setFreightPrice(freightPrice);
         //留言
-        orderInfo.setPostscript(postscript);
+//        orderInfo.setPostscript(postscript);
         //使用的优惠券
 //        orderInfo.setCoupon_id(couponId);
 //        orderInfo.setCoupon_price(couponPrice);
         orderInfo.setAddTime(new Date());
-        orderInfo.setGoodsPrice(goodsTotalPrice);
+//        orderInfo.setGoodsPrice(goodsTotalPrice);
         orderInfo.setOrderPrice(orderTotalPrice);
-        orderInfo.setActualPrice(actualPrice);
+//        orderInfo.setActualPrice(actualPrice);
         // 待付款
         orderInfo.setOrderStatus(0);
         orderInfo.setShippingStatus(0);
-        orderInfo.setPayStatus(0);
-        orderInfo.setShippingId(0);
-        orderInfo.setShippingFee(new BigDecimal(0));
-        orderInfo.setIntegral(0);
-        orderInfo.setIntegralMoney(new BigDecimal(0));
-        if (type.equals("cart")) {
-            orderInfo.setOrderType("1");
-        } else {
-            orderInfo.setOrderType("4");
-        }
+//        orderInfo.setPayStatus(0);
+//        orderInfo.setShippingId(0);
+//        orderInfo.setShippingFee(new BigDecimal(0));
+//        orderInfo.setIntegral(0);
+//        orderInfo.setIntegralMoney(new BigDecimal(0));
+//        if (type.equals("cart")) {
+//            orderInfo.setOrderType("1");
+//        } else {
+//            orderInfo.setOrderType("4");
+//        }
 
         //开启事务，插入订单信息和订单商品
         Order order = new Order();
@@ -153,26 +143,26 @@ public class WcOrderServiceImpl extends ServiceImpl<OrderMapper, Order> implemen
         }
 
         //统计商品总价
-        List<OrderGoodsVo> orderGoodsData = new ArrayList<OrderGoodsVo>();
-        for (CartVo goodsItem : checkedGoodsList) {
-
-            OrderGoodsVo orderGoodsVo = new OrderGoodsVo();
-            orderGoodsVo.setOrderId(orderInfo.getId());
-            orderGoodsVo.setGoodsId(goodsItem.getGoodsId());
-            orderGoodsVo.setGoodsSn(goodsItem.getGoodsSn());
-            orderGoodsVo.setProductId(goodsItem.getProductId());
-            orderGoodsVo.setGoodsName(goodsItem.getGoodsName());
-            orderGoodsVo.setListPicUrl(goodsItem.getListPicUrl());
-            orderGoodsVo.setMarketPrice(goodsItem.getMarketPrice());
-            orderGoodsVo.setRetailPrice(goodsItem.getRetailPrice());
-            orderGoodsVo.setNumber(goodsItem.getNumber());
-            orderGoodsVo.setGoodsSpecifitionNameValue(goodsItem.getGoodsSpecifitionNameValue());
-            orderGoodsVo.setGoodsSpecifitionIds(goodsItem.getGoodsSpecifitionIds());
-            orderGoodsData.add(orderGoodsVo);
-            OrderGoods orderGoods = new OrderGoods();
-            BeanUtils.mapping(orderGoodsVo, orderGoods);
-            orderGoodsMapper.insert(orderGoods);
-        }
+//        List<OrderGoodsVo> orderGoodsData = new ArrayList<OrderGoodsVo>();
+//        for (CartVo goodsItem : checkedGoodsList) {
+//
+//            OrderGoodsVo orderGoodsVo = new OrderGoodsVo();
+//            orderGoodsVo.setOrderId(orderInfo.getId());
+//            orderGoodsVo.setGoodsId(goodsItem.getGoodsId());
+//            orderGoodsVo.setGoodsSn(goodsItem.getGoodsSn());
+//            orderGoodsVo.setProductId(goodsItem.getProductId());
+//            orderGoodsVo.setGoodsName(goodsItem.getGoodsName());
+//            orderGoodsVo.setListPicUrl(goodsItem.getListPicUrl());
+//            orderGoodsVo.setMarketPrice(goodsItem.getMarketPrice());
+//            orderGoodsVo.setRetailPrice(goodsItem.getRetailPrice());
+//            orderGoodsVo.setNumber(goodsItem.getNumber());
+//            orderGoodsVo.setGoodsSpecifitionNameValue(goodsItem.getGoodsSpecifitionNameValue());
+//            orderGoodsVo.setGoodsSpecifitionIds(goodsItem.getGoodsSpecifitionIds());
+//            orderGoodsData.add(orderGoodsVo);
+//            OrderGoods orderGoods = new OrderGoods();
+//            BeanUtils.mapping(orderGoodsVo, orderGoods);
+//            orderGoodsMapper.insert(orderGoods);
+//        }
 
         //清空已购买的商品
         cartMapper.deleteByCart(userId, 1, 1);
