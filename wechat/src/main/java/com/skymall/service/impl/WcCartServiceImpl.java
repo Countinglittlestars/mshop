@@ -223,7 +223,6 @@ public class WcCartServiceImpl extends ServiceImpl<CartMapper, Cart> implements 
             cartInfo.setGoodsSn(productInfo.getGoodsSn());
             cartInfo.setNumber(number);
             cartInfo.setRetailPrice(productInfo.getRetailPrice());
-            cartInfo.setMarketPrice(productInfo.getRetailPrice());
             if (null != goodsSepcifitionValue) {
                 cartInfo.setGoodsSpecifitionNameValue(StringUtils.join(goodsSepcifitionValue, ";"));
             }
@@ -254,7 +253,6 @@ public class WcCartServiceImpl extends ServiceImpl<CartMapper, Cart> implements 
             cartInfo.setGoodsSn(productInfo.getGoodsSn());
             cartInfo.setNumber(number);
             cartInfo.setRetailPrice(productInfo.getRetailPrice());
-            cartInfo.setMarketPrice(productInfo.getRetailPrice());
             if (null != goodsSepcifitionValue) {
                 cartInfo.setGoodsSpecifitionNameValue(StringUtils.join(goodsSepcifitionValue, ";"));
             }
@@ -273,6 +271,7 @@ public class WcCartServiceImpl extends ServiceImpl<CartMapper, Cart> implements 
 
     @Override
     public Object delete(JSONObject jsonObject, Integer userId) {
+
         String productIds = jsonObject.getString("productIds");
         if (StringUtils.isNullOrEmpty(productIds)) {
             throw new ApiRRException("删除出错", 500);
@@ -297,6 +296,11 @@ public class WcCartServiceImpl extends ServiceImpl<CartMapper, Cart> implements 
             throw new ApiRRException(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public void deleteByUserAndProductIds(Integer userId, String[] productIds) {
+        cartMapper.deleteByUserAndProductIds(userId, productIds);
     }
 
 }

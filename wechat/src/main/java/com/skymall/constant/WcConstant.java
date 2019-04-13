@@ -10,4 +10,5 @@ public class WcConstant {
     //token的过期时间对应，觉得应该在配置文件里面配置，现在在加在常量这里
     private static final Integer EXPIRE = 3600 * 12;
 
+
 }

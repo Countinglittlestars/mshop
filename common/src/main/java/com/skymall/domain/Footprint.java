@@ -45,10 +45,5 @@ public class Footprint implements Serializable {
      */
          private Integer addTime;
 
-        /**
-     * 转发人
-     */
-         private Integer referrer;
-
 
 }

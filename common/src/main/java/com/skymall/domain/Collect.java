@@ -45,12 +45,6 @@ public class Collect implements Serializable {
      */
          private Integer addTime;
 
-        /**
-     * 是否提醒
-     */
-         private Boolean isAttention;
-
-    private Integer typeId;
 
 
 }

@@ -76,9 +76,7 @@ public class WcOrderController extends AbstractController{
         return Response.success(resultObj);
     }
 
-
-
-
+    
     @ApiOperation(value = "订单首页")
     @IgnoreAuth
     @PostMapping("index")
@@ -174,6 +172,7 @@ public class WcOrderController extends AbstractController{
             orderService.updateById(order);
             return Response.success("确认收货成功");
         } catch (Exception e) {
+
             e.printStackTrace();
         }
         return Response.error("提交失败");
@@ -229,7 +228,7 @@ public class WcOrderController extends AbstractController{
         int total = orderService.count(new QueryWrapper<Order>().lambda().eq(Order::getUserId, userId));
 
         ApiPageUtils pageUtil = new ApiPageUtils(orderEntityList, total, query.getLimit(), query.getPage());
-        //
+
         for (OrderVo item : orderEntityList) {
             Map orderGoodsParam = new HashMap();
             orderGoodsParam.put("order_id", item.getId());

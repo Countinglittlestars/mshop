@@ -39,10 +39,10 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
     private IWcProductService productService;
 
     @Resource
-    private IWcAttributeService attributeService;
+    private BrandMapper brandMapper;
 
     @Resource
-    private BrandMapper brandMapper;
+    private IWcCollectService collectService;
 
 
     @Resource
@@ -53,8 +53,6 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
         QueryWrapper<Goods> queryWrapper = new QueryWrapper();
         queryWrapper.lambda().eq(Goods::getIsNew, 1);
         return list(queryWrapper);
-
-
     }
 
     @Override
@@ -97,7 +95,7 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
     }
 
     @Override
-    public Map detail(Integer id) {
+    public Map detail(Integer id, Integer userId) {
 
         Map<String, Object> result = new HashMap<>();
         //1. 获取商品信息
@@ -144,10 +142,11 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
         //4.1 查看对应的Product信息
         List<ProductVo> productVos =  productService.queryList(id);
 
-        //5. 获取参数信息
-        List<Attribute> attributes = attributeService.queryByGoodId(id);
         //6. 是否加入收藏
-
+        Boolean flag = false;
+        Integer count = collectService.count(new QueryWrapper<Collect>().lambda().eq(Collect::getUserId, userId)
+                .eq(Collect::getValueId, id));
+        if(count > 0) flag = true;
         //7. 评论信息
 
         //8. 品牌信息
@@ -159,8 +158,8 @@ public class WcGoodServiceImpl extends ServiceImpl<GoodsMapper, Goods> implement
         result.put("gallery", goodsGallery);
         result.put("productList", productVos);
         result.put("specificationList", specificationList);
-        result.put("attribute", attributes);
         result.put("brand", brand);
+        result.put("userHasCollect", flag);
         return result;
     }
 

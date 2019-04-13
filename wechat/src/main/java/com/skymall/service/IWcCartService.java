@@ -25,4 +25,5 @@ public interface IWcCartService extends IService<Cart> {
 
     Object checked(JSONObject jsonObject, Integer userId);
 
+    void deleteByUserAndProductIds(Integer userId, String[] productIds);
 }

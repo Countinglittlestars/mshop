@@ -1,6 +1,7 @@
 package com.skymall.web.controller;
 
 import com.skymall.annotation.IgnoreAuth;
+import com.skymall.constant.WcConstant;
 import com.skymall.domain.Goods;
 import com.skymall.domain.GoodsGallery;
 import com.skymall.service.IWcGoodService;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/mshop/wc/goods")
-public class WcGoodController {
+public class WcGoodController extends AbstractController{
     @Resource
     IWcGoodsGalleryService goodsGalleryService;
 
@@ -58,8 +59,10 @@ public class WcGoodController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     public Response detail(@RequestParam(value = "id")Integer id){
-        Map map = goodService.detail(id);
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
+        Map map = goodService.detail(id, userId);
         return Response.success(map);
     }
+
 
 }

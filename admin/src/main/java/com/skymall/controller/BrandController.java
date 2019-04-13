@@ -41,7 +41,7 @@ public class BrandController {
 
         Brand brand = brandService.getOne
                 (new QueryWrapper<Brand>().lambda().eq(Brand::getName, brandAddDto.getName()));
-        if (brand != null){
+        if (brand == null){
             throw new AdminException(ExceptionEnums.NOTUNIQUE);
         }
         brandService.addBrand(brandAddDto);

@@ -1,6 +1,7 @@
 package com.skymall.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -55,27 +56,17 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
 
     @Override
     public Object queryBrandByPage(BrandQueryDto brandQueryDto,Integer page,Integer size) {
-        QueryWrapper queryWrapper = new QueryWrapper();
         Page<Brand> brandPage = new Page<>(page,size);
+        LambdaQueryWrapper<Brand> wrapper = new QueryWrapper<Brand>().lambda().orderByAsc(Brand::getSortOrder);
+
         if(brandQueryDto.getName() != null) {
-            queryWrapper.like("name", brandQueryDto.getName());
+            wrapper = wrapper.like(Brand::getName, brandQueryDto.getName());
         }
         if(brandQueryDto.getSimpleDesc() != null) {
-            queryWrapper.eq("is_on_sale", brandQueryDto.getSimpleDesc());
+            wrapper = wrapper.like(Brand::getSimpleDesc, brandQueryDto.getSimpleDesc());
         }
-        if(brandQueryDto.getIsNew() != null) {
-            queryWrapper.eq("brand_id", brandQueryDto.getIsNew());
-        }
-        if(brandQueryDto.getIsShow() != null) {
-            queryWrapper.eq("goods_sn", brandQueryDto.getIsShow());
-        }
-        if(brandQueryDto.getSortOrder() != null) {
-            queryWrapper.eq("is_hot", brandQueryDto.getSortOrder());
-        }
-        if(brandQueryDto.getNewSortOrder() != null) {
-            queryWrapper.eq("is_new", brandQueryDto.getNewSortOrder());
-        }
-        IPage<Brand> data = brandMapper.selectPage(brandPage,queryWrapper);
+
+        IPage<Brand> data = brandMapper.selectPage(brandPage,wrapper);
         return data;
     }
 

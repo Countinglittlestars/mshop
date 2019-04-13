@@ -68,7 +68,7 @@ public class WcPayController {
 //        orderInfo.setPayStatus(2);
         orderInfo.setOrderStatus(201);
         orderInfo.setShippingStatus(0);
-        orderInfo.setPayTime(new Date());
+//        orderInfo.setPayTime(new Date());
         orderService.updateById(orderInfo);
         return Response.success("支付成功");
     }
@@ -83,7 +83,7 @@ public class WcPayController {
 //        orderInfo.setPayStatus(2);
         orderInfo.setOrderStatus(201);
         orderInfo.setShippingStatus(0);
-        orderInfo.setPayTime(new Date());
+//        orderInfo.setPayTime(new Date());
         Boolean flag = orderService.updateById(orderInfo);
 
         if(flag == false) return Response.error("支付失败");

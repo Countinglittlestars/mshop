@@ -19,8 +19,7 @@ public class WcChennelController {
     @IgnoreAuth
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public Response query(){
-        
-        return Response.success(wcChannelService.selectAll());
+        return Response.success();
     }
 
 

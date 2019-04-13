@@ -22,7 +22,7 @@ public class WcCollectServiceImpl extends ServiceImpl<CollectMapper, Collect> im
      * @return
      */
     public List<CollectVo> queryListByUserId(Map map){
-        List<CollectVo> collectVos = collectMapper.queryListByUserId(map);
+        List<CollectVo> collectVos = collectMapper.queryList(map);
         return collectVos;
     }
 

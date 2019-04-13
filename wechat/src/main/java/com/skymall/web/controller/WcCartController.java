@@ -7,6 +7,7 @@ import com.qiniu.util.StringUtils;
 import com.skymall.annotation.LoginUser;
 import com.skymall.constant.WcConstant;
 import com.skymall.domain.Address;
+import com.skymall.domain.Cart;
 import com.skymall.exception.ApiRRException;
 import com.skymall.service.IWcAddressService;
 import com.skymall.service.IWcCartService;
@@ -124,6 +125,14 @@ public class WcCartController extends AbstractController{
         return Response.success(cartService.getCart(userId));
     }
 
+    @PostMapping("/goodscount")
+    public Object goodsCount() {
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
+        Integer count = cartService.count(new QueryWrapper<Cart>().lambda().eq(Cart::getUserId, userId));
+        return Response.success(count);
+    }
+
+
 
 
     @ApiOperation(value = "订单提交前的检验和填写相关订单信息")
@@ -196,7 +205,22 @@ public class WcCartController extends AbstractController{
         return Response.success(resultObj);
     }
 
+    @PostMapping("/delete1")
+    public Object delete1() {
+        Integer userId = ((Long)request.getAttribute(WcConstant.LOGIN_USER_KEY)).intValue();
 
+        JSONObject jsonObject = getJsonRequest();
+        String productIds = jsonObject.getString("productIds");
+
+        if (StringUtils.isNullOrEmpty(productIds)) {
+            return Response.error("删除出错");
+        }
+        String[] productIdsArray = productIds.split(",");
+
+        cartService.deleteByUserAndProductIds(userId, productIdsArray);
+//
+        return Response.success(getCart());
+    }
 
 
 

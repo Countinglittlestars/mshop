@@ -76,7 +76,7 @@ public class WcAddressController extends AbstractController{
             entity.setDetailInfo(addressJson.getString("detailInfo"));
             entity.setNationalCode(addressJson.getString("nationalCode"));
             entity.setTelNumber(addressJson.getString("telNumber"));
-            entity.setIsDefault(addressJson.getInteger("is_default"));
+            entity.setIsDefault(addressJson.getInteger("isDefault"));
         }
         if (null == entity.getId() || entity.getId() == 0) {
             entity.setId(null);

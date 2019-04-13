@@ -18,6 +18,6 @@ public interface IWcGoodService extends IService<Goods> {
 
     Goods queryById(Integer id);
 
-    Map detail(Integer id);
+    Map detail(Integer id, Integer userId);
 
 }
